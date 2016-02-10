@@ -1,0 +1,14 @@
+AppBundle\Entity\Comment:
+    type: entity
+    manyToOne:
+        thread:
+            targetEntity: AppBundle\Entity\Thread
+            inversedBy: comments
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    lifecycleCallbacks: {  }

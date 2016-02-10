@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{%if (is_granted("ROLE_ADMIN"))%}
+	    <div class="container">
+	        <div class="row">
+			    <h1>Organizer list</h1>
+			
+			    <table>
+			        <thead>
+			            <tr>
+			                <th>Id</th>
+			                <th>Name</th>
+			                <th>Systname</th>
+			                <th>Actions</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        {% for organizer in organizers %}
+			            <tr>
+			                <td><a href="{{ path('organizer_show', { 'id': organizer.id }) }}">{{ organizer.id }}</a></td>
+			                <td>{{ organizer.name }}</td>
+			                <td>{{ organizer.systName }}</td>
+			                <td>
+			                    <ul>
+			                        <li>
+			                            <a href="{{ path('organizer_show', { 'id': organizer.id }) }}">show</a>
+			                        </li>
+			                        <li>
+			                            <a href="{{ path('organizer_edit', { 'id': organizer.id }) }}">edit</a>
+			                        </li>
+			                    </ul>
+			                </td>
+			            </tr>
+			        {% endfor %}
+			        </tbody>
+			    </table>
+			
+			    <ul>
+			        <li>
+			            <a href="{{ path('organizer_new') }}">Create a new entry</a>
+			        </li>
+			    </ul>
+			</div>
+		</div>
+	{%endif%}
+{% endblock %}

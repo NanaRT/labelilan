@@ -1,0 +1,25 @@
+AppBundle\Entity\Organizer:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\OrganizerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        systName:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+    
+    oneToMany:
+        game:
+            targetEntity: Game
+            mappedBy: category
+            cascade: [ remove, persist ]
+

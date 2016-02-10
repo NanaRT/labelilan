@@ -1,0 +1,24 @@
+organizer_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Organizer:index" }
+    methods:  GET
+
+organizer_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Organizer:show" }
+    methods:  GET
+
+organizer_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Organizer:new" }
+    methods:  [GET, POST]
+
+organizer_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Organizer:edit" }
+    methods:  [GET, POST]
+
+organizer_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Organizer:delete" }
+    methods:  DELETE

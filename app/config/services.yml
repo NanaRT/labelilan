@@ -1,0 +1,19 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    searchCategoryService:
+        class: AppBundle\Services\SearchCategory
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        
+    app.registration_complet:
+        class: AppBundle\Services\RegistrationConfirmListener
+        arguments: [ "@router", "@service_container", "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: kernel.event_subscriber }
