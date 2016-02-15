@@ -15,8 +15,8 @@ class __TwigTemplate_4828ee3eea01b1b201793dfbf20e6dd669b2091b64687576e0076748b2c
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_532442cd58198961d7994161542a00ef75f4c531188c09350a74adcad800dae7 = $this->env->getExtension("native_profiler");
-        $__internal_532442cd58198961d7994161542a00ef75f4c531188c09350a74adcad800dae7->enter($__internal_532442cd58198961d7994161542a00ef75f4c531188c09350a74adcad800dae7_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "FOSCommentBundle:Thread:async.html.twig"));
+        $__internal_ea0b8b8fa02f6d9cea50ae9d356fba11cc2c2b125fc5781dc4fbb883e70f6ebf = $this->env->getExtension("native_profiler");
+        $__internal_ea0b8b8fa02f6d9cea50ae9d356fba11cc2c2b125fc5781dc4fbb883e70f6ebf->enter($__internal_ea0b8b8fa02f6d9cea50ae9d356fba11cc2c2b125fc5781dc4fbb883e70f6ebf_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "FOSCommentBundle:Thread:async.html.twig"));
 
         // line 11
         echo "
@@ -89,7 +89,7 @@ var fos_comment_thread_api_base_url = '";
         }
         unset($context["asset_url"]);
         
-        $__internal_532442cd58198961d7994161542a00ef75f4c531188c09350a74adcad800dae7->leave($__internal_532442cd58198961d7994161542a00ef75f4c531188c09350a74adcad800dae7_prof);
+        $__internal_ea0b8b8fa02f6d9cea50ae9d356fba11cc2c2b125fc5781dc4fbb883e70f6ebf->leave($__internal_ea0b8b8fa02f6d9cea50ae9d356fba11cc2c2b125fc5781dc4fbb883e70f6ebf_prof);
 
     }
 

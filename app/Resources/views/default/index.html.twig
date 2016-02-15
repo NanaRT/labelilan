@@ -34,12 +34,15 @@
 					                            	<img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}">
 					                            </div>
 					                            <div class="caption">
-					                                <h4><a href="#">{{game.name}}</a>
+					                                <h4>
+					                                	<a href="{{path('game_show', {'id':game.id}) }}" >
+					                                		{{game.name}}
+					                                	</a>
 					                                </h4>
 					                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
 					                            </div>
 					                            <div class="ratings">
-					                                <p class="pull-right">15 reviews</p>
+					                                <p class="pull-right">15 places</p>
 					                                <p>
 					                                    <span class="glyphicon glyphicon-star"></span>
 					                                    <span class="glyphicon glyphicon-star"></span>

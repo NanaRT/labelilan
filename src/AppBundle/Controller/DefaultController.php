@@ -12,4 +12,8 @@ class DefaultController extends Controller
     {
         return $this->render('::default/index.html.twig');
     }
+    public function contactAction()
+    {
+        return $this->render('::default/contact.html.twig');
+    }
 }
