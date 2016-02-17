@@ -7,24 +7,20 @@ namespace AppBundle\Entity;
  */
 class Game
 {
-    /**
-     * @var int
-     */
     private $id;
-
-    /**
-     * @var string
-     */
     private $name;
-
-    /**
-     * @var string
-     */
     private $systName;
-	
 	private $category;
 	private $organizer;
+    private $image;
+    private $uploadDir;
+    private $description;
+    private $interest;
 
+    public function __construct()
+    {
+        $this->image = new Image($this->getUploadDir());
+	}
 
     /**
      * Get id
@@ -104,6 +100,75 @@ class Game
     public function getOrganizer()
     {
         return $this->organizer;
+    }
+	
+    public function setUploadDir($uploadDir)
+    {
+        $this->uploadDir = $uploadDir;
+        return $this;
+    }
+    public function getUploadDir()
+    {
+        return $this->uploadDir;
+    }
+	
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    public function getImage()
+    {
+        return $this->image;
+
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Organizer
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+ 
+    /**
+     * @param  Interest $interest
+     */
+    public function addInterest(\AppBundle\Entity\Interest $interest)
+    {
+        $game->setGame($this);
+        $this->interest[] = $interest;
+    }
+	
+    /**
+     * @return ArrayCollection $game
+     */
+    public function getInterest()
+    {
+        return $this->interest;
+    }
+	
+    public function removeInterest(\AppBundle\Entity\Interest $interest)
+    {
+        $this->interest->removeElement($interest);
     }
 }
 

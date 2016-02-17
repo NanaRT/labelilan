@@ -6,3 +6,11 @@ AppBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
+    
+    oneToMany:
+        interest:
+            targetEntity: Interest
+            mappedBy: user
+        game:
+            targetEntity: Game
+            mappedBy: user

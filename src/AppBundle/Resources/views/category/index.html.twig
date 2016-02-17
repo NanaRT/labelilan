@@ -6,7 +6,7 @@
 	        <div class="row">
 			    <h1>Category list</h1>
 			
-			    <table>
+			    <table class="table table-hover">
 			        <thead>
 			            <tr>
 			                <th>Id</th>
@@ -22,14 +22,7 @@
 			                <td>{{ category.name }}</td>
 			                <td>{{ category.systName }}</td>
 			                <td>
-			                    <ul>
-			                        <li>
-			                            <a href="{{ path('category_show', { 'id': category.id }) }}">show</a>
-			                        </li>
-			                        <li>
-			                            <a href="{{ path('category_edit', { 'id': category.id }) }}">edit</a>
-			                        </li>
-			                    </ul>
+			                	<a  class="btn btn-default" href="{{ path('category_edit', { 'id': category.id }) }}">edit</a>
 			                </td>
 			            </tr>
 			        {% endfor %}
@@ -38,7 +31,7 @@
 			
 			    <ul>
 			        <li>
-			            <a href="{{ path('category_new') }}">Create a new entry</a>
+			            <a class="btn btn-default" href="{{ path('category_new') }}">Create a new entry</a>
 			        </li>
 			    </ul>
 			</div>

@@ -17,3 +17,9 @@ services:
         arguments: [ "@router", "@service_container", "@doctrine.orm.entity_manager" ]
         tags:
             - { name: kernel.event_subscriber }
+    inserting_file: #sets files
+        class: AppBundle\Services\InsertingFile
+        arguments: [ "@service_container" ] 
+    create_folder_filespath:
+        class: AppBundle\Services\CreateFolderFilespath
+        arguments: [  "@service_container" ]

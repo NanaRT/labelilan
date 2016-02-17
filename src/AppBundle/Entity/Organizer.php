@@ -7,22 +7,12 @@ namespace AppBundle\Entity;
  */
 class Organizer
 {
-    /**
-     * @var int
-     */
     private $id;
-
-    /**
-     * @var string
-     */
     private $name;
-
-    /**
-     * @var string
-     */
     private $systName;
-
+    private $description;
     private $game;
+    private $socialMedia;
 
     /**
      * Get id
@@ -86,13 +76,37 @@ class Organizer
     {
         return $this->systName;
     }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Organizer
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
  
     /**
      * @param Game $game
      */
     public function addGame(\AppBundle\Entity\Game $game)
     {
-        $game->setCategory($this);
+        $game->setOrganizer($this);
         $this->game[] = $game;
     }
 	
@@ -107,6 +121,28 @@ class Organizer
     public function removeGame(\AppBundle\Entity\Game $game)
     {
         $this->game->removeElement($game);
+    }
+ 
+    /**
+     * @param SocialMedia $socialMedia
+     */
+    public function addSocialMedia(\AppBundle\Entity\SocialMedia $socialMedia)
+    {
+        $socialMedia->setOrganizer($this);
+        $this->socialMedia[] = $socialMedia;
+    }
+	
+    /**
+     * @return ArrayCollection $socialMedia
+     */
+    public function getSocialMedia()
+    {
+        return $this->socialMedia;
+    }
+	
+    public function removeSocialMedia(\AppBundle\Entity\SocialMedia $socialMedia)
+    {
+        $this->socialMedia->removeElement($socialMedia);
     }
 	
 }

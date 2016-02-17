@@ -7,21 +7,9 @@ namespace AppBundle\Entity;
  */
 class Category
 {
-    /**
-     * @var int
-     */
     private $id;
-
-    /**
-     * @var string
-     */
     private $name;
-
-    /**
-     * @var string
-     */
     private $systName;
-
     private $game;
 
 
@@ -83,8 +71,6 @@ class Category
         return $this->systName;
     }
 	
-	
- 
     /**
      * @param Game $game
      */
@@ -106,6 +92,5 @@ class Category
     {
         $this->game->removeElement($game);
     }
-	
 }
 

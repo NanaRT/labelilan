@@ -21,4 +21,43 @@ class SearchCategory
 		$categories = $query->getResult();
 		return $categories;
 	}
+	
+	public function getSearchingOrganizer()
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Organizer p'
+		);
+		$organizers = $query->getResult();
+		return $organizers;
+	}
+	
+	public function getInterest($userId, $gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Interest p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId
+		);
+		$interest = $query->getResult();
+		if(empty($interest))
+		{
+			return 0;
+		}
+		else{
+			return 1;
+		}
+	}
+	
+	public function getNumberInterest( $gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Interest p
+		    where p.game = '.$gameId
+		);
+		$interest = $query->getResult();
+		return count($interest);
+	}
 }

@@ -5,6 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\ImageType;
+use AppBundle\Entity\Image;
 
 class GameType extends AbstractType
 {
@@ -17,7 +20,13 @@ class GameType extends AbstractType
         $builder
             ->add('name')
             ->add('systName')
-            ->add('category')
+            ->add('category',EntityType::class, [
+		    'class' => 'AppBundle:Category',
+		    'choice_label' => 'name'])
+            ->add('organizer',EntityType::class, [
+		    'class' => 'AppBundle:Organizer',
+		    'choice_label' => 'name'])
+            ->add('description')
         ;
     }
     

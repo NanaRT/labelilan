@@ -6,12 +6,15 @@
 	        <div class="row">
 			    <h1>Game list</h1>
 			
-			    <table>
+			    <table class="table table-hover">
 			        <thead>
 			            <tr>
 			                <th>Id</th>
 			                <th>Name</th>
 			                <th>Systname</th>
+			                <th>Category</th>
+			                <th>Organizer</th>
+			                <th>Description</th>
 			                <th>Actions</th>
 			            </tr>
 			        </thead>
@@ -21,26 +24,18 @@
 			                <td><a href="{{ path('game_show', { 'id': game.id }) }}">{{ game.id }}</a></td>
 			                <td>{{ game.name }}</td>
 			                <td>{{ game.systName }}</td>
+			                <td>{{ game.category.name }}</td>
+			                <td>{{ game.organizer.name }}</td>
+			                <td>{{ game.description }}</td>
 			                <td>
-			                    <ul>
-			                        <li>
-			                            <a href="{{ path('game_show', { 'id': game.id }) }}">show</a>
-			                        </li>
-			                        <li>
-			                            <a href="{{ path('game_edit', { 'id': game.id }) }}">edit</a>
-			                        </li>
-			                    </ul>
+			                	<a class="btn btn-default"  href="{{ path('game_edit', { 'id': game.id }) }}">edit</a>
 			                </td>
 			            </tr>
 			        {% endfor %}
 			        </tbody>
 			    </table>
 			
-			    <ul>
-			        <li>
-			            <a href="{{ path('game_new') }}">Create a new entry</a>
-			        </li>
-			    </ul>
+			     <a class="btn btn-default" href="{{ path('game_new') }}">Create a new entry</a>
 			</div>
 		</div>
 	{%endif%}

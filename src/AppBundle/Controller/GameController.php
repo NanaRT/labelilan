@@ -9,12 +9,26 @@ use AppBundle\Entity\Game;
 use AppBundle\Form\GameType;
 use AppBundle\Repository\GameRepository;
 
+use AppBundle\Entity\Image;
+use AppBundle\Services\InsertingFile;
+use AppBundle\Services\CreateFolderFilespath;
+
 /**
  * Game controller.
  *
  */
 class GameController extends Controller
 {
+    /**
+     * @param InsertingFile
+     */
+    private $insertingFile;
+
+    public function setInsertingFile(InsertingFile $insertingFile)
+    {
+        $this->insertingFile = $insertingFile;
+    }
+	
     /**
      * Lists all Game entities.
      *
@@ -80,7 +94,11 @@ class GameController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+			
+			//$this->container->get('inserting_file')->onNewImage($game);
+			
             $em->persist($game);
+            //$em->persist($game->getImage());
             $em->flush();
 
             return $this->redirectToRoute('game_edit', array('id' => $game->getId()));
@@ -125,5 +143,13 @@ class GameController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @param Game $game
+     */
+    public function preUpdate($game)
+    {
+        $this -> insertingFile -> onNewImage($game);
     }
 }

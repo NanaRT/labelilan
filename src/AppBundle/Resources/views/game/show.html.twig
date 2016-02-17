@@ -7,23 +7,14 @@
             <div class="col-lg-8">
                 <h1>{{game.name}}</h1>
                 <p class="lead">
-                    organisé par <a href="{{path('organizer_show', {'id':game.organizer.id}) }}">{{game.organizer.name}}</a>
+                    organisé par <a href="{{ path('informations') }}#{{game.organizer.systName}}">{{game.organizer.name}}</a>
                 </p>
                 <hr>
                 <img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}" class="img-responsive" >
                 <hr>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
-
-                <hr>
-
-                <!-- Comment -->
-                <div class="media">
-                    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': 'foo'} %}
-                </div>
+                <p>
+                	{{game.description}}
+                </p>
 
             </div>
 
@@ -88,7 +79,7 @@
 
 	{% if is_granted("ROLE_ADMIN") %}
         {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
+            <input class="btn btn-default" type="submit" value="Delete">
         {{ form_end(delete_form) }}
     {%endif%}
     

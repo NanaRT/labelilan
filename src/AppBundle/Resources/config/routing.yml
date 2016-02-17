@@ -14,12 +14,16 @@ app_organizer:
     resource: "@AppBundle/Resources/config/routing/organizer.yml"
     prefix:   /organizer
 
+app_socialmedia:
+    resource: "@AppBundle/Resources/config/routing/socialmedia.yml"
+    prefix:   /socialmedia
+
 
 
 labelilan:
     path:     /
     defaults: { _controller: AppBundle:Default:accueil }
     
-contact:
-    path:     /
-    defaults: { _controller: AppBundle:Default:contact }
+informations:
+    path:     /informations
+    defaults: { _controller: AppBundle:Default:informations }

@@ -10,3 +10,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: 1c127af348658be5372ddd4431bab09f92bb9e0c
+    fileupload: uploads/

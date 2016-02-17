@@ -1,0 +1,30 @@
+AppBundle\Entity\SocialMedia:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\SocialMediaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        link:
+            type: string
+            length: 255
+        icon:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        organizer:
+            targetEntity: Organizer
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 organizer_id
+                referencedColumnName: id
+                onDelete:             CASCADE

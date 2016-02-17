@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\SocialMedia;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class OrganizerType extends AbstractType
 {
@@ -18,6 +20,7 @@ class OrganizerType extends AbstractType
         $builder
             ->add('name')
             ->add('systName')
+            ->add('description')
 			->add('game',EntityType::class, [
 		    'class' => 'AppBundle:Game',
 		    'choice_label' => function ($game) {

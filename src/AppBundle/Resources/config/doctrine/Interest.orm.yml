@@ -1,0 +1,27 @@
+AppBundle\Entity\Interest:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\InterestRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        game:
+            targetEntity:             Game
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 game_id
+                referencedColumnName: id
+                onDelete:             CASCADE
+        user:
+            targetEntity:             User
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 user_id
+                referencedColumnName: id
+                onDelete:             CASCADE

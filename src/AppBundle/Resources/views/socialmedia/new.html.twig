@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{%if (is_granted("ROLE_ADMIN"))%}
+	    <div class="container">
+	        <div class="row">
+			    <h1>SocialMedia creation</h1>
+				{% form_theme form 'bootstrap_3_layout.html.twig' %}
+    
+			    {{ form_start(form) }}
+			        {{ form_widget(form) }}
+			        <input class="btn btn-default" type="submit" value="Create" />
+			    {{ form_end(form) }}
+				<a class="btn btn-default" href="{{ path('socialmedia_index') }}">Back to the list</a>
+			</div>
+		</div>
+	{%endif%}
+{% endblock %}

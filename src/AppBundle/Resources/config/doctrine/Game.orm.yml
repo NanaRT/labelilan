@@ -16,20 +16,43 @@ AppBundle\Entity\Game:
             type: string
             length: 255
             column: syst_name
+        description:
+            type: string
+            length: 2000
     lifecycleCallbacks: {  }
     
+ #   oneToOne:
+ #       image:
+ #           targetEntity:             Image
+ #           cascade:                  [ remove, persist ]
+ #           joinColumn:
+ #               name:                 image_id
+ #               referencedColumnName: id
+ #               onDelete:             CASCADE
+    oneToMany:
+        interest:
+            targetEntity:             Interest
+            mappedBy:                 game
+            cascade:                  [ "remove", "persist" ]
     manyToOne:
         category:
-            targetEntity: Category
+            targetEntity:             Category
             cascade:                  [ remove, persist ]
             joinColumn:
                 name:                 category_id
                 referencedColumnName: id
                 onDelete:             CASCADE
         organizer:
-            targetEntity: Organizer
+            targetEntity:             Organizer
             cascade:                  [ remove, persist ]
             joinColumn:
                 name:                 organizer_id
+                referencedColumnName: id
+                onDelete:             CASCADE
+        user:
+            targetEntity:             User
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 user_id
                 referencedColumnName: id
                 onDelete:             CASCADE

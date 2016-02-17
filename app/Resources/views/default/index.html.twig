@@ -39,16 +39,34 @@
 					                                		{{game.name}}
 					                                	</a>
 					                                </h4>
-					                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+					                                <p>
+					                                	{{game.description}}
+					                                </p>
 					                            </div>
 					                            <div class="ratings">
-					                                <p class="pull-right">15 places</p>
+					                                <p class="pull-right">
+						      							{% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %}
+							      							{% if category.systName == 'autre'
+							      							or category.systName == 'libre'%}
+							      								{%if searchCategoryService.getInterest(app.user.id, game.id) == 0%}
+									                                <a class="btn btn-default" href="{{path('user_have_interest', {'userId':app.user.id, 'gameId':game.id}) }}" >
+									                                	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
+									                                </a>
+									                            {%endif%}
+								                            {%endif%}
+							                            {%endif%}
+													</p>
 					                                <p>
-					                                    <span class="glyphicon glyphicon-star"></span>
-					                                    <span class="glyphicon glyphicon-star"></span>
-					                                    <span class="glyphicon glyphicon-star"></span>
-					                                    <span class="glyphicon glyphicon-star"></span>
-					                                    <span class="glyphicon glyphicon-star"></span>
+					                                	{% if category.systName == 'autre'
+							      						or category.systName == 'libre'%}
+							      							Nb personnes intéressées : {{ searchCategoryService.getNumberInterest(game.id) }}
+							      						{%else%}
+						                                    <span class="glyphicon glyphicon-star"></span>
+						                                    <span class="glyphicon glyphicon-star"></span>
+						                                    <span class="glyphicon glyphicon-star"></span>
+						                                    <span class="glyphicon glyphicon-star"></span>
+						                                    <span class="glyphicon glyphicon-star"></span>
+							                            {%endif%}        
 					                                </p>
 					                            </div>
 					                        </div>

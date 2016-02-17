@@ -6,12 +6,13 @@
 	        <div class="row">
 			    <h1>Organizer list</h1>
 			
-			    <table>
+			    <table class="table table-hover">
 			        <thead>
 			            <tr>
 			                <th>Id</th>
 			                <th>Name</th>
 			                <th>Systname</th>
+			                <th>Description</th>
 			                <th>Actions</th>
 			            </tr>
 			        </thead>
@@ -21,26 +22,16 @@
 			                <td><a href="{{ path('organizer_show', { 'id': organizer.id }) }}">{{ organizer.id }}</a></td>
 			                <td>{{ organizer.name }}</td>
 			                <td>{{ organizer.systName }}</td>
+			                <td>{{ organizer.description }}</td>
 			                <td>
-			                    <ul>
-			                        <li>
-			                            <a href="{{ path('organizer_show', { 'id': organizer.id }) }}">show</a>
-			                        </li>
-			                        <li>
-			                            <a href="{{ path('organizer_edit', { 'id': organizer.id }) }}">edit</a>
-			                        </li>
-			                    </ul>
+			                	<a class="btn btn-default"  href="{{ path('organizer_edit', { 'id': organizer.id }) }}">edit</a>
 			                </td>
 			            </tr>
 			        {% endfor %}
 			        </tbody>
 			    </table>
 			
-			    <ul>
-			        <li>
-			            <a href="{{ path('organizer_new') }}">Create a new entry</a>
-			        </li>
-			    </ul>
+			    <a class="btn btn-default"  href="{{ path('organizer_new') }}">Create a new entry</a>
 			</div>
 		</div>
 	{%endif%}
