@@ -30,6 +30,8 @@ class GameType extends AbstractType
             ->add('description')
 			->add('places', IntegerType::class, [
 				'required'=>false])
+			->add('nbplayers', IntegerType::class, [
+				'required'=>false])
         ;
     }
     

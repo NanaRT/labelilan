@@ -13,6 +13,9 @@ AppBundle\Entity\Player:
             type: string
             length: 255
             nullable: true
+        capitain:
+            type: boolean
+            nullable: true
     lifecycleCallbacks: {  }
 
     manyToOne:
@@ -28,5 +31,12 @@ AppBundle\Entity\Player:
             cascade:                  [ remove, persist ]
             joinColumn:
                 name:                 user_id
+                referencedColumnName: id
+                onDelete:             CASCADE
+        team:
+            targetEntity:             Team
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 team_id
                 referencedColumnName: id
                 onDelete:             CASCADE

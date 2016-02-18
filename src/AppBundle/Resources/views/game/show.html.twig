@@ -7,7 +7,7 @@
             <div class="col-lg-8">
                 <h1>{{game.name}}</h1>
                 <p class="lead">
-                    organisé par <a href="{{ path('informations') }}#{{game.organizer.systName}}">{{game.organizer.name}}</a>
+                	{{game.category.name}} organisé par <a href="{{ path('informations') }}#{{game.organizer.systName}}">{{game.organizer.name}}</a>
                 </p>
                 <hr>
                 <img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}" class="img-responsive" >
@@ -18,54 +18,80 @@
 
             </div>
 
-            <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
-
-                <!-- Blog Search Well -->
                 <div class="well">
-                    <h4>Blog Search</h4>
                     <div class="input-group">
-                        <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        </span>
+	                	<h4>
+	                		Places
+	                	</h4>
+	                	{%if game.category.systName == 'multi' %}
+	                		Nb places équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
+	                	{% elseif game.category.systName == 'solo'
+	                	and game.places%}
+	                		Nb places restantes : {{ searchCategoryService.getSoloPlaces(game.id) }}
+	                	{% else%}
+							Nb personnes intéressées : {{ searchCategoryService.getNumberPlayer(game.id) }}
+	                    {%endif%} 
+	                    <br>
+	                    {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
+	                    	{% if  (game.category.systName == 'multi' or game.category.systName == 'solo')%}
+								{%if searchCategoryService.checkPlaces(game.id) == 1
+								and searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
+				                    <a class="btn btn-default" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire
+				                    </a>
+				                {%else%}
+				                    <a class="btn btn-default disabled" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    	 Inscrit
+				                    </a>
+				                {%endif%}
+							{% elseif game.category.systName == 'autre'
+							or game.category.systName == 'libre'%}
+								{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
+				                    <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
+				                    </a>
+				                {%else%}
+				                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    	 Intéréssé
+				                    </a>
+				                {%endif%}
+				            {%endif%}
+			            {%endif%}
                     </div>
-                    <!-- /.input-group -->
                 </div>
 
-                <!-- Blog Categories Well -->
-                <div class="well">
-                    <h4>Blog Categories</h4>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-                </div>
+                {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
+	            	{% if  (game.category.systName == 'multi')   %}
+	            		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+							{%if player.team 
+							and player.team.validation is null 
+							and player.capitain%}
+				                <div class="well">  
+				                	<h4>Rechercher joueur</h4>
+				                	<table class="table table-hover">
+					                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
+					                		<tr>
+					                			<td>
+					                				{{soloPlayers.name}}
+					                			</td>
+					                			<td>
+					                			</td>
+					                		</tr>
+					                	{%endfor%}
+				                	</tableW
+				                </div>
+							{%else%}	            			
+				                <div class="well">  
+				                	<h4>Créer team</h4>
+				                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
+				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer une équipe
+				                    </a>
+				                </div>
+				            {%endif%}
+			            {%endfor%}
+                	{%endif%}
+                {%endif%}
 
                 <!-- Side Widget Well -->
                 <div class="well">

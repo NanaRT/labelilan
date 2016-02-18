@@ -52,31 +52,33 @@
 									                                <a class="btn btn-default" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
 									                                	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire
 									                                </a>
-									                            {%endif%}
+												                {%else%}
+												                    <a class="btn btn-default disabled" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+												                    	 Inscrit
+												                    </a>
+												                {%endif%}
 							      							{% elseif category.systName == 'autre'
 							      							or category.systName == 'libre'%}
 							      								{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
 									                                <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
 									                                	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
 									                                </a>
-									                            {%endif%}
+												                {%else%}
+												                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+												                    	 Intéréssé
+												                    </a>
+												                {%endif%}
 								                            {%endif%}
 							                            {%endif%}
 													</p>
 					                                <p>
 					                                	{%if category.systName == 'multi' %}
-					                                		Nb places équipes restantes : {{ searchCategoryService.getSoloPlaces(game.id) }}
-					                                	{% elseif category.systName == 'solo'%}
+					                                		Nb places équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
+					                                	{% elseif category.systName == 'solo'
+					                                	and game.places%}
 					                                		Nb places restantes : {{ searchCategoryService.getSoloPlaces(game.id) }}
-					                                	{% elseif category.systName == 'autre'
-							      						or category.systName == 'libre'%}
+					                                	{% else%}
 							      							Nb personnes intéressées : {{ searchCategoryService.getNumberPlayer(game.id) }}
-							      						{%else%}
-						                                    <span class="glyphicon glyphicon-star"></span>
-						                                    <span class="glyphicon glyphicon-star"></span>
-						                                    <span class="glyphicon glyphicon-star"></span>
-						                                    <span class="glyphicon glyphicon-star"></span>
-						                                    <span class="glyphicon glyphicon-star"></span>
 							                            {%endif%}        
 					                                </p>
 					                            </div>

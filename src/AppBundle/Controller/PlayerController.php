@@ -59,8 +59,12 @@ class PlayerController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($player);
             $em->flush();
-
-            return $this->redirectToRoute('game_show', array('id' => $gameId));
+			
+			 $category = $this->getDoctrine()
+	        ->getRepository('AppBundle:Category')
+	        ->find($game->getCategory()->getId());
+			
+			return $this->redirectToRoute('game_show', array('id' => $gameId));
         }
 
         return $this->render('AppBundle:player:new.html.twig', array(

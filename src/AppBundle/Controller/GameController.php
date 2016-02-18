@@ -152,4 +152,19 @@ class GameController extends Controller
     {
         $this -> insertingFile -> onNewImage($game);
     }
+	
+    public function byCategoryAction($category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Game p
+		    where p.category='.$category
+		);
+		$games = $query->getResult();
+
+        return $this->render('AppBundle:game:index.html.twig', array(
+            'games' => $games,
+        ));
+    }
 }

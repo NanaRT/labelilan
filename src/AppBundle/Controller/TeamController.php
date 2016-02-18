@@ -35,13 +35,40 @@ class TeamController extends Controller
      */
     public function newAction(Request $request)
     {
+		$userId = $request->attributes->get('user');
+		$gameId = $request->attributes->get('game');
+		
         $team = new Team();
+		
+		 $user = $this->getDoctrine()
+        ->getRepository('AppBundle:User')
+        ->find($userId);
+		
+		 $game = $this->getDoctrine()
+        ->getRepository('AppBundle:Game')
+        ->find($gameId);
+		
+		$team->setGame($game);
+		
         $form = $this->createForm('AppBundle\Form\TeamType', $team);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+			
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    where p.game='.$gameId.
+			    ' and p.user='.$userId
+			);
+			$players = $query->getResult();
+			
+			$players[0]->setTeam($team);
+			$players[0]->setCapitain(true);
+			
             $em->persist($team);
+            $em->persist($players[0]);
             $em->flush();
 
             return $this->redirectToRoute('team_show', array('id' => $team->getId()));

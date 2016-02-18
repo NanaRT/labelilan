@@ -9,7 +9,7 @@ player_show:
     methods:  GET
 
 player_new:
-    path:     /{userId}/{gameId}/new
+    path:     /new
     defaults: { _controller: "AppBundle:Player:new" }
     methods:  [GET, POST]
 

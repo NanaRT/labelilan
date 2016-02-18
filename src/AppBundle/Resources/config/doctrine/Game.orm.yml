@@ -22,6 +22,9 @@ AppBundle\Entity\Game:
         places:
             type: integer
             nullable: true
+        nbplayers:
+            type: integer
+            nullable: true
     lifecycleCallbacks: {  }
     
  #   oneToOne:
@@ -35,6 +38,10 @@ AppBundle\Entity\Game:
     oneToMany:
         player:
             targetEntity:             Player
+            mappedBy:                 game
+            cascade:                  [ "remove", "persist" ]
+        team:
+            targetEntity:             Team
             mappedBy:                 game
             cascade:                  [ "remove", "persist" ]
     manyToOne:

@@ -9,8 +9,10 @@ class Player
 {
     private $id;
     private $pseudo;
+    private $capitain;
 	private $user;
 	private $game;
+	private $team;
 
 
     /**
@@ -47,6 +49,19 @@ class Player
         return $this->pseudo;
     }
 	
+	
+    public function setCapitain($capitain)
+    {
+        $this->capitain = $capitain;
+
+        return $this;
+    }
+
+    public function getCapitain()
+    {
+        return $this->capitain;
+    }
+	
     public function setUser($user)
     {
         $this->user = $user;
@@ -67,6 +82,17 @@ class Player
     public function getGame()
     {
         return $this->game;
+    }
+	
+    public function setTeam($team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+    public function getTeam()
+    {
+        return $this->team;
     }
 }
 

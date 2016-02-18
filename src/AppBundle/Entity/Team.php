@@ -9,8 +9,10 @@ class Team
 {
     private $id;
     private $name;
+    private $validation;
     private $player;
     private $application;
+    private $game;
 
     public function __construct()
     {
@@ -50,6 +52,18 @@ class Team
     public function getName()
     {
         return $this->name;
+    }
+	
+    public function setValidation($validation)
+    {
+        $this->validation = $validation;
+
+        return $this;
+    }
+
+    public function getValidation()
+    {
+        return $this->validation;
     }
 	
     /**
@@ -95,6 +109,17 @@ class Team
     public function removeApplication(\AppBundle\Entity\Application $application)
     {
         $this->application->removeElement($application);
+    }
+
+    public function setGame($game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+    public function getGame()
+    {
+        return $this->game;
     }
 }
 

@@ -11,17 +11,20 @@ class Game
     private $name;
     private $systName;
     private $places;
+    private $nbplayers;
 	private $category;
 	private $organizer;
     private $image;
     private $uploadDir;
     private $description;
     private $player;
+    private $team;
 
     public function __construct()
     {
         $this->image = new Image($this->getUploadDir());
         $this->player = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->team = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
     /**
@@ -105,6 +108,31 @@ class Game
     {
         return $this->places;
     }
+
+    /**
+     * Set nbplayers
+     *
+     * @param integer $nbplayers
+     *
+     * @return Game
+     */
+    public function setNbplayers($nbplayers)
+    {
+        $this->nbplayers = $nbplayers;
+
+        return $this;
+    }
+
+    /**
+     * Get nbplayers
+     *
+     * @return integer
+     */
+    public function getNbplayers()
+    {
+        return $this->nbplayers;
+    }
+	
 
     public function setCategory($category)
     {
@@ -195,6 +223,28 @@ class Game
     public function removePlayer(\AppBundle\Entity\Player $player)
     {
         $this->player->removeElement($player);
+    }
+ 
+    /**
+     * @param  Team $team
+     */
+    public function addTeam(\AppBundle\Entity\Team $team)
+    {
+        $team->setGame($this);
+        $this->team[] = $team;
+    }
+	
+    /**
+     * @return ArrayCollection $team
+     */
+    public function getTeam()
+    {
+        return $this->$team;
+    }
+	
+    public function removeTeam(\AppBundle\Entity\Team $team)
+    {
+        $this->team->removeElement($team);
     }
 }
 

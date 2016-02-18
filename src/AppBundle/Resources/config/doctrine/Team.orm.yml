@@ -12,6 +12,9 @@ AppBundle\Entity\Team:
         name:
             type: string
             length: 255
+        validation:
+            type: boolean
+            nullable: true
     lifecycleCallbacks: {  }
 
     oneToMany:
@@ -21,3 +24,12 @@ AppBundle\Entity\Team:
         application:
             targetEntity: Application
             mappedBy: team
+            
+    manyToOne:
+        game:
+            targetEntity:             Game
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 game_id
+                referencedColumnName: id
+                onDelete:             CASCADE

@@ -19,18 +19,48 @@
 		                <th>Email</th>
 		                <td>{{ user.email }}</td>
 		            </tr>
-		            {%for player in user.player%}
-			            <tr>
-			                <th>Pseudo</th>
-			                <td>{{ player.pseudo }}</td>
-			            </tr>
-			            <tr>
-			                <th>Tournoi</th>
-			                <td>{{ player.game.name }}</td>
-			            </tr>
-			        {%endfor%}
 		        </tbody>
 		    </table>
+		    
+		    
+			<div class="col-sm-12 col-lg-12 col-md-12">
+			    {%for player in user.player%}
+					<div class="col-sm-3 col-lg-3 col-md-3">
+					    <table class="table table-hover">
+					        <tbody>
+					        	<tr>
+					        		<th>
+					        			Nom Tournoi
+					        		</th>
+					        		<td>
+					        			{{player.game.name}}
+					        		</td>
+					        	</tr>
+					        	{%if player.team%}
+						        	<tr>
+						        		<th>
+						        			Nom Team
+						        		</th>
+						        		<td>
+						        			{{player.team.name}}
+						        		</td>
+						        	</tr>
+						        	{%for playerTeam in player.team.player%}
+							        	<tr>
+							        		<th>
+							        			Nom Joueur
+							        		</th>
+							        		<td>
+							        			{{playerTeam.user.username}}
+							        		</td>
+							        	</tr>
+							        {%endfor%}
+						        {%endif%}
+					        </tbody>
+					    </table>
+					</div>
+				{%endfor%}
+			</div>
 
 		    <ul>
 		        <li>

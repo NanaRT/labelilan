@@ -49,6 +49,35 @@ class SearchCategory
 			return 1;
 		}
 	}
+	
+	public function getPlayerGame($userId, $gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId
+		);
+		$player = $query->getResult();
+		return $player;
+	}
+	
+	public function searchSoloPlayers($gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId.'
+		     and p.team is null'
+		);
+		$soloPlayer = $query->getResult();
+		
+		var_dump($soloPlayer);exit;
+		
+		return $soloPlayer;
+	}
+	
 	public function getNumberPlayer($gameId)
 	{
         $query = $this->em->createQuery(
@@ -85,6 +114,20 @@ class SearchCategory
 		    'SELECT p
 		    FROM AppBundle:Player p
 		    where p.game = '.$gameId
+		);
+		$placesTaken = $query->getResult();
+		
+		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
+		
+		return $game->getPlaces()-count($placesTaken);
+	}
+	public function getMultiPlaces($gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    where p.game = '.$gameId.'
+		     and p.validation is null'
 		);
 		$placesTaken = $query->getResult();
 		
