@@ -1,13 +1,18 @@
-AppBundle\Entity\Interest:
+AppBundle\Entity\Player:
     type: entity
     table: null
-    repositoryClass: AppBundle\Repository\InterestRepository
+    repositoryClass: AppBundle\Repository\PlayerRepository
     id:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
+    fields:
+        pseudo:
+            type: string
+            length: 255
+            nullable: true
     lifecycleCallbacks: {  }
 
     manyToOne:

@@ -32,16 +32,16 @@ class SearchCategory
 		return $organizers;
 	}
 	
-	public function getInterest($userId, $gameId)
+	public function getCreatedPlayer($userId, $gameId)
 	{
         $query = $this->em->createQuery(
 		    'SELECT p
-		    FROM AppBundle:Interest p
+		    FROM AppBundle:Player p
 		    where p.user = '.$userId.
 		    ' and p.game = '.$gameId
 		);
-		$interest = $query->getResult();
-		if(empty($interest))
+		$player = $query->getResult();
+		if(empty($player))
 		{
 			return 0;
 		}
@@ -49,15 +49,47 @@ class SearchCategory
 			return 1;
 		}
 	}
-	
-	public function getNumberInterest( $gameId)
+	public function getNumberPlayer($gameId)
 	{
         $query = $this->em->createQuery(
 		    'SELECT p
-		    FROM AppBundle:Interest p
+		    FROM AppBundle:Player p
 		    where p.game = '.$gameId
 		);
 		$interest = $query->getResult();
 		return count($interest);
+	}
+	
+	public function checkPlaces($gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.game = '.$gameId
+		);
+		$placesTaken = $query->getResult();
+		
+		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
+		if(count($placesTaken)<$game->getPlaces())
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	public function getSoloPlaces($gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.game = '.$gameId
+		);
+		$placesTaken = $query->getResult();
+		
+		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
+		
+		return $game->getPlaces()-count($placesTaken);
 	}
 }

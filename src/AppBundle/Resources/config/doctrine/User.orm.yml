@@ -8,9 +8,9 @@ AppBundle\Entity\User:
                 strategy: AUTO
     
     oneToMany:
-        interest:
-            targetEntity: Interest
+        player:
+            targetEntity: Player
             mappedBy: user
-        game:
-            targetEntity: Game
+        application:
+            targetEntity: Application
             mappedBy: user

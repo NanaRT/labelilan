@@ -19,6 +19,16 @@
 		                <th>Email</th>
 		                <td>{{ user.email }}</td>
 		            </tr>
+		            {%for player in user.player%}
+			            <tr>
+			                <th>Pseudo</th>
+			                <td>{{ player.pseudo }}</td>
+			            </tr>
+			            <tr>
+			                <th>Tournoi</th>
+			                <td>{{ player.game.name }}</td>
+			            </tr>
+			        {%endfor%}
 		        </tbody>
 		    </table>
 

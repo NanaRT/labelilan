@@ -17,8 +17,3 @@ user_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:User:delete" }
     methods:  DELETE
-
-user_have_interest:
-    path:     /{userId}/{gameId}/interest
-    defaults: { _controller: "AppBundle:User:haveInterest" }
-    methods:  [GET, POST]

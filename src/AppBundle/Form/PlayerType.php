@@ -6,8 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class PlayerType extends AbstractType
 {
+	
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,16 +16,17 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('game');
-	}
-
+            ->add('pseudo')
+        ;
+    }
+    
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Player'
         ));
     }
 }

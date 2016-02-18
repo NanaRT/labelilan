@@ -15,6 +15,7 @@
 			                <th>Category</th>
 			                <th>Organizer</th>
 			                <th>Description</th>
+			                <th>Places</th>
 			                <th>Actions</th>
 			            </tr>
 			        </thead>
@@ -27,6 +28,7 @@
 			                <td>{{ game.category.name }}</td>
 			                <td>{{ game.organizer.name }}</td>
 			                <td>{{ game.description }}</td>
+			                <td>{{ game.places }}</td>
 			                <td>
 			                	<a class="btn btn-default"  href="{{ path('game_edit', { 'id': game.id }) }}">edit</a>
 			                </td>

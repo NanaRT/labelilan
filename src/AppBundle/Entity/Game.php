@@ -10,16 +10,18 @@ class Game
     private $id;
     private $name;
     private $systName;
+    private $places;
 	private $category;
 	private $organizer;
     private $image;
     private $uploadDir;
     private $description;
-    private $interest;
+    private $player;
 
     public function __construct()
     {
         $this->image = new Image($this->getUploadDir());
+        $this->player = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
     /**
@@ -37,7 +39,7 @@ class Game
      *
      * @param string $name
      *
-     * @return Tournament
+     * @return Game
      */
     public function setName($name)
     {
@@ -61,7 +63,7 @@ class Game
      *
      * @param string $systName
      *
-     * @return Tournament
+     * @return Game
      */
     public function setSystName($systName)
     {
@@ -78,6 +80,30 @@ class Game
     public function getSystName()
     {
         return $this->systName;
+    }
+
+    /**
+     * Set places
+     *
+     * @param integer $places
+     *
+     * @return Game
+     */
+    public function setPlaces($places)
+    {
+        $this->places = $places;
+
+        return $this;
+    }
+
+    /**
+     * Get places
+     *
+     * @return integer
+     */
+    public function getPlaces()
+    {
+        return $this->places;
     }
 
     public function setCategory($category)
@@ -150,25 +176,25 @@ class Game
     }
  
     /**
-     * @param  Interest $interest
+     * @param  Player $player
      */
-    public function addInterest(\AppBundle\Entity\Interest $interest)
+    public function addPlayer(\AppBundle\Entity\Player $player)
     {
-        $game->setGame($this);
-        $this->interest[] = $interest;
+        $player->setGame($this);
+        $this->player[] = $player;
     }
 	
     /**
-     * @return ArrayCollection $game
+     * @return ArrayCollection $player
      */
-    public function getInterest()
+    public function getPlayer()
     {
-        return $this->interest;
+        return $this->player;
     }
 	
-    public function removeInterest(\AppBundle\Entity\Interest $interest)
+    public function removePlayer(\AppBundle\Entity\Player $player)
     {
-        $this->interest->removeElement($interest);
+        $this->player->removeElement($player);
     }
 }
 

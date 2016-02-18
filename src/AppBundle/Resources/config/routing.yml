@@ -18,7 +18,17 @@ app_socialmedia:
     resource: "@AppBundle/Resources/config/routing/socialmedia.yml"
     prefix:   /socialmedia
 
+app_player:
+    resource: "@AppBundle/Resources/config/routing/player.yml"
+    prefix:   /player
 
+app_application:
+    resource: "@AppBundle/Resources/config/routing/application.yml"
+    prefix:   /application
+    
+app_team:
+    resource: "@AppBundle/Resources/config/routing/team.yml"
+    prefix:   /team
 
 labelilan:
     path:     /

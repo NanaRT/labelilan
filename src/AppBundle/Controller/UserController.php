@@ -128,27 +128,4 @@ class UserController extends Controller
             ->getForm()
         ;
     }
-	
-	public function haveInterestAction($userId, $gameId)
-	{
-		$interest = new Interest();
-		
-		 $user = $this->getDoctrine()
-        ->getRepository('AppBundle:User')
-        ->find($userId);
-		
-		$interest->setUser($user);
-		
-		 $game = $this->getDoctrine()
-        ->getRepository('AppBundle:Game')
-        ->find($gameId);
-		
-		$interest->setGame($game);
-		
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($interest);
-        $em->flush();
-		
-		return  $this->redirectToRoute('labelilan');
-	}
 }

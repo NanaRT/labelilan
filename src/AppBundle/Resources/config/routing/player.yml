@@ -1,0 +1,29 @@
+player_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Player:index" }
+    methods:  GET
+
+player_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Player:show" }
+    methods:  GET
+
+player_new:
+    path:     /{userId}/{gameId}/new
+    defaults: { _controller: "AppBundle:Player:new" }
+    methods:  [GET, POST]
+
+player_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Player:edit" }
+    methods:  [GET, POST]
+
+player_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Player:delete" }
+    methods:  DELETE
+
+new_free_player:
+    path:     /{userId}/{gameId}/player
+    defaults: { _controller: "AppBundle:Player:freePlayer" }
+    methods:  [GET, POST]

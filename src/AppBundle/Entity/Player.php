@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 /**
- * Interest
+ * Player
  */
-class Interest
+class Player
 {
     private $id;
+    private $pseudo;
 	private $user;
 	private $game;
 
@@ -20,6 +21,30 @@ class Interest
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     *
+     * @return Player
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
     }
 	
     public function setUser($user)
@@ -43,6 +68,5 @@ class Interest
     {
         return $this->game;
     }
-	
 }
 

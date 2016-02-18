@@ -7,49 +7,189 @@
 	            <div class="col-md-3">
 	                <p class="lead">Label[i] Gaming Championship</p>
 	                <div class="list-group">
-						{%for organizer in searchCategoryService.getSearchingOrganizer()%}
-		                    <a href="#{{organizer.systName}}" class="list-group-item">{{organizer.name}}</a>
-		                {%endfor%}
+						<div class="panel-group" id="panel-1">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-1">
+									 	Informations pratiques
+									 </a>
+								</div>
+								<div id="panel-element-1" class="panel-collapse collapse">
+									<div class="panel-body">
+										<a href="#tarif" class="list-group-item">Tarifs</a>
+										<a href="#lieu" class="list-group-item">Lieu</a>
+										<a href="#reglements" class="list-group-item">Reglements</a>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									 <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-2">
+									 	Les Associations
+									 </a>
+								</div>
+								<div id="panel-element-2" class="panel-collapse collapse">
+									<div class="panel-body">
+										{%for organizer in searchCategoryService.getSearchingOrganizer()%}
+											<a href="#{{organizer.systName}}" class="list-group-item">{{organizer.name}}</a>
+										{%endfor%}
+									</div>
+								</div>
+							</div>
+						</div>
+						
+		                    
+		                
 	                </div>
 	            </div>
             
 	            <div class="col-md-9">
-					{%for organizer in searchCategoryService.getSearchingOrganizer()%}
-	                	<div class="row">
-							<section id="{{organizer.systName}}">
-								<div class="thumbnail">
-									<div class="col-sm-10 col-lg-10 col-md-10 col-xs-10">
-			                            <div class="caption">
-			                                <h4>
-			                                	{{organizer.name}}
-			                                </h4>
-			                                <p>
-			                                	{{organizer.description}}
-											</p>
-			                            </div>
-			                            <div class="ratings">
-			                            </div>
-		                    		</div>
-									<div class="col-sm-2 col-lg-2 col-md-2 col-xs-2">
-			                        	<div id="organizerImg">
-			                            	<img src="{{ asset('bundles/app/img/organizer/'~organizer.systName~'.jpg') }}" alt="{{organizer.name}}">
-			                            </div>
-	                        		</div>
-									<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-							            <div class="ratings">
-								            <center>
-								            	{%for socialMedia in organizer.socialMedia%}
-								            		 <a href="{{socialMedia.link}}">
-								            		 	<i class="fa fa-{{socialMedia.icon}} fa-2x"></i>
-								            		 </a>
-								            	{%endfor%}
-								            </center>
-			                        	</div>
-	                        		</div>
-	                        	</div>
-		                    </section>
-	                    </div>
-					{%endfor%}
+                	<div class="row">
+	                	<br>
+	                	<hr>
+	                	<h1>Informations pratiques</h1>
+	                	<hr>
+	                	<br>
+	                		<section id="tarif">
+								<h3>Tarifs</h3>
+								<br><br>
+								<h4>Pack MULTI</h4>
+								<p>
+									Participation à un tournoi multijoueur + participation à tous les tournois solo et activités proposées (jeux de role) + jeux libres à disposition
+								</p>
+								<br>
+								<h4>Pack SOLO</h4>
+								<p>
+									Participation à tous les tournois solo et activités proposées (jeux de role) + jeux libres à disposition
+								</p>
+								<br>
+								<h4>Pack LIBRE</h4>
+								<p>
+									Participation à toutes activités proposées (jeux de role) + jeux libres à disposition
+								</p>
+								<br>
+							    <table class="table table-hover">
+							    	<thead>
+							            <tr>
+							            	<th>
+							            		Pack 
+							            	</th>
+							            	<th>
+							            		Prix (unitaire
+							            	</th>
+							            	<th>
+							            		Prix Groupe
+							            	</th>
+							            	<th>
+							            		Adhérent Label[i]
+							            	</th>
+							            </tr>
+							        </thead>
+							        <tbody>
+							            <tr>
+							            	<td>
+							            		Pack MULTI
+							            	</td>
+							            	<td>
+							            		5€
+							            	</td>
+							            	<td>
+							            		Pour une équipe de 5 personnes : 20€
+							            	</td>
+							            	<td>
+							            		GRATUIT
+							            	</td>
+							            </tr>
+							            <tr>
+							            	<td>
+							            		Pack SOLO
+							            	</td>
+							            	<td>
+							            		4€
+							            	</td>
+							            	<td>
+							            	</td>
+							            	<td>
+							            		GRATUIT
+							            	</td>
+							            </tr>
+							            <tr>
+							            	<td>
+							            		Pack LIBRE
+							            	</td>
+							            	<td>
+							            		3€
+							            	</td>
+							            	<td>
+							            	</td>
+							            	<td>
+							            		GRATUIT
+							            	</td>
+							            </tr>
+							        </tbody>
+							    </table>
+	                		</section>
+	                		<hr>
+	                		<section id="lieu">
+								<h3>Lieux</h3>
+								<br><br>
+	                			<iframe width="100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2830.674772057046!2d-0.5996989847896653!3d44.807816285020934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd55277eb9006c73%3A0xa078e3c803322892!2sCREMI!5e0!3m2!1sfr!2sfr!4v1455791272660" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+							    <div class="add"><i>Addresse: </i> CREMI, batiment A28, 351 Cours de la Libération, 33400 Talence </div>
+	                		</section>
+	                		<hr>
+	                		<section id="reglement">
+								<h3>Reglement</h3>
+								<br><br>
+									<a href="#" class="btn btn-default btn-lg disabled" role="button">Télécharger</a>
+	                		</section>
+	                	</div>
+	                	<br>
+	                	<hr>
+	                	<h1>Les Associations</h1>
+	                	<hr>
+	                	<br>
+						{%for organizer in searchCategoryService.getSearchingOrganizer()%}
+                			<div class="row">
+								<section id="{{organizer.systName}}">
+									<div class="thumbnail">
+										<div class="col-sm-10 col-lg-10 col-md-10 col-xs-10">
+				                                <h4>
+				                                	{{organizer.name}}
+				                                </h4>
+				                                <p>
+				                                	{{organizer.description}}
+												</p>
+												<br>
+												<h4>S'occupe :</h4>
+												{%for game in organizer.game%}
+													<p>- 
+														<a href="{{path('game_show', {'id':game.id}) }}" >
+															{{game.name}}
+														</a>
+													</p>
+												{%endfor%}
+			                    		</div>
+										<div class="col-sm-2 col-lg-2 col-md-2 col-xs-2">
+				                        	<div id="organizerImg">
+				                            	<img src="{{ asset('bundles/app/img/organizer/'~organizer.systName~'.jpg') }}" alt="{{organizer.name}}">
+				                            </div>
+		                        		</div>
+										<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+								            <div class="ratings">
+									            <center>
+									            	{%for socialMedia in organizer.socialMedia%}
+									            		 <a href="{{socialMedia.link}}" target="_blank">
+									            		 	<i class="fa fa-{{socialMedia.icon}} fa-2x"></i>
+									            		 </a>
+									            	{%endfor%}
+									            </center>
+				                        	</div>
+		                        		</div>
+		                        	</div>
+			                    </section>
+			                </div>
+						{%endfor%}
+					</div>
 				</div>
             </div>
         </div>

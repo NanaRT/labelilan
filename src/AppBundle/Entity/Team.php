@@ -2,30 +2,22 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
-
 /**
- * User
+ * Team
  */
-class User extends BaseUser
+class Team
 {
-    protected $id;
+    private $id;
+    private $name;
     private $player;
     private $application;
-	
+
     public function __construct()
     {
         $this->application = new \Doctrine\Common\Collections\ArrayCollection();
         $this->player = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-        $this->getConfirmationToken();
-        $this->enabled = false;
-        $this->locked = false;
-        $this->expired = false;
-        $this->roles = array();
-        $this->credentialsExpired = false;
 	}
-	
+
     /**
      * Get id
      *
@@ -35,13 +27,37 @@ class User extends BaseUser
     {
         return $this->id;
     }
- 
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Team
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+	
     /**
      * @param  Player $player
      */
     public function addPlayer(\AppBundle\Entity\Player $player)
     {
-        $player->setUser($this);
+        $player->setTeam($this);
         $this->player[] = $player;
     }
 	
@@ -58,12 +74,13 @@ class User extends BaseUser
         $this->player->removeElement($player);
     }
 	
+	
     /**
      * @param  Application $application
      */
     public function addApplication(\AppBundle\Entity\Application $application)
     {
-        $application->setUser($this);
+        $application->setTeam($this);
         $this->application[] = $application;
     }
 	
@@ -80,3 +97,4 @@ class User extends BaseUser
         $this->application->removeElement($application);
     }
 }
+

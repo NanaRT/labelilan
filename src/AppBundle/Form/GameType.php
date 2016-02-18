@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use AppBundle\Form\ImageType;
 use AppBundle\Entity\Image;
 
@@ -27,6 +28,8 @@ class GameType extends AbstractType
 		    'class' => 'AppBundle:Organizer',
 		    'choice_label' => 'name'])
             ->add('description')
+			->add('places', IntegerType::class, [
+				'required'=>false])
         ;
     }
     

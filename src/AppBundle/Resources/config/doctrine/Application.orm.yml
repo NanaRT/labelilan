@@ -1,0 +1,36 @@
+AppBundle\Entity\Application:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ApplicationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            length: 255
+            nullable: true
+        origin:
+            type: string
+            length: 255
+            nullable: true
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        team:
+            targetEntity:             Team
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 team_id
+                referencedColumnName: id
+                onDelete:             CASCADE
+        user:
+            targetEntity:             User
+            cascade:                  [ remove, persist ]
+            joinColumn:
+                name:                 user_id
+                referencedColumnName: id
+                onDelete:             CASCADE
