@@ -128,4 +128,25 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+	
+    public function recruitAction($gameId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $game = $em->getRepository('AppBundle:Game')->find($gameId);
+		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:User u
+		    inner join AppBundle:Player p
+		    with u.id=p.user
+		    where p.game='.$gameId.
+		    ' and p.team is null'
+		);
+		$users = $query->getResult();
+
+        return $this->render('AppBundle:user:search.html.twig', array(
+            'users' => $users,
+            'game'  =>$game
+        ));
+    }
 }

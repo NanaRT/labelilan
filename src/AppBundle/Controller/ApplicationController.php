@@ -35,7 +35,24 @@ class ApplicationController extends Controller
      */
     public function newAction(Request $request)
     {
+		$userId = $request->attributes->get('user');
+		$teamId = $request->attributes->get('team');
+		$origin = $request->attributes->get('origin');
+		
         $application = new Application();
+		
+		 $user = $this->getDoctrine()
+        ->getRepository('AppBundle:User')
+        ->find($userId);
+		
+		 $team = $this->getDoctrine()
+        ->getRepository('AppBundle:Team')
+        ->find($teamId);
+		
+		$application->setUser($user);
+		$application->setTeam($team);
+		$application->setOrigin($origin);
+		
         $form = $this->createForm('AppBundle\Form\ApplicationType', $application);
         $form->handleRequest($request);
 
@@ -44,7 +61,7 @@ class ApplicationController extends Controller
             $em->persist($application);
             $em->flush();
 
-            return $this->redirectToRoute('application_show', array('id' => $application->getId()));
+            return $this->redirectToRoute('game_show', array('id' => $team->getGame()->getId()));
         }
 
         return $this->render('AppBundle:application:new.html.twig', array(

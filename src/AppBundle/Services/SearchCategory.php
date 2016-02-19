@@ -67,15 +67,25 @@ class SearchCategory
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Player p
-		    where p.user = '.$userId.
-		    ' and p.game = '.$gameId.'
+		    where p.game = '.$gameId.'
 		     and p.team is null'
 		);
-		$soloPlayer = $query->getResult();
+		$soloPlayers = $query->getResult();
+		$randArray=array();
+		$keys=array();
 		
-		var_dump($soloPlayer);exit;
+		for($i=0;$i<5;$i++)
+		{
+			$key = rand(0,count($soloPlayers)-1);
+			while(in_array($key, $keys))
+			{
+				$key = rand(0,count($soloPlayers)-1);
+			}
+			$keys[$i]=$key;
+			$randArray[$i]=$soloPlayers[$key];
+		}
 		
-		return $soloPlayer;
+		return $randArray;
 	}
 	
 	public function getNumberPlayer($gameId)
@@ -99,7 +109,7 @@ class SearchCategory
 		$placesTaken = $query->getResult();
 		
 		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
-		if(count($placesTaken)<$game->getPlaces())
+		if(count($placesTaken)<$game->getPlaces() or $game->getPlaces()==null)
 		{
 			return 1;
 		}
@@ -127,12 +137,60 @@ class SearchCategory
 		    'SELECT p
 		    FROM AppBundle:Team p
 		    where p.game = '.$gameId.'
-		     and p.validation is null'
+		     and p.validation is not null'
 		);
 		$placesTaken = $query->getResult();
 		
 		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
 		
 		return $game->getPlaces()-count($placesTaken);
+	}
+	
+	public function newApplicationTeamArray($userId, $candidatId, $gameId, $origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId
+		);
+		$players = $query->getResult();
+		$team = $players[0]->getTeam();
+		
+		$dataArray['user']=$candidatId;
+		$dataArray['team']=$team->getId();
+		$dataArray['origin']=$origin;
+		
+		return $dataArray;
+	}
+	
+	public function checkApplication($userId, $candidatId, $gameId, $origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId
+		);
+		$players = $query->getResult();
+		$team = $players[0]->getTeam();
+		
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    where a.team = '.$players[0]->getTeam()->getId().
+		    ' and a.user = '.$candidatId.
+		    ' and a.origin = \''.$origin.'\''
+		);
+		$applications = $query->getResult();
+		
+		if(empty($applications))
+		{
+			return 1;
+		}
+		else
+		{
+			return;
+		}
 	}
 }

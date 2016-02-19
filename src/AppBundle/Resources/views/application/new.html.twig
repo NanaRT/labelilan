@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Application creation</h1>
+    <div class="container">
+        <div class="row">
+    		<h1>Application creation</h1>
+			{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+		    {{ form_start(form) }}
+		        {{ form_widget(form) }}
+		        <input class="btn btn-default" type="submit" value="Create" />
+		    {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('application_index') }}">Back to the list</a>
-        </li>
-    </ul>
+            <a class="btn btn-default" href="{{ path('application_index') }}">Back to the list</a>
+		</div>
+	</div>
 {% endblock %}

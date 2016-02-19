@@ -9,7 +9,7 @@ application_show:
     methods:  GET
 
 application_new:
-    path:     /new
+    path:     /new/{user}/{team}/{origin}
     defaults: { _controller: "AppBundle:Application:new" }
     methods:  [GET, POST]
 

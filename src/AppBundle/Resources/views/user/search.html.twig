@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+				<h1>Rechercher joueurs disponibles pour tournoi</h1>
+				<table class="table table-hover">
+					<tbody>
+			        	{%for user in users%}
+			        		<tr>
+			        			<td>
+			        				{{user.username}}
+			        			</td>
+			        			<td align="right">
+			          				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+				        				{%if searchCategoryService.checkApplication(app.user.id, user.id,game.id,'team')%}
+						                	<a class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, user.id,game.id,'team')) }}" >
+						                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
+						                    </a>
+						                {%else%}
+						                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,user.id,game.id,'team')) }}" >
+						                    	 Attente réponse
+						                    </a>
+						                {%endif%}
+					                {%endif%}
+			        			</td>
+			        		</tr>
+			        	{%endfor%}
+			        </tbody>
+				</table>
+			</div>
+        </div>
+	</div>
+{% endblock %}

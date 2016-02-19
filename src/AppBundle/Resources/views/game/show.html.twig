@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <!-- Blog Post Content Column -->
-            <div class="col-lg-8">
+            <div class="col-md-8">
                 <h1>{{game.name}}</h1>
                 <p class="lead">
                 	{{game.category.name}} organisé par <a href="{{ path('informations') }}#{{game.organizer.systName}}">{{game.organizer.name}}</a>
@@ -68,18 +68,33 @@
 							and player.team.validation is null 
 							and player.capitain%}
 				                <div class="well">  
-				                	<h4>Rechercher joueur</h4>
+				                	<a href="{{path('user_recruit', {'gameId':game.id}) }}" >
+				                		<h4>
+				                		Rechercher joueurs
+				                		</h4>
+				                	</a>
 				                	<table class="table table-hover">
-					                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
-					                		<tr>
-					                			<td>
-					                				{{soloPlayers.name}}
-					                			</td>
-					                			<td>
-					                			</td>
-					                		</tr>
-					                	{%endfor%}
-				                	</tableW
+				                		<tbody>
+						                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
+						                		<tr id="searchTr">
+						                			<td>
+						                				{{soloPlayers.pseudo}}
+						                			</td>
+						                			<td align="right">
+						                				{%if searchCategoryService.checkApplication(app.user.id, soloPlayers.user.id,game.id,'team')%}
+										                	<a class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
+										                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
+										                    </a>
+										                {%else%}
+										                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
+										                    	 Attente réponse
+										                    </a>
+										                {%endif%}
+						                			</td>
+						                		</tr>
+						                	{%endfor%}
+						                </tbody>
+				                	</table>
 				                </div>
 							{%else%}	            			
 				                <div class="well">  
@@ -92,21 +107,14 @@
 			            {%endfor%}
                 	{%endif%}
                 {%endif%}
-
-                <!-- Side Widget Well -->
-                <div class="well">
-                    <h4>Side Widget Well</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-                </div>
-
             </div>
+    	</div>
 
+		{% if is_granted("ROLE_ADMIN") %}
+	        {{ form_start(delete_form) }}
+	            <input class="btn btn-default" type="submit" value="Delete">
+	        {{ form_end(delete_form) }}
+	    {%endif%}
     </div>
-
-	{% if is_granted("ROLE_ADMIN") %}
-        {{ form_start(delete_form) }}
-            <input class="btn btn-default" type="submit" value="Delete">
-        {{ form_end(delete_form) }}
-    {%endif%}
     
 {% endblock %}

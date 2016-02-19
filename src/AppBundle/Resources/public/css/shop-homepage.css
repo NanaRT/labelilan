@@ -84,4 +84,8 @@ footer {
     padding-bottom:5%;
 }
 
+#searchTr:hover
+{
+	background-color: white;
+}
 
