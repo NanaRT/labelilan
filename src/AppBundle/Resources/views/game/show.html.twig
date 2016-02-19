@@ -81,7 +81,7 @@
 						                				{{soloPlayers.pseudo}}
 						                			</td>
 						                			<td align="right">
-						                				{%if searchCategoryService.checkApplication(app.user.id, soloPlayers.user.id,game.id,'team')%}
+						                				{%if searchCategoryService.checkApplication(app.user.id,game.id,'team', soloPlayers.user.id)%}
 										                	<a class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
 										                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 										                    </a>

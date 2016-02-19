@@ -131,6 +131,7 @@ class SearchCategory
 		
 		return $game->getPlaces()-count($placesTaken);
 	}
+	
 	public function getMultiPlaces($gameId)
 	{
         $query = $this->em->createQuery(
@@ -164,7 +165,7 @@ class SearchCategory
 		return $dataArray;
 	}
 	
-	public function checkApplication($userId, $candidatId, $gameId, $origin)
+	public function checkApplication($userId, $gameId, $origin, $candidatId=null)
 	{
         $query = $this->em->createQuery(
 		    'SELECT p
@@ -175,22 +176,66 @@ class SearchCategory
 		$players = $query->getResult();
 		$team = $players[0]->getTeam();
 		
+		if($candidatId!=null)
+		{
+			$candidat = ' and a.user = '.$candidatId;
+		}
+		else {
+			$candidat='';
+		}
+		
         $query = $this->em->createQuery(
 		    'SELECT a
 		    FROM AppBundle:Application a
-		    where a.team = '.$players[0]->getTeam()->getId().
-		    ' and a.user = '.$candidatId.
+		    where a.team = '.$players[0]->getTeam()->getId().$candidat.
 		    ' and a.origin = \''.$origin.'\''
 		);
 		$applications = $query->getResult();
 		
 		if(empty($applications))
 		{
-			return 1;
+			return ;
 		}
 		else
 		{
+			return $applications;
+		}
+	}
+
+	public function getTeams($userId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT t
+		    FROM AppBundle:Team t
+		    inner join AppBundle:Player p
+		    with t.id=p.team
+		    where p.user = '.$userId
+		);
+		$teams = $query->getResult();
+		
+		return $teams;
+	}
+	
+	public function getCapitain($userId,$gameId,$teamId)
+	{
+		
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId.
+		    ' and p.team = '.$teamId.
+		    ' and p.capitain is not null'
+		);
+		$capitain = $query->getResult();
+		
+		if(empty($capitain))
+		{
 			return;
+		}
+		else
+		{
+			return 1;
 		}
 	}
 }

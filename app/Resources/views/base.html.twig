@@ -82,6 +82,14 @@
 					          Mon profil [{{app.user.username}}]
 				          </a>
 			          </li>
+			          {% for team in searchCategoryService.getTeams(app.user.id) %}
+				          <li>
+					          <a href="{{ path('team_show', { 'id': team.id }) }}">
+						          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						          Equipe {{team.game.systName}} [{{team.name}}]
+					          </a>
+				          </li>
+			          {%endfor%}
 			          <li>
 				          <a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">
 					          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

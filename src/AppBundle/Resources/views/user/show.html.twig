@@ -9,14 +9,12 @@
 		        <tbody>
 		            <tr>
 		                <th>Id</th>
-		                <td>{{ user.id }}</td>
-		            </tr>
-		            <tr>
 		                <th>Username</th>
-		                <td>{{ user.username }}</td>
+		                <th>Email</th>
 		            </tr>
 		            <tr>
-		                <th>Email</th>
+		                <td>{{ user.id }}</td>
+		                <td>{{ user.username }}</td>
 		                <td>{{ user.email }}</td>
 		            </tr>
 		        </tbody>
@@ -26,38 +24,26 @@
 			<div class="col-sm-12 col-lg-12 col-md-12">
 			    {%for player in user.player%}
 					<div class="col-sm-3 col-lg-3 col-md-3">
-					    <table class="table table-hover">
-					        <tbody>
-					        	<tr>
-					        		<th>
-					        			Nom Tournoi
-					        		</th>
-					        		<td>
-					        			{{player.game.name}}
-					        		</td>
-					        	</tr>
-					        	{%if player.team%}
-						        	<tr>
-						        		<th>
-						        			Nom Team
-						        		</th>
-						        		<td>
-						        			{{player.team.name}}
-						        		</td>
-						        	</tr>
-						        	{%for playerTeam in player.team.player%}
-							        	<tr>
-							        		<th>
-							        			Nom Joueur
-							        		</th>
-							        		<td>
-							        			{{playerTeam.user.username}}
-							        		</td>
-							        	</tr>
-							        {%endfor%}
-						        {%endif%}
-					        </tbody>
-					    </table>
+                        <div class="thumbnail">
+                        	<div id="gameImg">
+                            	<img src="{{ asset('bundles/app/img/game/'~player.game.systName~'.png') }}" alt="{{player.game.name}}">
+                            </div>
+                            <div class="caption">
+                            	{%if player.game.category.systName=='multi'%}
+                            	    {%if player.team%}
+							            <a class="btn btn-default" href="{{ path('team_show', { 'id': player.team.id }) }}">
+								            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+								            Equipe {{player.team.name}}
+							            </a>
+							        {%endif%}
+                            	{%endif%}
+					        </div>
+					        <div class="ratings" align="right">
+					        	<a href="{{path('player_delete', {'id':player.id}) }}">
+					        		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								</a>
+					        </div>
+					    </div>
 					</div>
 				{%endfor%}
 			</div>
