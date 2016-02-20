@@ -14,6 +14,7 @@ class LoadCategoryData implements FixtureInterface
 			'Tournois Multijoueurs' => 'multi',
 			'Tournois Solos'=> 'solo',
 			'Jeux Libres'=> 'libre',
+			'Autre'=> 'autre',
 		);
 		
 		foreach($list as $name=>$systname)

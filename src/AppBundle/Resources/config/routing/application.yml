@@ -19,6 +19,6 @@ application_edit:
     methods:  [GET, POST]
 
 application_delete:
-    path:     /{id}/delete
+    path:     /{id}/delete/{originId}/{origin}/
     defaults: { _controller: "AppBundle:Application:delete" }
-    methods:  DELETE
+    methods:  GET

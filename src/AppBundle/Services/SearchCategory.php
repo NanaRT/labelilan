@@ -74,6 +74,15 @@ class SearchCategory
 		$randArray=array();
 		$keys=array();
 		
+		if(empty($soloPlayers))
+		{
+			return;
+		}
+		elseif(count($soloPlayers)<=4)
+		{
+			return $soloPlayers;
+		}
+		
 		for($i=0;$i<5;$i++)
 		{
 			$key = rand(0,count($soloPlayers)-1);
@@ -83,6 +92,42 @@ class SearchCategory
 			}
 			$keys[$i]=$key;
 			$randArray[$i]=$soloPlayers[$key];
+		}
+		
+		return $randArray;
+	}
+	
+	
+	public function searchNotValidTeam($gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    where p.game = '.$gameId.'
+		     and p.validation is null'
+		);
+		$notValidTeam = $query->getResult();
+		$randArray=array();
+		$keys=array();
+		
+		if(empty($notValidTeam))
+		{
+			return;
+		}
+		elseif(count($notValidTeam)<=4)
+		{
+			return $notValidTeam;
+		}
+		
+		for($i=0;$i<5;$i++)
+		{
+			$key = rand(0,count($notValidTeam)-1);
+			while(in_array($key, $keys))
+			{
+				$key = rand(0,count($notValidTeam)-1);
+			}
+			$keys[$i]=$key;
+			$randArray[$i]=$notValidTeam[$key];
 		}
 		
 		return $randArray;
@@ -165,6 +210,7 @@ class SearchCategory
 		return $dataArray;
 	}
 	
+	
 	public function checkApplication($userId, $gameId, $origin, $candidatId=null)
 	{
         $query = $this->em->createQuery(
@@ -174,6 +220,7 @@ class SearchCategory
 		    ' and p.game = '.$gameId
 		);
 		$players = $query->getResult();
+		
 		$team = $players[0]->getTeam();
 		
 		if($candidatId!=null)
@@ -188,6 +235,47 @@ class SearchCategory
 		    'SELECT a
 		    FROM AppBundle:Application a
 		    where a.team = '.$players[0]->getTeam()->getId().$candidat.
+		    ' and a.origin = \''.$origin.'\''
+		);
+		$applications = $query->getResult();
+		
+		if(empty($applications))
+		{
+			return ;
+		}
+		else
+		{
+			return $applications;
+		}
+	}
+	
+	public function checkApplicationTeam($userId, $teamId, $origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    where a.team = '.$teamId.
+		    ' and a.user = '.$userId.
+		    ' and a.origin = \''.$origin.'\''
+		);
+		$applications = $query->getResult();
+		
+		if(empty($applications))
+		{
+			return ;
+		}
+		else
+		{
+			return $applications;
+		}
+	}
+	
+	public function checkApplicationPlayer($userId, $origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    where a.user = '.$userId.
 		    ' and a.origin = \''.$origin.'\''
 		);
 		$applications = $query->getResult();

@@ -60,29 +60,45 @@
 			            {%endif%}
                     </div>
                 </div>
+                
+				{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+						{%if player.team is null
+						and player.capitain is null %}
+			                <div class="well">  
+			                	<h4>Créer team</h4>
+			                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
+			                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer une équipe
+			                    </a>
+					        </div>
+					    {%endif%}
+					{%endfor%}
+				{%endif%}
 
-                {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
-	            	{% if  (game.category.systName == 'multi')   %}
-	            		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-							{%if player.team 
-							and player.team.validation is null 
-							and player.capitain%}
-				                <div class="well">  
-				                	<a href="{{path('user_recruit', {'gameId':game.id}) }}" >
-				                		<h4>
-				                		Rechercher joueurs
-				                		</h4>
-				                	</a>
-				                	<table class="table table-hover">
-				                		<tbody>
-						                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
-						                		<tr id="searchTr">
-						                			<td>
-						                				{{soloPlayers.pseudo}}
-						                			</td>
+            	{% if  (game.category.systName == 'multi')   %}
+            		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+		                <div class="well">  
+		                	<a href="{{path('user_recruit', {'gameId':game.id}) }}" >
+		                		<h4>
+		                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		                		Rechercher joueurs
+		                		</h4>
+		                	</a>
+		                	<table class="table table-hover">
+		                		<tbody>
+		                			{%if searchCategoryService.searchSoloPlayers(game.id)%}
+					                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
+					                		<tr id="searchTr">
+					                			<td>
+					                				{{soloPlayers.pseudo}}
+					                			</td>
+            									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
+            									and player.team 
+												and player.team.validation is null 
+												and player.capitain %} 
 						                			<td align="right">
-						                				{%if searchCategoryService.checkApplication(app.user.id,game.id,'team', soloPlayers.user.id)%}
-										                	<a class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
+						                				{%if searchCategoryService.checkApplication(app.user.id,game.id,'team', soloPlayers.user.id) == null%}
+										                	<a id="recruitPlayer" class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
 										                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 										                    </a>
 										                {%else%}
@@ -91,22 +107,59 @@
 										                    </a>
 										                {%endif%}
 						                			</td>
-						                		</tr>
-						                	{%endfor%}
-						                </tbody>
-				                	</table>
-				                </div>
-							{%else%}	            			
-				                <div class="well">  
-				                	<h4>Créer team</h4>
-				                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
-				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer une équipe
-				                    </a>
-				                </div>
-				            {%endif%}
-			            {%endfor%}
-                	{%endif%}
-                {%endif%}
+						                		{%endif%}
+					                		</tr>
+					                	{%endfor%}
+					                {%else%}
+					                	<tr>Aucun joueur disponible</tr>
+					                {%endif%}
+				                </tbody>
+		                	</table>
+		                </div>
+		            {%endfor%}
+            	{%endif%}
+            	
+            	{% if  (game.category.systName == 'multi')   %}
+            		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+		                <div class="well">  
+		                	<a href="{{path('team_recruit', {'gameId':game.id}) }}" >
+		                		<h4>
+		                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		                		Rechercher équipes
+		                		</h4>
+		                	</a>
+		                	<table class="table table-hover">
+		                		<tbody>
+		                			{%if searchCategoryService.searchSoloPlayers(game.id)%}
+					                	{%for notValidTeam in searchCategoryService.searchNotValidTeam(game.id)%}
+					                		<tr id="searchTr">
+					                			<td>
+					                				{{notValidTeam.name}}
+					                			</td>
+            									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
+            									and player.team is null %} 
+						                			<td align="right">
+						                				{%if searchCategoryService.checkApplicationTeam(app.user.id, notValidTeam.id, 'player') == null%}
+										                	<a id="recruitPlayer" class="btn btn-default" href="{{path('application_new', {'user':app.user.id,'team':notValidTeam.id,'origin':'player'}) }}" >
+										                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Postuler
+										                    </a>
+										                {%else%}
+										                	<a class="btn btn-default disabled" href="{{path('application_new', {'user':app.user.id,'team':notValidTeam.id,'origin':'player'}) }}" >
+										                    	 Attente réponse
+										                    </a>
+										                {%endif%}
+						                			</td>
+						                		{%endif%}
+					                		</tr>
+					                	{%endfor%}
+					                {%else%}
+					                	<tr>Aucun joueur disponible</tr>
+					                {%endif%}
+				                </tbody>
+		                	</table>
+		                </div>
+		            {%endfor%}
+            	{%endif%}
             </div>
     	</div>
 

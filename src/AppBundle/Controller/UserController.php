@@ -143,7 +143,7 @@ class UserController extends Controller
 		    ' and p.team is null'
 		);
 		$users = $query->getResult();
-
+		
         return $this->render('AppBundle:user:search.html.twig', array(
             'users' => $users,
             'game'  =>$game

@@ -11,11 +11,6 @@
 			        {{ form_widget(edit_form) }}
 			        <input class="btn btn-default" type="submit" value="Edit" />
 			    {{ form_end(edit_form) }}
-			
-	            <a class="btn btn-default" href="{{ path('game_index') }}">Back to the list</a>
-	            {{ form_start(delete_form) }}
-	                <input class="btn btn-default" type="submit" value="Delete">
-	            {{ form_end(delete_form) }}
 			</div>
 		</div>
 	{%endif%}

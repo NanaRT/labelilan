@@ -116,34 +116,19 @@ class PlayerController extends Controller
      * Deletes a Player entity.
      *
      */
-    public function deleteAction(Request $request, Player $player)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($player);
-        $form->handleRequest($request);
+		 $player = $this->getDoctrine()
+        ->getRepository('AppBundle:Player')
+        ->find($id);
+		
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($player);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($player);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('player_index');
-    }
-
-    /**
-     * Creates a form to delete a Player entity.
-     *
-     * @param Player $player The Player entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Player $player)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('player_delete', array('id' => $player->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+		return $this->forward('AppBundle:User:show', array(
+	        'id'  => $this->getUser()->getId()
+	    ));;
     }
 	
 	public function freePlayerAction($userId, $gameId)

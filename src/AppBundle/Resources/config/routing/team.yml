@@ -22,3 +22,8 @@ team_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Team:delete" }
     methods:  DELETE
+
+team_recruit:
+    path:     /recruit/{gameId}
+    defaults: { _controller: "AppBundle:Team:recruit" }
+    methods:  GET

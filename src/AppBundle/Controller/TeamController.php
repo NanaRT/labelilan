@@ -67,6 +67,18 @@ class TeamController extends Controller
 			$players[0]->setTeam($team);
 			$players[0]->setCapitain(true);
 			
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Application p
+			    where p.user='.$userId.
+			    ' and p.game='.$players[0]->getGame->getId()
+			);
+			$applications = $query->getResult();
+			
+			foreach ($applications as $application) {
+				$em->remove($application);
+			}
+			
             $em->persist($team);
             $em->persist($players[0]);
             $em->flush();
@@ -151,5 +163,24 @@ class TeamController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+	
+    public function recruitAction($gameId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $game = $em->getRepository('AppBundle:Game')->find($gameId);
+		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:Team u
+		    where u.game='.$gameId.
+		    ' and u.validation is null'
+		);
+		$users = $query->getResult();
+		
+        return $this->render('AppBundle:Team:search.html.twig', array(
+            'teams' => $users,
+            'game'  =>$game
+        ));
     }
 }

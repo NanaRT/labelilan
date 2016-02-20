@@ -13,6 +13,7 @@
 			                <th>Name</th>
 			                <th>Link</th>
 			                <th>Icon</th>
+			                <th>Organizer</th>
 			                <th>Actions</th>
 			            </tr>
 			        </thead>
@@ -23,6 +24,7 @@
 			                <td>{{ socialMedia.name }}</td>
 			                <td>{{ socialMedia.link }}</td>
 			                <td>{{ socialMedia.icon }}</td>
+			                <td>{{ socialMedia.organizer.name }}</td>
 			                <td>
 			                	<a class="btn btn-default" href="{{ path('socialmedia_edit', { 'id': socialMedia.id }) }}">edit</a>
 			                </td>

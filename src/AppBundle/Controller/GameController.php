@@ -78,7 +78,7 @@ class GameController extends Controller
 
         return $this->render('AppBundle:game:show.html.twig', array(
             'game' => $game,
-            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView()
         ));
     }
 

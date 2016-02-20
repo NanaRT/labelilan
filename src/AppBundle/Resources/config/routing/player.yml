@@ -21,7 +21,7 @@ player_edit:
 player_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Player:delete" }
-    methods:  DELETE
+    methods:  GET
 
 new_free_player:
     path:     /{userId}/{gameId}/player

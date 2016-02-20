@@ -28,7 +28,7 @@
 									<h1>{{category.name}}</h1>
 									
 									{%for game in category.game%}
-					                    <div class="col-sm-4 col-lg-4 col-md-4">
+					                    <div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
 					                        <div class="thumbnail">
 					                        	<div id="gameImg">
 					                            	<img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}">
@@ -39,6 +39,12 @@
 					                                		{{game.name}}
 					                                	</a>
 					                                </h4>
+					                                <p>
+					                                	Organisé par 
+					                                	<a href="{{ path('informations') }}#{{game.organizer.systName}}">
+					                                		{{game.organizer.name}}
+					                                	</a>
+					                                </p>
 					                                <p>
 					                                	{{game.description}}
 					                                </p>
@@ -76,7 +82,7 @@
 					                                		Nb places équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
 					                                	{% elseif category.systName == 'solo'
 					                                	and game.places%}
-					                                		Nb places restantes : {{ searchCategoryService.getSoloPlaces(game.id) }}
+					                                		Nb places : {{ searchCategoryService.getSoloPlaces(game.id) }}
 					                                	{% else%}
 							      							Nb intéressés : {{ searchCategoryService.getNumberPlayer(game.id) }}
 							                            {%endif%}        

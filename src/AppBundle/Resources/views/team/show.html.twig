@@ -13,7 +13,7 @@
 						<li class="active">
 							<a href="#panel-1" data-toggle="tab">Composition Equipe</a>
 						</li>
-						{%if searchCategoryService.checkApplication(app.user.id,team.game.id,'player')%}
+						{%if user.application 'player'%}
 							<li>
 								<a href="#panel-2" data-toggle="tab">Candidatures reçues</a>
 							</li>
@@ -36,7 +36,7 @@
 											Role
 										</th>
 										<th>
-											Payment Taken
+											Username
 										</th>
 										{%if searchCategoryService.getCapitain(app.user.id,team.game.id,team.id)%}
 											<th>
@@ -99,7 +99,8 @@
 											</td>
 											{%if searchCategoryService.getCapitain(app.user.id,team.game.id,team.id)%}
 												<td>
-				                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id}) }}" >
+														Accepter
+				                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
 				                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				                                	</a>
 												</td>
@@ -140,8 +141,7 @@
 				                                	</a>
 												</td>
 													<td>
-														Accepter
-					                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id}) }}" >
+					                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
 					                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 					                                	</a>
 												{%endif%}

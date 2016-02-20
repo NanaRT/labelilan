@@ -7,23 +7,21 @@
 				<h1>Rechercher joueurs disponibles pour tournoi</h1>
 				<table class="table table-hover">
 					<tbody>
-			        	{%for user in users%}
+			        	{%for team in teams%}
 			        		<tr>
 			        			<td>
-			        				{{user.username}}
+			        				{{team.name}}
 			        			</td>
 			        			<td align="right">
 		          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
     									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
-    									and player.team 
-										and player.team.validation is null 
-										and player.capitain %} 
-					        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', user.id) == null%}
-							                	<a class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, user.id,game.id,'team')) }}" >
+    									and player.team is null %} 
+					        				{%if searchCategoryService.checkApplicationTeam(app.user.id, team.id, 'player') == null%}
+							                	<a class="btn btn-default" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
 							                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 							                    </a>
 							                {%else%}
-							                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,user.id,game.id,'team')) }}" >
+							                	<a class="btn btn-default disabled" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
 							                    	 Attente réponse
 							                    </a>
 							                {%endif%}
