@@ -30,9 +30,11 @@
 									{%for game in category.game%}
 					                    <div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
 					                        <div class="thumbnail">
-					                        	<div id="gameImg">
-					                            	<img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}">
-					                            </div>
+					                            <a href="{{path('game_show', {'id':game.id}) }}" >
+						                        	<div id="gameImg">
+						                            	<img src="{{ asset('bundles/app/img/game/'~game.systName~'.png') }}" alt="{{game.name}}">
+						                            </div>
+						                        </a>
 					                            <div class="caption">
 					                                <h4>
 					                                	<a href="{{path('game_show', {'id':game.id}) }}" >
@@ -45,28 +47,30 @@
 					                                		{{game.organizer.name}}
 					                                	</a>
 					                                </p>
-					                                <p>
-					                                	{{game.description}}
-					                                	{%if category.systName=='multi'%}
-										                	<a class="btn btn-default" href="{{path('user_recruit', {'gameId':game.id}) }}" >
-										                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-										                		Chercher Joueurs
-										                	</a>
-												        	<a class="btn btn-default" href="{{path('team_recruit', {'gameId':game.id}) }}" >
-										                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-										                		Chercher Equipe
-										                	</a>
-										                	{%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
-										                		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-																	{%if player.team is null
-																	and player.capitain is null %}
-													                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
-													                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-													                    </a>
-																    {%endif%}
-																{%endfor%}
-															{%endif%}
-										                {%endif%}
+				                                	{%if category.systName=='multi'%}
+									                	<a class="btn btn-default" href="{{path('user_recruit', {'gameId':game.id}) }}" >
+									                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									                		Chercher Joueurs
+									                	</a>
+											        	<a class="btn btn-default" href="{{path('team_recruit', {'gameId':game.id}) }}" >
+									                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									                		Chercher Equipe
+									                	</a>
+									                	{%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+									                		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+																{%if player.team is null
+																and player.capitain is null %}
+												                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
+												                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+												                    </a>
+															    {%endif%}
+															{%endfor%}
+														{%endif%}
+													{%else%}
+						                                <p>
+						                                	{{game.description}}
+						                                </p>
+									                {%endif%}
 					                                </p>
 					                            </div>
 					                            <div class="ratings">

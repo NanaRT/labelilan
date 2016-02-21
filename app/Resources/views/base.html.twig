@@ -36,6 +36,8 @@
     {% javascripts 'bundles/app/js/*'%}
 	    <script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
+	
+	{%block head%}{%endblock%}
 </head>
 
 <body>
@@ -90,7 +92,11 @@
 						{%if searchCategoryService.getTeams(app.user.id)%}
 				            <li class="dropdown">
 				            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-				            		Mon(mes) équipe(s) <span class="caret"></span>
+				            		Mon(mes) équipe(s)
+									<span class="badge">
+										{{searchCategoryService.getTeams(app.user.id)|length}}
+									</span>
+									<span class="caret"></span>
 				            	</a>
 				            	<ul class="dropdown-menu">
 								{% for team in searchCategoryService.getTeams(app.user.id) %}
@@ -133,7 +139,7 @@
 									{% for player in searchCategoryService.getPlayerMulti(app.user.id) %}
 										<li>
 											<a href="{{ path('team_recruit', { 'gameId': player.game.id}) }}">
-												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+												<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 												{{player.game.name}}
 											</a>
 										</li>

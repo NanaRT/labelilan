@@ -16,7 +16,7 @@ user_edit:
 user_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:User:delete" }
-    methods:  DELETE
+    methods:  GET
 
 user_recruit:
     path:     /recruit/{gameId}

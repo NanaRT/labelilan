@@ -70,37 +70,21 @@ class ApplicationListener
 	public function checkMultipleApplication(Application $application)
 	{
 		$team = $application->getTeam()->getId();
-		if($application->getUser())
-		{
-			$user = ' and p.user = '.($application->getUser()->getId());
-		}
-		else {
-			$user='';
-		}
-		
-		if($application->getRole())
-		{
-			$role = 'and p.role = '.($application->getRole()->getId());
-		}
-		else {
-			$role='';
-		}
+		$user = ' and p.user = '.($application->getUser()->getId());
 		
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    WHERE p.team = '.$team.$user.$role.
-		    'and p.origin=\'team\'
-		    and p.blocked is null'
+		    WHERE p.team = '.$team.$user.
+		    'and p.origin=\'team\''
 		);
 		$appTeams = $query->getResult();
 		
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p
-		    WHERE p.team = '.$team.$user.$role.
-		    'and p.origin=\'player\'
-		    and p.blocked is null'
+		    WHERE p.team = '.$team.$user.
+		    'and p.origin=\'player\''
 		);
 		$appPlayers = $query->getResult();
 		
@@ -111,25 +95,25 @@ class ApplicationListener
 				foreach($appPlayers as $appPlayer)
 				{
 					if(($appTeam->getTeam()==$appPlayer->getTeam())
-					&& ($appTeam->getUser()==$appPlayer->getUser())
-					&& ($appTeam->getRole()==$appPlayer->getRole()))
+					&& ($appTeam->getUser()==$appPlayer->getUser()))
 					{
-						$player = new Player();
-						$player->setTeam($appTeam->getTeam());
-						$player->setUser($appTeam->getUser());
-						if($appTeam->getRole())
-						{
-							$player->setRole($appTeam->getRole());
-						}
+						$user = $appTeam->getUser();
+						$team = $appTeam->getTeam();
+						$game = $team->getGame();
+						
+				        $query = $this->em->createQuery(
+						    'SELECT p
+						    FROM AppBundle:Player p
+						    WHERE p.user = '.$user->getId().
+						    'and p.game = '.$game->getId()
+						);
+						$players = $query->getResult();
+						$player = $players[0];
+						$player->setTeam($team);
+						
+						$this->em->remove($appTeam);
+						$this->em->remove($appPlayer);
 						$this->em->persist($player);
-						
-						$user = $player->getUser();
-						$user->setPlayer($player);
-						$user->setTeam($player->getTeam());
-						$user->setRole($player->getRole());
-						
-            			$this->container->get('fos_user.user_manager')->updateUser($user, false);
-						
 						$this->em->flush();
 						return;
 					}

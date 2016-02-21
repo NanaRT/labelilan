@@ -13,31 +13,36 @@ class LoadGameData implements FixtureInterface
 		static $list=array(
 			'League of Legends' => [
 				'systName'    => 'lol',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '16',
 				'nbplayers'    => '5',
 				],
 			'Counter Strike : Global Warfare'=> [
 				'systName'    => 'csgo',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '16',
 				'nbplayers'    => '5',
 				],
 			'Heroes Of The Storm'=> [
 				'systName'    => 'hots',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '16',
 				'nbplayers'    => '5',
 				],
 			'Awesomenauts '=> [
 				'systName'    => 'awesomenauts',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '16',
 				'nbplayers'    => '3',
 				],
 			'Rocket League'=> [
 				'systName'    => 'rl',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '16',
 				'nbplayers'    => '3',
 				],
@@ -49,12 +54,14 @@ class LoadGameData implements FixtureInterface
 				],
 			'Hearthstone'=> [
 				'systName'    => 'hearthstone',
-				'description' => '',
+				'description' => '
+				',
 				'places'      => '64',
 				],
 			'Super Smash Bros'=> [
 				'systName'    => 'smash',
-				'description' => '',
+				'description' => '
+				',
 				],
 			'Mario Smash Football'=> [
 				'systName'    => 'mariofoot',

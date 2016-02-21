@@ -11,18 +11,21 @@
 	            	<a class="btn btn-default" href="{{path('team_edit', {'id':team.id}) }}" >
 	            		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 	            	</a>
-	            	<a class="btn btn-default" href="{{path('team_delete', {'id':team.id}) }}" >
+	            	<a class="btn btn-danger" href="{{path('team_delete', {'id':team.id}) }}" >
 	            		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 	            	</a>
 				<br>
 				{%if (team.player|length)==5 or (team.player|length)==6%}
 					<div class="alert alert-info">
-					  <strong>Info</strong> Vous pouvez payer vos billets d'entrée sur votre profil.
-					  <a class="btn btn-default"  href="#">ICI</a>
-					  <br>
-					  Votre équipe ne sera validée que lorsque tous les paiements de l'équipe auront étés effectués.
-					  <br>
-					  Une fois votre équipe validée, vous devrez contacter les responsables des Label[i] Gaming Championship afin de procéder à des modifications.
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    <span aria-hidden="true">&times;</span>
+						</button>
+					    <strong>Info</strong> Vous pouvez payer vos billets d'entrée sur votre profil.
+					    <a class="btn btn-default"  href="#">ICI</a>
+					    <br>
+					    Votre équipe ne sera validée que lorsque tous les paiements de l'équipe auront étés effectués.
+					    <br>
+					    Une fois votre équipe validée, vous devrez contacter les responsables des Label[i] Gaming Championship afin de procéder à des modifications.
 					</div>
 				{%endif%}
 				<br>
@@ -90,7 +93,7 @@
 											</td>
 											{%if searchCategoryService.getCapitain(app.user.id,team.game.id,team.id)%}
 												<td>
-				                                	<a class="btn btn-default" href="{{path('player_delete', {'id':player.id}) }}" >
+				                                	<a class="btn btn-danger" href="{{path('player_delete', {'id':player.id}) }}" >
 				                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				                                	</a>
 												</td>
@@ -129,11 +132,11 @@
 											{%if searchCategoryService.getCapitain(app.user.id,team.game.id,team.id)%}
 												<td>
 													{%if (team.player|length)<=6%}
-					                                	<a class="btn btn-default" href="{{path('application_accept', {'id':application.id, 'origin':'team'}) }}" >
+					                                	<a class="btn btn-success" href="{{path('application_accept', {'id':application.id, 'origin':'team'}) }}" >
 					                                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					                                	</a>
 					                                {%endif%}
-				                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
+				                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
 				                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				                                	</a>
 												</td>
@@ -174,7 +177,7 @@
 				                                	</a>
 												</td>
 													<td>
-					                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
+					                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
 					                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 					                                	</a>
 												{%endif%}
