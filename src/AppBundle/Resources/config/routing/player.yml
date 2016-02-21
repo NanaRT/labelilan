@@ -24,6 +24,6 @@ player_delete:
     methods:  GET
 
 new_free_player:
-    path:     /{userId}/{gameId}/player
+    path:     /{userId}/{gameId}/player/{origin}
     defaults: { _controller: "AppBundle:Player:freePlayer" }
     methods:  [GET, POST]

@@ -22,3 +22,8 @@ application_delete:
     path:     /{id}/delete/{originId}/{origin}/
     defaults: { _controller: "AppBundle:Application:delete" }
     methods:  GET
+    
+application_accept:
+    path:     /{id}/accept/{origin}
+    defaults: {_controller: "AppBundle:Application:accept"}
+    methods:  GET

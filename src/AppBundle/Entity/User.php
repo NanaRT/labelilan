@@ -10,8 +10,12 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     protected $id;
+    private $nom;
+    private $prenom;
+    private $dateNaissance;
     private $player;
     private $application;
+    private $payed;
 	
     public function __construct()
     {
@@ -34,6 +38,42 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+	
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getNom()
+    {
+        return $this->nom;
+    }
+	
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+	
+    public function setDateNaissance($dateNaissance)
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getDateNaissance()
+    {
+        return $this->dateNaissance;
     }
  
     /**
@@ -79,4 +119,18 @@ class User extends BaseUser
     {
         $this->application->removeElement($application);
     }
+	
+	
+    public function setPayed($payed)
+    {
+        $this->payed = $payed;
+
+        return $this;
+    }
+
+    public function getPayed()
+    {
+        return $this->payed;
+    }
+	
 }

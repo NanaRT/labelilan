@@ -74,11 +74,8 @@ class GameController extends Controller
      */
     public function showAction(Game $game)
     {
-        $deleteForm = $this->createDeleteForm($game);
-
         return $this->render('AppBundle:game:show.html.twig', array(
             'game' => $game,
-            'delete_form' => $deleteForm->createView()
         ));
     }
 

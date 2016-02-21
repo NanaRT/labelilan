@@ -22,9 +22,18 @@ AppBundle\Entity\SocialMedia:
 
     manyToOne:
         organizer:
-            targetEntity: Organizer
-            cascade:                  [ remove, persist ]
+            targetEntity:             Organizer
+            cascade:                  [ persist ]
+            inversedBy:               socialMedia
             joinColumn:
                 name:                 organizer_id
+                referencedColumnName: id
+                onDelete:             CASCADE
+        partner:
+            targetEntity:             Partner
+            cascade:                  [ persist ]
+            inversedBy:               socialMedia
+            joinColumn:
+                name:                 partner_id
                 referencedColumnName: id
                 onDelete:             CASCADE

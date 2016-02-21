@@ -4,12 +4,16 @@ namespace AppBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use AppBundle\Form\ApplicationType;
+use AppBundle\Entity\Application;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class SearchCategory
 {
-	public function __construct(\Doctrine\ORM\EntityManager $em)
+	public function __construct(\Doctrine\ORM\EntityManager $em,ContainerInterface $container)
 	{
 	  $this->em = $em;
+        $this->container = $container;
 	}
 	
 	public function getSearchingCategory()
@@ -30,6 +34,33 @@ class SearchCategory
 		);
 		$organizers = $query->getResult();
 		return $organizers;
+	}
+	
+	public function getSearchingPartner()
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Partner p'
+		);
+		$partners = $query->getResult();
+		return $partners;
+	}
+	
+	public function getPlayerMulti($userId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    inner join AppBundle:Game g
+		    with g.id=p.game
+		    inner join AppBundle:Category c
+		    with c.id=g.category
+		    where p.user = '.$userId.
+		    ' and c.systName = \'multi\''
+		);
+		$players = $query->getResult();
+		
+		return $players;
 	}
 	
 	public function getCreatedPlayer($userId, $gameId)
@@ -276,6 +307,26 @@ class SearchCategory
 		    'SELECT a
 		    FROM AppBundle:Application a
 		    where a.user = '.$userId.
+		    ' and a.origin = \''.$origin.'\''
+		);
+		$applications = $query->getResult();
+		
+		if(empty($applications))
+		{
+			return ;
+		}
+		else
+		{
+			return $applications;
+		}
+	}
+	
+	public function checkApplicationTeamPlayers($teamId, $origin)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    where a.team = '.$teamId.
 		    ' and a.origin = \''.$origin.'\''
 		);
 		$applications = $query->getResult();

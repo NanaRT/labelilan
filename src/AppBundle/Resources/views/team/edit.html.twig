@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-		    <h1>Team edit</h1>
-			{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
-		
-		    {{ form_start(edit_form) }}
-		        {{ form_widget(edit_form) }}
-		        <input class="btn btn-default" type="submit" value="Edit" />
-		    {{ form_end(edit_form) }}
-
-            {{ form_start(delete_form) }}
-                <input class="btn btn-default" type="submit" value="Delete">
-            {{ form_end(delete_form) }}
+	{%if (is_granted("ROLE_USER"))%}
+	    <div class="container">
+	        <div class="row">
+			    <h1>Team edit</h1>
+				{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+			
+			    {{ form_start(edit_form) }}
+			        {{ form_widget(edit_form) }}
+			        <input class="btn btn-default" type="submit" value="Edit" />
+			    {{ form_end(edit_form) }}
+			</div>
 		</div>
-	</div>
+	{%endif%}
 {% endblock %}

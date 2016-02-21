@@ -22,3 +22,8 @@ user_recruit:
     path:     /recruit/{gameId}
     defaults: { _controller: "AppBundle:User:recruit" }
     methods:  GET
+
+user_validate:
+    path:     /validate/{id}/{status}
+    defaults: { _controller: "AppBundle:User:validate" }
+    methods:  GET

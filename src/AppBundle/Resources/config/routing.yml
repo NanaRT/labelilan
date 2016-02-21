@@ -29,11 +29,15 @@ app_application:
 app_team:
     resource: "@AppBundle/Resources/config/routing/team.yml"
     prefix:   /team
+    
+app_partner:
+    resource: "@AppBundle/Resources/config/routing/partner.yml"
+    prefix:   /partner
 
 labelilan:
     path:     /
     defaults: { _controller: AppBundle:Default:accueil }
-    
+
 informations:
     path:     /informations
     defaults: { _controller: AppBundle:Default:informations }

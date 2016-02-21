@@ -70,8 +70,10 @@ class TeamController extends Controller
 	        $query = $em->createQuery(
 			    'SELECT p
 			    FROM AppBundle:Application p
+			    inner join AppBundle:Team t
+			    with p.team=t.id
 			    where p.user='.$userId.
-			    ' and p.game='.$players[0]->getGame->getId()
+			    ' and t.game='.$players[0]->getGame()->getId()
 			);
 			$applications = $query->getResult();
 			
@@ -98,11 +100,8 @@ class TeamController extends Controller
      */
     public function showAction(Team $team)
     {
-        $deleteForm = $this->createDeleteForm($team);
-
         return $this->render('AppBundle:team:show.html.twig', array(
-            'team' => $team,
-            'delete_form' => $deleteForm->createView(),
+            'team' => $team
         ));
     }
 
@@ -112,7 +111,6 @@ class TeamController extends Controller
      */
     public function editAction(Request $request, Team $team)
     {
-        $deleteForm = $this->createDeleteForm($team);
         $editForm = $this->createForm('AppBundle\Form\TeamType', $team);
         $editForm->handleRequest($request);
 
@@ -121,13 +119,15 @@ class TeamController extends Controller
             $em->persist($team);
             $em->flush();
 
-            return $this->redirectToRoute('team_edit', array('id' => $team->getId()));
+            
+	        return $this->forward('AppBundle:Team:show', array(
+			        'id'  => $team->getId()
+			));
         }
 
-        return $this->render('AppBundle:team:edit.html.twig', array(
+		return $this->render('AppBundle:team:edit.html.twig', array(
             'team' => $team,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -137,32 +137,45 @@ class TeamController extends Controller
      */
     public function deleteAction(Request $request, Team $team)
     {
-        $form = $this->createDeleteForm($team);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+		
+		$gameId= $team->getGame()->getId();
+		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:Application u
+		    where u.team='.$team->getId()
+		);
+		$applications = $query->getResult();
+		
+		foreach($applications as $application)
+		{
+			$em->remove($application);
+		}
+		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:Player u
+		    where u.team='.$team->getId()
+		);
+		$players = $query->getResult();
+		
+		foreach($players as $player)
+		{
+			$player->setTeam(null);
+			if($player->getCapitain())
+			{
+				$player->setCapitain(null);
+			}
+			$em->persist($player);
+		}
+		
+        $em->remove($team);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($team);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('team_index');
-    }
-
-    /**
-     * Creates a form to delete a Team entity.
-     *
-     * @param Team $team The Team entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Team $team)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('team_delete', array('id' => $team->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        return $this->forward('AppBundle:Game:show', array(
+		        'id'  => $gameId
+		));
     }
 	
     public function recruitAction($gameId)
@@ -178,8 +191,17 @@ class TeamController extends Controller
 		);
 		$users = $query->getResult();
 		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:Team u
+		    where u.game='.$gameId.
+		    ' and u.validation is not null'
+		);
+		$validTeams = $query->getResult();
+		
         return $this->render('AppBundle:Team:search.html.twig', array(
             'teams' => $users,
+            'validTeams' => $validTeams,
             'game'  =>$game
         ));
     }

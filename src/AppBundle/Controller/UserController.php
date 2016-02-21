@@ -149,4 +149,23 @@ class UserController extends Controller
             'game'  =>$game
         ));
     }
+	
+    public function validateAction($id,$status)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+		if($status=='true')
+		{
+			$user->setPayed(true);
+		}
+		elseif($status=='false')
+		{
+			$user->setPayed(false);
+		}
+		$em->persist($user);
+		$em->flush();
+		
+        return $this->forward('AppBundle:User:index');
+    }
+	
 }

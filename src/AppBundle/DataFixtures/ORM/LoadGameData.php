@@ -50,7 +50,7 @@ class LoadGameData implements FixtureInterface
 			'Hearthstone'=> [
 				'systName'    => 'hearthstone',
 				'description' => '',
-				'places'      => '16',
+				'places'      => '64',
 				],
 			'Super Smash Bros'=> [
 				'systName'    => 'smash',

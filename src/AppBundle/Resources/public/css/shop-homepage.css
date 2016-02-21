@@ -22,7 +22,7 @@ body {
 }
 
 .caption {
-    height: 150px;
+    height: 170px;
     overflow: hidden;
 }
 
@@ -69,16 +69,31 @@ footer {
 }
 
 #footer {
-   position:fixed;
-    background-color:#000000;
+    background-color:#ffff;
     color:#fff;
     padding:20px 50px 20px 50px;
     text-align:right;
-   left:0;
-   bottom:0;
    width:100%;
-   height:3%
    color:#e3e3e3;
+	text-align: center;
+	height:auto;
+}
+
+#footer img
+{
+	max-height:100%;
+	max-width:100%;
+	margin-bottom:auto;
+}
+
+#footer p
+{
+	color:#6d6d6d;
+}
+
+#footer a
+{
+	color:#6d6d6d;
 }
 
 .container{
@@ -108,4 +123,9 @@ footer {
 	color:red;
     position: absolute;
     right: 20px;
+}
+
+#interesse
+{
+	color:black;
 }

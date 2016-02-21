@@ -5,9 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class SocialMediaType extends AbstractType
+class PartnerType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,16 +16,8 @@ class SocialMediaType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('link')
-            ->add('icon')
-            ->add('organizer',EntityType::class, [
-		    'class' => 'AppBundle:Organizer',
-		    'choice_label' => 'name',
-		    'required'     => false])
-            ->add('partner',EntityType::class, [
-		    'class' => 'AppBundle:Partner',
-		    'choice_label' => 'name',
-		    'required'     => false])
+            ->add('systName')
+            ->add('description')
         ;
     }
     
@@ -36,7 +27,7 @@ class SocialMediaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\SocialMedia'
+            'data_class' => 'AppBundle\Entity\Partner'
         ));
     }
 }

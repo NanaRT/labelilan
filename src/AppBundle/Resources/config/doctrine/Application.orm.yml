@@ -23,6 +23,7 @@ AppBundle\Entity\Application:
         team:
             targetEntity:             Team
             cascade:                  [ persist ]
+            inversedBy:               application
             joinColumn:
                 name:                 team_id
                 referencedColumnName: id
@@ -30,6 +31,7 @@ AppBundle\Entity\Application:
         user:
             targetEntity:             User
             cascade:                  [ persist ]
+            inversedBy:               application
             joinColumn:
                 name:                 user_id
                 referencedColumnName: id

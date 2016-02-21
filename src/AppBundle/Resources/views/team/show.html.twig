@@ -6,21 +6,50 @@
 			<div class="col-xs-1">
 			</div>
 			<div class="col-xs-10">
-				<h1> Equipe {{team.name}}</h1>
+				<h1> Equipe {{team.name}} [{{team.game.name}}]</h1>
+				<br>
+	            	<a class="btn btn-default" href="{{path('team_edit', {'id':team.id}) }}" >
+	            		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	            	</a>
+	            	<a class="btn btn-default" href="{{path('team_delete', {'id':team.id}) }}" >
+	            		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+	            	</a>
+				<br>
+				{%if (team.player|length)==5 or (team.player|length)==6%}
+					<div class="alert alert-info">
+					  <strong>Info</strong> Vous pouvez payer vos billets d'entrée sur votre profil.
+					  <a class="btn btn-default"  href="#">ICI</a>
+					  <br>
+					  Votre équipe ne sera validée que lorsque tous les paiements de l'équipe auront étés effectués.
+					  <br>
+					  Une fois votre équipe validée, vous devrez contacter les responsables des Label[i] Gaming Championship afin de procéder à des modifications.
+					</div>
+				{%endif%}
+				<br>
 				<br>
 				<div class="tabbable" id="tabs-268668">
 					<ul class="nav nav-tabs">
 						<li class="active">
 							<a href="#panel-1" data-toggle="tab">Composition Equipe</a>
 						</li>
-						{%if user.application 'player'%}
+						{%if searchCategoryService.checkApplicationTeamPlayers(team.id, 'player')%}
 							<li>
-								<a href="#panel-2" data-toggle="tab">Candidatures reçues</a>
+								<a href="#panel-2" data-toggle="tab">
+									Candidatures reçues
+									<span class="badge">
+										{{searchCategoryService.checkApplicationTeamPlayers(team.id, 'player')|length}}
+									</span>
+								</a>
 							</li>
 						{%endif%}
-						{%if searchCategoryService.checkApplication(app.user.id,team.game.id,'team')%}
+						{%if searchCategoryService.checkApplicationTeamPlayers(team.id,'team')%}
 							<li>
-								<a href="#panel-3" data-toggle="tab">Candidatures déposées</a>
+								<a href="#panel-3" data-toggle="tab">
+									Candidatures déposées
+									<span class="badge">
+										{{searchCategoryService.checkApplicationTeamPlayers(team.id, 'team')|length}}
+									</span>
+								</a>
 							</li>
 						{%endif%}
 					</ul>
@@ -89,7 +118,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{%for application in searchCategoryService.checkApplication(app.user.id,team.game.id,'player')%}
+									{%for application in searchCategoryService.checkApplicationTeamPlayers(team.id,'player')%}
 										<tr>
 											<td>
 												{{application.user.username}}
@@ -99,7 +128,11 @@
 											</td>
 											{%if searchCategoryService.getCapitain(app.user.id,team.game.id,team.id)%}
 												<td>
-														Accepter
+													{%if (team.player|length)<=6%}
+					                                	<a class="btn btn-default" href="{{path('application_accept', {'id':application.id, 'origin':'team'}) }}" >
+					                                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					                                	</a>
+					                                {%endif%}
 				                                	<a class="btn btn-default" href="{{path('application_delete', {'id':application.id,'originId':team.id, 'origin':'team'}) }}" >
 				                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				                                	</a>
@@ -128,7 +161,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{%for application in searchCategoryService.checkApplication(app.user.id,team.game.id,'team')%}
+									{%for application in searchCategoryService.checkApplicationTeamPlayers(team.id,'team')%}
 										<tr>
 											<td>
 												{{application.user.username}}

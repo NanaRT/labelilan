@@ -47,14 +47,16 @@ AppBundle\Entity\Game:
     manyToOne:
         category:
             targetEntity:             Category
-            cascade:                  [ remove, persist ]
+            cascade:                  [ persist ]
+            inversedBy:               game
             joinColumn:
                 name:                 category_id
                 referencedColumnName: id
                 onDelete:             CASCADE
         organizer:
             targetEntity:             Organizer
-            cascade:                  [ remove, persist ]
+            cascade:                  [ persist ]
+            inversedBy:               game
             joinColumn:
                 name:                 organizer_id
                 referencedColumnName: id

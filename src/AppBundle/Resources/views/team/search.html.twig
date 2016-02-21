@@ -4,34 +4,76 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-				<h1>Rechercher joueurs disponibles pour tournoi</h1>
-				<table class="table table-hover">
-					<tbody>
-			        	{%for team in teams%}
-			        		<tr>
-			        			<td>
-			        				{{team.name}}
-			        			</td>
-			        			<td align="right">
-		          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-    									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
-    									and player.team is null %} 
-					        				{%if searchCategoryService.checkApplicationTeam(app.user.id, team.id, 'player') == null%}
-							                	<a class="btn btn-default" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
-							                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
-							                    </a>
-							                {%else%}
-							                	<a class="btn btn-default disabled" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
-							                    	 Attente réponse
-							                    </a>
-							                {%endif%}
-					                	{%endif%}
-					                {%endfor%}
-			        			</td>
-			        		</tr>
-			        	{%endfor%}
-			        </tbody>
-				</table>
+            	{%if teams%}
+					<h1>Rechercher Equipes non Validées</h1>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Nom équipe</th>
+								<th align="right">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+				        	{%for team in teams%}
+				        		<tr>
+				        			<td>
+				        				{{team.name}}
+				        			</td>
+				        			<td align="right">
+										{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%} 
+			          						{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+				          						{%if player.team is null %} 
+							        				{%if searchCategoryService.checkApplicationTeam(app.user.id, team.id, 'player') == null%}
+									                	<a class="btn btn-default" target="_blank" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
+									                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Postuler
+									                    </a>
+									                {%else%}
+									                	<a class="btn btn-default disabled" href="{{path('application_new', {'user':app.user.id,'team':team.id,'origin':'player'}) }}" >
+									                    	 Attente réponse
+									                    </a>
+									                {%endif%}
+									            {%endif%}
+						                	{%endfor%}
+						                {%endif%}
+				        			</td>
+				        		</tr>
+				        	{%endfor%}
+				        </tbody>
+					</table>
+				{%else%}
+					Aucune équipe n'a été créée
+				{%endif%}
+				
+				<br><br>
+				
+				{%if validTeams%}
+					<h1>Rechercher Equipes non Validées</h1>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Nom équipe</th>
+								<th>Joueurs</th>
+							</tr>
+						</thead>
+						<tbody>
+				        	{%for validTeam in validTeams%}
+				        		<tr>
+				        			<td>
+				        				{{validTeam.name}}
+				        			</td>
+				        			{%for player in validTeam.player%}
+				        				<td>
+				        					{{player.pseudo}}
+				        				</td>
+				        			{%endfor%}
+				        		</tr>
+				        	{%endfor%}
+				        </tbody>
+					</table>
+				{%else%}
+					Aucune équipe n'est validée
+				{%endif%}
+				
 			</div>
         </div>
 	</div>

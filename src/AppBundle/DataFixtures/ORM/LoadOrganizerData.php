@@ -19,7 +19,9 @@ class LoadOrganizerData implements FixtureInterface
 			],
 			'La Guilde du Dé Libéré' => [
 				'GDD',
-				'La Guilde du Délibéré '
+				'Association étudiante bordelaise axée sur les jeux de rôle et de société, notre objectif est de promouvoir le jeu de rôle et de réflexion auprès des étudiants. Nous organisons des séances de jeu de rôle ainsi que des séances de jeux de société, au rythme de 2-3 soirs par semaine. Nous faisons régulièrement du Donjons et Dragons, Legends of the Five Rings et autres jeux de rôles créés par nos membres.En espérant vous voir parmi nous pour une partie !
+				
+				Contact: gddl@u-bordeaux.fr'
 			],
 			'Bordeaux Unites Gamers' => [
 				'BUG',

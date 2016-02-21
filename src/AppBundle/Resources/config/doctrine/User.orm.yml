@@ -6,6 +6,18 @@ AppBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        dateNaissance:
+            type: date
+        payed:
+            type: boolean
+            nullable: true
     
     oneToMany:
         player:

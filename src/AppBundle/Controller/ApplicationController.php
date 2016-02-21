@@ -139,7 +139,52 @@ class ApplicationController extends Controller
 			
 			return $this->forward('AppBundle:User:show', array(
 		        'user'  => $user
-		    ));;
+		    ));
 		}
     }
+	
+    public function acceptAction($id,$origin)
+    {
+		 $application = $this->getDoctrine()
+        ->getRepository('AppBundle:Application')
+        ->find($id);
+		
+		 $game = $this->getDoctrine()
+        ->getRepository('AppBundle:Game')
+        ->find($application->getTeam()->getGame()->getId());
+		
+		$team = $this->getDoctrine()
+        ->getRepository('AppBundle:Team')
+        ->find($application->getTeam()->getId());
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user='.$application->getUser()->getId().
+		    ' and p.game='.$game->getId()
+		);
+		$players = $query->getResult();
+		$player=$players[0];
+		
+		$player->setTeam($team);
+		$em->persist($player);
+        $em->remove($application);
+        $em->flush();
+		
+		if($origin=='team')
+		{
+			return $this->forward('AppBundle:Team:show', array(
+		        'team'  => $team
+		    ));;
+		}
+		elseif($origin =='player') 
+		{
+			 $user= $this->getUser();
+			
+			return $this->forward('AppBundle:User:show', array(
+		        'user'  => $user
+		    ));;
+		}
+	}
 }

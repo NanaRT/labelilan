@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <!-- Blog Post Content Column -->
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h1>{{game.name}}</h1>
                 <p class="lead">
                 	{{game.category.name}} organisé par <a href="{{ path('informations') }}#{{game.organizer.systName}}">{{game.organizer.name}}</a>
@@ -18,7 +18,7 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="well">
                     <div class="input-group">
 	                	<h4>
@@ -48,11 +48,11 @@
 							{% elseif game.category.systName == 'autre'
 							or game.category.systName == 'libre'%}
 								{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
-				                    <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
 				                    	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
 				                    </a>
 				                {%else%}
-				                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
 				                    	 Intéréssé
 				                    </a>
 				                {%endif%}
@@ -61,7 +61,8 @@
                     </div>
                 </div>
                 
-				{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+				{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
+				and game.category.systName=='multi'%}
 					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
 						{%if player.team is null
 						and player.capitain is null %}
@@ -162,12 +163,6 @@
             	{%endif%}
             </div>
     	</div>
-
-		{% if is_granted("ROLE_ADMIN") %}
-	        {{ form_start(delete_form) }}
-	            <input class="btn btn-default" type="submit" value="Delete">
-	        {{ form_end(delete_form) }}
-	    {%endif%}
     </div>
     
 {% endblock %}

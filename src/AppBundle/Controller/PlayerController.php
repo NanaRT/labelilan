@@ -131,7 +131,7 @@ class PlayerController extends Controller
 	    ));;
     }
 	
-	public function freePlayerAction($userId, $gameId)
+	public function freePlayerAction($userId, $gameId, $origin)
 	{
 		$player = new Player();
 		
@@ -145,11 +145,21 @@ class PlayerController extends Controller
         ->getRepository('AppBundle:Game')
         ->find($gameId);
 		
+		$systName=$game->getSystName();
+		
 		$player->setGame($game);
 		
         $em = $this->getDoctrine()->getManager();
         $em->persist($player);
         $em->flush();
-        return $this->redirectToRoute('labelilan');
+		
+		if($origin=='index')
+		{
+        	return $this->redirectToRoute('labelilan');
+		}
+		elseif ($origin=='show') 
+		{
+        	return $this->redirectToRoute('game_show', ['id'=>$game->getId()]);
+		}
 	}
 }

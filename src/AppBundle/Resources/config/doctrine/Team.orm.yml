@@ -28,7 +28,8 @@ AppBundle\Entity\Team:
     manyToOne:
         game:
             targetEntity:             Game
-            cascade:                  [ remove, persist ]
+            cascade:                  [ persist ]
+            inversedBy:               team
             joinColumn:
                 name:                 game_id
                 referencedColumnName: id

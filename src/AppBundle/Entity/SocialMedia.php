@@ -12,6 +12,7 @@ class SocialMedia
     private $link;
     private $icon;
 	private $organizer;
+	private $partner;
 
 
     /**
@@ -105,6 +106,17 @@ class SocialMedia
     public function getOrganizer()
     {
         return $this->organizer;
+    }
+	
+    public function setPartner($partner)
+    {
+        $this->partner = $partner;
+
+        return $this;
+    }
+    public function getPartner()
+    {
+        return $this->partner;
     }
 }
 
