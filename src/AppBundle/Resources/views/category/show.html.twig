@@ -1,32 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-		    <h1>Category</h1>
-		
-		    <table>
-		        <tbody>
-		            <tr>
-		                <th>Id</th>
-		                <td>{{ category.id }}</td>
-		            </tr>
-		            <tr>
-		                <th>Name</th>
-		                <td>{{ category.name }}</td>
-		            </tr>
-		            <tr>
-		                <th>Systname</th>
-		                <td>{{ category.systName }}</td>
-		            </tr>
-		        </tbody>
-		    </table>
-		
-            <a class="btn btn-default" href="{{ path('category_index') }}">Back to the list</a>
-            <a class="btn btn-default" href="{{ path('category_edit', { 'id': category.id }) }}">Edit</a>
-            {{ form_start(delete_form) }}
-                <input class="btn btn-default" type="submit" value="Delete">
-            {{ form_end(delete_form) }}
+	{%if (is_granted("ROLE_ADMIN"))%}
+	    <div class="container">
+	        <div class="row">
+			    <h1>Category</h1>
+			
+			    <table>
+			        <tbody>
+			            <tr>
+			                <th>Id</th>
+			                <td>{{ category.id }}</td>
+			            </tr>
+			            <tr>
+			                <th>Name</th>
+			                <td>{{ category.name }}</td>
+			            </tr>
+			            <tr>
+			                <th>Systname</th>
+			                <td>{{ category.systName }}</td>
+			            </tr>
+			        </tbody>
+			    </table>
+			
+	            <a class="btn btn-default" href="{{ path('category_index') }}">Back to the list</a>
+	            <a class="btn btn-default" href="{{ path('category_edit', { 'id': category.id }) }}">Edit</a>
+	            {{ form_start(delete_form) }}
+	                <input class="btn btn-default" type="submit" value="Delete">
+	            {{ form_end(delete_form) }}
+			</div>
 		</div>
-	</div>
+	{%endif%}
 {% endblock %}
