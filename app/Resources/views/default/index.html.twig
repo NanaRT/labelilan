@@ -47,6 +47,26 @@
 					                                </p>
 					                                <p>
 					                                	{{game.description}}
+					                                	{%if category.systName=='multi'%}
+										                	<a class="btn btn-default" href="{{path('user_recruit', {'gameId':game.id}) }}" >
+										                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+										                		Chercher Joueurs
+										                	</a>
+												        	<a class="btn btn-default" href="{{path('team_recruit', {'gameId':game.id}) }}" >
+										                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+										                		Chercher Equipe
+										                	</a>
+										                	{%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+										                		{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+																	{%if player.team is null
+																	and player.capitain is null %}
+													                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
+													                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+													                    </a>
+																    {%endif%}
+																{%endfor%}
+															{%endif%}
+										                {%endif%}
 					                                </p>
 					                            </div>
 					                            <div class="ratings">
@@ -66,11 +86,11 @@
 							      							{% elseif category.systName == 'autre'
 							      							or category.systName == 'libre'%}
 							      								{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
-									                                <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+									                                <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'index'}) }}" >
 									                                	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
 									                                </a>
 												                {%else%}
-												                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id}) }}" >
+												                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'index'}) }}" >
 												                    	 Intéréssé
 												                    </a>
 												                {%endif%}
@@ -79,12 +99,14 @@
 													</p>
 					                                <p>
 					                                	{%if category.systName == 'multi' %}
-					                                		Nb places équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
+					                                		Nb équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
 					                                	{% elseif category.systName == 'solo'
 					                                	and game.places%}
 					                                		Nb places : {{ searchCategoryService.getSoloPlaces(game.id) }}
 					                                	{% else%}
-							      							Nb intéressés : {{ searchCategoryService.getNumberPlayer(game.id) }}
+							      							<p id="interesse">
+							      								Nb intéressés : {{ searchCategoryService.getNumberPlayer(game.id) }}
+							      							</p>
 							                            {%endif%}        
 					                                </p>
 					                            </div>

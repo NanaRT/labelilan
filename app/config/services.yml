@@ -10,7 +10,7 @@ services:
 
     searchCategoryService:
         class: AppBundle\Services\SearchCategory
-        arguments: [ "@doctrine.orm.entity_manager" ]
+        arguments: [ "@doctrine.orm.entity_manager","@service_container"  ]
         
     app.registration_complet:
         class: AppBundle\Services\RegistrationConfirmListener
@@ -23,3 +23,15 @@ services:
     create_folder_filespath:
         class: AppBundle\Services\CreateFolderFilespath
         arguments: [  "@service_container" ]
+        
+    application_listener: #update order status if item status are same
+        class: AppBundle\Listener\ApplicationListener
+        arguments: [ "@service_container" ] # We use container directly in order to avoid a CircularReferenceException
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    app.form.registration:
+        class: AppBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }

@@ -98,11 +98,49 @@
 										<a href="{{ path('team_show', { 'id': team.id }) }}">
 											<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 											Equipe {{team.name}} [{{team.game.name}}]
+											<span class="badge">
+												{{searchCategoryService.checkApplicationTeamPlayers(team.id, 'player')|length}}
+											</span>
 										</a>
 									</li>
 						          {%endfor%}
 						        </ul>
 					          </li>
+					    {%else%}
+					    	{%if searchCategoryService.getPlayerMulti(app.user.id)%}
+					            <li class="dropdown">
+					            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					            		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					            		Créer Equipe <span class="caret"></span>
+					            	</a>
+					            	<ul class="dropdown-menu">
+									{% for player in searchCategoryService.getPlayerMulti(app.user.id) %}
+										<li>
+											<a href="{{ path('team_new', { 'user': player.user.id, 'game': player.game.id}) }}">
+												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+												{{player.game.name}}
+											</a>
+										</li>
+							          {%endfor%}
+							        </ul>
+						          </li>
+					            <li class="dropdown">
+					            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					            		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					            		Chercher Equipes <span class="caret"></span>
+					            	</a>
+					            	<ul class="dropdown-menu">
+									{% for player in searchCategoryService.getPlayerMulti(app.user.id) %}
+										<li>
+											<a href="{{ path('team_recruit', { 'gameId': player.game.id}) }}">
+												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+												{{player.game.name}}
+											</a>
+										</li>
+							          {%endfor%}
+							        </ul>
+						          </li>
+						      {%endif%}
 						{%endif%}
 			          <li>
 				          <a class="btn btn-inverse" href="{{ path('fos_user_security_logout') }}">
@@ -134,22 +172,40 @@
     {%block body%}
     {%endblock%}
     
+    <hr>
     <div id="footer">
-        <div class="row text-center">
+		<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
 			<div class="col-xs-4">
-			    <div class="col-xs-2">
-				  	<a href="https://www.facebook.com/events/1674457179493309/?ref_dashboard_filter=hosting&action_history=null" >
-			    		<i class="fa fa-facebook-official fa-2x"></i>
-			    	</a>
-			    </div>
 			</div>
-			<div class="col-xs-4">
-    			2016 Label[i] | All Right Reserved 
+			{%for partner in searchCategoryService.getSearchingPartner()%}
+				<div class="col-xs-1">
+					<img src="{{ asset('bundles/app/img/partner/'~partner.systName~'.jpg') }}" alt="{{partner.name}}">
+				</div>
+			{%endfor%}
+		</div>
+    </div>
+    <hr>
+    <div id="footer">
+		<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+			<div class="col-xs-3">
 			</div>
-			<div class="col-xs-4">
-    			Tous visuels de l'evenement : Léa DESTAILLAC
+			<div class="col-xs-1">
+			  	<a href="https://www.facebook.com/events/1674457179493309/?ref_dashboard_filter=hosting&action_history=null" >
+		    		<i class="fa fa-facebook-official fa-2x"></i>
+		    	</a>
 			</div>
-	    </div>
+			<div class="col-xs-2">
+				<p>Tous visuels de l'evenement : Léa DESTAILLAC</p>
+			</div>
+			<div class="col-xs-2">
+				<p>contact : <a HREF="lgc@labeli.org">lgc@labeli.org</a> </p>
+			</div>
+			<div class="col-xs-2">
+				<p>2016 Label[i] | All Right Reserved </p>
+			</div>
+			<div class="col-xs-2">
+			</div>
+		</div>
     </div>
 
 </body>
