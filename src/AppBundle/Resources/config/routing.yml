@@ -37,6 +37,8 @@ app_partner:
 labelilan:
     path:     /
     defaults: { _controller: AppBundle:Default:accueil }
+    requirements:
+        _method:  GET
 
 informations:
     path:     /informations
