@@ -199,7 +199,7 @@ class TeamController extends Controller
 		);
 		$validTeams = $query->getResult();
 		
-        return $this->render('AppBundle:Team:search.html.twig', array(
+        return $this->render('AppBundle:team:search.html.twig', array(
             'teams' => $users,
             'validTeams' => $validTeams,
             'game'  =>$game

@@ -38,6 +38,11 @@ body {
 	padding:5px;
 }
 
+#gameImg img
+{
+	width:100%;
+}
+
 .thumbnail img {
     display: block;
     margin-left: auto;

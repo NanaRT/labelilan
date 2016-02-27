@@ -43,3 +43,9 @@ labelilan:
 informations:
     path:     /informations
     defaults: { _controller: AppBundle:Default:informations }
+    
+
+dlreglement:
+    path:     /downloadReglementPdf
+    defaults: { _controller: AppBundle:Default:downloadReglementPdf }
+    

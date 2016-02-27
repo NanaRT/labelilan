@@ -184,10 +184,19 @@
 			<div class="col-xs-4">
 			</div>
 			{%for partner in searchCategoryService.getSearchingPartner()%}
-				<div class="col-xs-1">
-					<img src="{{ asset('bundles/app/img/partner/'~partner.systName~'.jpg') }}" alt="{{partner.name}}">
-				</div>
+				{%for socialMedia in partner.socialMedia%}
+					{%if socialMedia.icon=="globe"%}
+						<div class="col-xs-1">
+							<a href="{{socialMedia.link}}">
+								<img src="{{ asset('bundles/app/img/partner/'~partner.systName~'.jpg') }}" alt="{{partner.name}}">
+							</a>
+						</div>
+					{%endif%}
+				{%endfor%}
 			{%endfor%}
+			<div class="col-xs-1">
+				<img src="{{ asset('bundles/app/img/partner/fsdie.jpg') }}" alt="FSDIE">
+			</div>
 		</div>
     </div>
     <hr>
