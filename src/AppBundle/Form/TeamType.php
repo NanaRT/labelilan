@@ -15,7 +15,7 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name','text',['label'=>'Nom d\'équipe'])
         ;
     }
     
@@ -27,5 +27,12 @@ class TeamType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Team'
         ));
+    }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'team';
     }
 }

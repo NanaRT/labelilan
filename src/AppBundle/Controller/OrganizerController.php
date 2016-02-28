@@ -37,7 +37,7 @@ class OrganizerController extends Controller
     public function newAction(Request $request)
     {
         $organizer = new Organizer();
-        $form = $this->createForm('AppBundle\Form\OrganizerType', $organizer);
+        $form = $this->createForm(new OrganizerType(), $organizer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,7 +75,7 @@ class OrganizerController extends Controller
     public function editAction(Request $request, Organizer $organizer)
     {
         $deleteForm = $this->createDeleteForm($organizer);
-        $editForm = $this->createForm('AppBundle\Form\OrganizerType', $organizer);
+        $editForm = $this->createForm(new OrganizerType(), $organizer);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

@@ -50,7 +50,7 @@ class TeamController extends Controller
 		
 		$team->setGame($game);
 		
-        $form = $this->createForm('AppBundle\Form\TeamType', $team);
+        $form = $this->createForm(new TeamType(), $team);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,6 +90,7 @@ class TeamController extends Controller
 
         return $this->render('AppBundle:team:new.html.twig', array(
             'team' => $team,
+            'game' => $game,
             'form' => $form->createView(),
         ));
     }
@@ -111,7 +112,7 @@ class TeamController extends Controller
      */
     public function editAction(Request $request, Team $team)
     {
-        $editForm = $this->createForm('AppBundle\Form\TeamType', $team);
+        $editForm = $this->createForm(new TeamType(), $team);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

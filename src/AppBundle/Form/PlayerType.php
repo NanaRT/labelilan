@@ -29,4 +29,11 @@ class PlayerType extends AbstractType
             'data_class' => 'AppBundle\Entity\Player'
         ));
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'player';
+    }
 }

@@ -36,4 +36,11 @@ class CategoryType extends AbstractType
             'data_class' => 'AppBundle\Entity\Category'
         ));
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'category';
+    }
 }

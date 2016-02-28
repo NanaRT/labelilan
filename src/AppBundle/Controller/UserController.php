@@ -39,7 +39,7 @@ class UserController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
+        $form = $this->createForm(new UserType(), $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,7 +73,7 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-        $editForm = $this->createForm('AppBundle\Form\RegistrationType', $user);
+        $editForm = $this->createForm(new RegistrationType(), $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

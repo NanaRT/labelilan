@@ -44,4 +44,11 @@ class GameType extends AbstractType
             'data_class' => 'AppBundle\Entity\Game'
         ));
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'game';
+    }
 }

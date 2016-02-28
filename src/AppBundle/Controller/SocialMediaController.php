@@ -36,7 +36,7 @@ class SocialMediaController extends Controller
     public function newAction(Request $request)
     {
         $socialMedia = new SocialMedia();
-        $form = $this->createForm('AppBundle\Form\SocialMediaType', $socialMedia);
+        $form = $this->createForm(new SocialMediaType(), $socialMedia);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +72,7 @@ class SocialMediaController extends Controller
     public function editAction(Request $request, SocialMedia $socialMedia)
     {
         $deleteForm = $this->createDeleteForm($socialMedia);
-        $editForm = $this->createForm('AppBundle\Form\SocialMediaType', $socialMedia);
+        $editForm = $this->createForm(new SocialMediaType(), $socialMedia);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

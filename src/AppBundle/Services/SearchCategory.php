@@ -81,6 +81,17 @@ class SearchCategory
 		}
 	}
 	
+	public function getCreatePlayer($userId, $gameId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.user = '.$userId.
+		    ' and p.game = '.$gameId
+		);
+		$player = $query->getResult();
+	}
+	
 	public function getPlayerGame($userId, $gameId)
 	{
         $query = $this->em->createQuery(
@@ -354,6 +365,23 @@ class SearchCategory
 		
 		return $teams;
 	}
+
+	public function getAllApplicationTeams($userId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT a
+		    FROM AppBundle:Application a
+		    inner join AppBundle:Team t
+		    with a.team = t.id
+		    inner join AppBundle:Player p
+		    with t.id=p.team
+		    where p.user = '.$userId
+		);
+		$applications = $query->getResult();
+		
+		return $applications;
+	}
+	
 	
 	public function getCapitain($userId,$gameId,$teamId)
 	{

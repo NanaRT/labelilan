@@ -30,4 +30,11 @@ class PartnerType extends AbstractType
             'data_class' => 'AppBundle\Entity\Partner'
         ));
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'partner';
+    }
 }

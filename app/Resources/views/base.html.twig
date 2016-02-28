@@ -11,8 +11,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Bienvenu(e) sur la plateforme d'inscription pour les Label[i] Gaming Championship, se déroulant dans les batiments du CREMI, TALENCE, la nuit du 18 au 19 mars 2016.">
     <meta name="author" content="">
+    <meta property="og:image" content="{{ asset('bundles/app/img/baniere.jpg') }}" />
 
 	<link rel="icon" href="{{ asset('bundles/app/img/favicon.ico') }}"  type="image/x-icon"  />
     <title>{%block title%}Label[i] Gaming Championship{%endblock%}</title>
@@ -94,7 +95,7 @@
 				            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 				            		Mon(mes) équipe(s)
 									<span class="badge">
-										{{searchCategoryService.getTeams(app.user.id)|length}}
+										{{searchCategoryService.getAllApplicationTeams(app.user.id)|length}}
 									</span>
 									<span class="caret"></span>
 				            	</a>

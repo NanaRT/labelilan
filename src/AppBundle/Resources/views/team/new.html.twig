@@ -3,15 +3,22 @@
 {% block body %}
     <div class="container">
         <div class="row">
-		    <h1>Team creation</h1>
+    		<center><h1>Création d'équipe</h1></center>
+    		<hr>
+    		<br>
 		    {% form_theme form 'bootstrap_3_layout.html.twig' %}
 		
 		    {{ form_start(form) }}
 		        {{ form_widget(form) }}
-		        <input class="btn btn-default" type="submit" value="Create" />
+			        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Créer">
+				        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Créer
+			        </button>
 		    {{ form_end(form) }}
 		
-	        <a class="btn btn-default" href="{{ path('team_index') }}">Back to the list</a>
+			<br>
+			<center><img src="{{ asset('bundles/app/img/game/'~game.systName~'.jpg') }}" alt="{{game.name}}"></center>
+			<br>
 		</div>
 	</div>
 {% endblock %}

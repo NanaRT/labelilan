@@ -53,7 +53,7 @@ class ApplicationController extends Controller
 		$application->setTeam($team);
 		$application->setOrigin($origin);
 		
-        $form = $this->createForm('AppBundle\Form\ApplicationType', $application);
+        $form = $this->createForm(new ApplicationType(), $application);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,7 +90,7 @@ class ApplicationController extends Controller
      */
     public function editAction(Request $request, Application $application)
     {
-        $editForm = $this->createForm('AppBundle\Form\ApplicationType', $application);
+        $editForm = $this->createForm(new ApplicationType(), $application);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

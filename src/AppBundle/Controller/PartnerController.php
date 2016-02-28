@@ -36,7 +36,7 @@ class PartnerController extends Controller
     public function newAction(Request $request)
     {
         $partner = new Partner();
-        $form = $this->createForm('AppBundle\Form\PartnerType', $partner);
+        $form = $this->createForm(new PartnerType(), $partner);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,7 +74,7 @@ class PartnerController extends Controller
     public function editAction(Request $request, Partner $partner)
     {
         $deleteForm = $this->createDeleteForm($partner);
-        $editForm = $this->createForm('AppBundle\Form\PartnerType', $partner);
+        $editForm = $this->createForm(new PartnerType(), $partner);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

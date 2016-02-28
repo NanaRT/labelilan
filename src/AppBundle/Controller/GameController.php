@@ -51,7 +51,7 @@ class GameController extends Controller
     public function newAction(Request $request)
     {
         $game = new Game();
-        $form = $this->createForm('AppBundle\Form\GameType', $game);
+        $form = $this->createForm(new GameType(), $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +86,7 @@ class GameController extends Controller
     public function editAction(Request $request, Game $game)
     {
         $deleteForm = $this->createDeleteForm($game);
-        $editForm = $this->createForm('AppBundle\Form\GameType', $game);
+        $editForm = $this->createForm(new GameType(), $game);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

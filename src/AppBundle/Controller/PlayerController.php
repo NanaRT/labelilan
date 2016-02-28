@@ -52,7 +52,7 @@ class PlayerController extends Controller
 		
 		$player->setGame($game);
 		
-        $form = $this->createForm(PlayerType::class, $player);
+        $form = $this->createForm(new PlayerType(), $player);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +69,8 @@ class PlayerController extends Controller
 
         return $this->render('AppBundle:player:new.html.twig', array(
             'player' => $player,
-            'form' => $form->createView(),
+            'game'   => $game,
+            'form'   => $form->createView(),
         ));
     }
 
@@ -93,8 +94,7 @@ class PlayerController extends Controller
      */
     public function editAction(Request $request, Player $player)
     {
-        $deleteForm = $this->createDeleteForm($player);
-        $editForm = $this->createForm('AppBundle\Form\PlayerType', $player);
+        $editForm = $this->createForm(new PlayerType(), $player);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -102,13 +102,12 @@ class PlayerController extends Controller
             $em->persist($player);
             $em->flush();
 
-            return $this->redirectToRoute('player_edit', array('id' => $player->getId()));
+            return $this->redirectToRoute('user_show', array('id' => $player->getUser()->getId()));
         }
 
         return $this->render('AppBundle:player:edit.html.twig', array(
             'player' => $player,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form' => $editForm->createView()
         ));
     }
 

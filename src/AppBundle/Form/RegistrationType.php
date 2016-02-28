@@ -12,7 +12,7 @@ class RegistrationType extends AbstractType
         $builder
         	->add('nom')
         	->add('prenom')
-        	->add('dateNaissance',DateType::class,[
+        	->add('dateNaissance','date',[
         		'years' => range(1960,2006)
         	])
 			;
@@ -20,7 +20,7 @@ class RegistrationType extends AbstractType
 
     public function getParent()
     {
-        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+        return 'fos_user_registration';
     }
 
     public function getBlockPrefix()

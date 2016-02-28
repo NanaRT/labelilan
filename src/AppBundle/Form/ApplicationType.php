@@ -16,7 +16,7 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextType::class, [
+            ->add('description', 'text', [
 				'label'=>'Laissez un message'])
         ;
     }
@@ -29,5 +29,12 @@ class ApplicationType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Application'
         ));
+    }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'application';
     }
 }

@@ -39,4 +39,11 @@ class SocialMediaType extends AbstractType
             'data_class' => 'AppBundle\Entity\SocialMedia'
         ));
     }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'socialMedia';
+    }
 }

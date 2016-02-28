@@ -92,5 +92,5 @@ fos_user:
     user_class: AppBundle\Entity\User
     registration:
         form:
-            type: AppBundle\Form\RegistrationType
+            type: app_user_registration
             

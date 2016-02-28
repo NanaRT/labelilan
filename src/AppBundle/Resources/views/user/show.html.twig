@@ -180,7 +180,7 @@
 						
 							<div class="thumbnail">
 		                    	<div id="gameImg">
-		                        	<img src="{{ asset('bundles/app/img/game/'~player.game.systName~'.png') }}" alt="{{player.game.name}}">
+		                        	<img src="{{ asset('bundles/app/img/game/'~player.game.systName~'.jpg') }}" alt="{{player.game.name}}">
 		                        </div>
 		                        <div class="caption">
 		                            <h4>
@@ -194,6 +194,15 @@
 		                            		{{player.game.organizer.name}}
 		                            	</a>
 		                            </p>
+	                            	{%if player.game.category.systName=='multi' 
+	                            	or player.game.category.systName=='solo'  %}
+			                            <p>
+		                            		<h4>Pseudo : {{player.pseudo}}</h4> 
+								        	<a class="btn btn-default" href="{{path('player_edit', {'id':player.id}) }}">
+								        		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+											</a>
+			                            </p>
+	                            	{%endif%}
 		                            <p>
 		                            	{{player.game.description}}
 		                            </p>
