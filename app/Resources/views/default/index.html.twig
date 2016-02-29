@@ -14,21 +14,36 @@
 	            <div class="col-md-3">
 	                <p class="lead">Label[i] Gaming Championship</p>
 	                <div class="list-group">
-						{%for category in searchCategoryService.getSearchingCategory()%}
+						{%for category in categories%}
 		                    <a href="#{{category.systName}}" class="list-group-item">{{category.name}}</a>
 		                {%endfor%}
 	                </div>
 	            </div>
             
 	            <div class="col-md-9">
-					{%for category in searchCategoryService.getSearchingCategory()%}
+					<div class="alert alert-danger" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    <span aria-hidden="true">&times;</span>
+						</button>
+					    <strong>Attention</strong> 
+						Si un tournoi n'a pas suffisement d'inscrits le jour de l'événement, ce dernier sera annulé.
+					</div>
+		            <p>
+			            Le Label[i] Gaming Championship est une LAN prenant place dans les locaux du CREMI à l’Université de Bordeaux à Talence durant la nuit du 18 au 19 mars 2016 de 18h à 8h du matin.
+		            </p>
+		            <p>
+						Des tournois multijoueurs seront présents (League of Legends, Counter Strike) ainsi que des tournois solo (Hearthstone, Mario Kart, Smash Bros…). Les joueurs auront également tout au long de la nuit la possibilité de participer à des jeux libres (Rock Band, Guitar Hero) avec également une salle ayant à disposition des jeux de sociétés ainsi que des initiations au jeux de role.
+		            </p>
+		            <p>
+		            	Il sera d'ailleurs également possible de prêter du matériel pour les tournois (pc, écran, souris et clavier) !
+					</p>
+					{%for category in categories%}
 	                	<div class="row">
 							<section id="{{category.systName}}">
 								<div class="col-sm-12 col-lg-12 col-md-12">
 									<h1>{{category.name}}</h1>
-									
 									{%for game in category.game%}
-					                    <div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
+					                    <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12">
 					                        <div class="thumbnail">
 					                            <a href="{{path('game_show', {'id':game.id}) }}" >
 						                        	<div id="gameImg">

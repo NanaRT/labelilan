@@ -24,14 +24,7 @@
 	                	<h4>
 	                		Places
 	                	</h4>
-	                	{%if game.category.systName == 'multi' %}
-	                		Nb places équipes restantes : {{ searchCategoryService.getMultiPlaces(game.id) }}
-	                	{% elseif game.category.systName == 'solo'
-	                	and game.places%}
-	                		Nb places restantes : {{ searchCategoryService.getSoloPlaces(game.id) }}
-	                	{% else%}
-							Nb personnes intéressées : {{ searchCategoryService.getNumberPlayer(game.id) }}
-	                    {%endif%} 
+	                	{{leftPlaces}}
 	                    <br>
 	                    {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
 	                    	{% if  (game.category.systName == 'multi' or game.category.systName == 'solo')%}
@@ -61,22 +54,20 @@
                     </div>
                 </div>
                 
-				{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))
-				and game.category.systName=='multi'%}
-					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-						{%if player.team is null
-						and player.capitain is null %}
-			                <div class="well">  
-			                	<h4>Créer team</h4>
-			                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
-			                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer une équipe
-			                    </a>
-					        </div>
-					    {%endif%}
-					{%endfor%}
-				{%endif%}
-
             	{% if (game.category.systName == 'multi')   %}
+	            	{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+						{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+							{%if player.team is null
+							and player.capitain is null %}
+				                <div class="well">  
+				                	<h4>Créer team</h4>
+				                	<a class="btn btn-default" href="{{path('team_new', {'user':app.user.id, 'game':game.id}) }}" >
+				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Créer une équipe
+				                    </a>
+						        </div>
+						    {%endif%}
+						{%endfor%}
+					{%endif%}
 	                <div class="well">  
 	                	<a href="{{path('user_recruit', {'gameId':game.id}) }}" >
 	                		<h4>
@@ -86,8 +77,8 @@
 	                	</a>
 	                	<table class="table table-hover">
 	                		<tbody>
-	                			{%if searchCategoryService.searchSoloPlayers(game.id)%}
-				                	{%for soloPlayers in searchCategoryService.searchSoloPlayers(game.id)%}
+	                			{%if randArray%}
+				                	{%for soloPlayers in randArray%}
 				                		<tr id="searchTr">
 				                			<td>
 				                				{{soloPlayers.pseudo}}
@@ -119,9 +110,6 @@
 			                </tbody>
 	                	</table>
 	                </div>
-            	{%endif%}
-            	
-            	{% if  (game.category.systName == 'multi')   %}
 	                <div class="well">  
 	                	<a href="{{path('team_recruit', {'gameId':game.id}) }}" >
 	                		<h4>
@@ -131,7 +119,7 @@
 	                	</a>
 	                	<table class="table table-hover">
 	                		<tbody>
-	                			{%if searchCategoryService.searchSoloPlayers(game.id)%}
+	                			{%if randArray%}
 				                	{%for notValidTeam in searchCategoryService.searchNotValidTeam(game.id)%}
 				                		<tr id="searchTr">
 				                			<td>

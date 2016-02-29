@@ -405,4 +405,15 @@ class SearchCategory
 			return 1;
 		}
 	}
+	
+	public function getPlayersInTeam($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.team = '.$teamId
+		);
+		$players = $query->getResult();
+		return count($players);
+	}
 }

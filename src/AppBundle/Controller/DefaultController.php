@@ -11,12 +11,22 @@ class DefaultController extends Controller
 {
     public function accueilAction()
     {
-        return $this->render('::default/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
+        return $this->render('::default/index.html.twig', array(
+            'categories' => $categories
+        ));
     }
 	
     public function informationsAction()
     {
-        return $this->render('::default/informations.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $partners = $em->getRepository('AppBundle:Partner')->findAll();
+        $organizers = $em->getRepository('AppBundle:Organizer')->findAll();
+        return $this->render('::default/informations.html.twig', array(
+            'partners' => $partners,
+            'organizers' => $organizers
+        ));
     }
 	
 	public function downloadReglementPdfAction()

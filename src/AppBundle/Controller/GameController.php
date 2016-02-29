@@ -74,8 +74,82 @@ class GameController extends Controller
      */
     public function showAction(Game $game)
     {
+        $em = $this->getDoctrine()->getManager();
+		
+    	$systName = $game->getSystName();
+		$places = $game->getPlaces();
+    	if($systName=='multi')
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    where p.game = '.$game->getId().'
+			     and p.validation is not null'
+			);
+			$placesTaken = $query->getResult();
+			$countPlaces = $places-count($placesTaken);
+			
+			$leftPlaces = 'Nb places équipes restantes : '.$countPlaces;
+		}
+		elseif($systName=="solo" && $places)
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    where p.game = '.$game->getId()
+			);
+			$placesTaken = $query->getResult();
+			$countPlaces = $places-count($placesTaken);
+			
+			$leftPlaces='Nb places restantes : '.$countPlaces;
+		}
+		else 
+		{
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    where p.game = '.$game->getId()
+			);
+			$interest = $query->getResult();
+			$leftPlaces='Nb personnes intéressées : '.count($interest);
+		}
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.game = '.$game->getId().'
+		     and p.team is null'
+		);
+		$soloPlayers = $query->getResult();
+		$randArray=array();
+		$keys=array();
+		$randArray=array();
+		
+		if(empty($soloPlayers))
+		{
+		}
+		elseif(count($soloPlayers)<=4)
+		{
+			$randArray= $soloPlayers;
+		}
+		else {
+			for($i=0;$i<5;$i++)
+			{
+				$key = rand(0,count($soloPlayers)-1);
+				while(in_array($key, $keys))
+				{
+					$key = rand(0,count($soloPlayers)-1);
+				}
+				$keys[$i]=$key;
+				$randArray[$i]=$soloPlayers[$key];
+			}
+		}
+		
+		
         return $this->render('AppBundle:game:show.html.twig', array(
-            'game' => $game,
+            'game'       => $game,
+            'leftPlaces' => $leftPlaces,
+            'randArray'  => $randArray
         ));
     }
 

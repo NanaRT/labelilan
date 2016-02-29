@@ -31,7 +31,7 @@
 								</div>
 								<div id="panel-element-2" class="panel-collapse collapse">
 									<div class="panel-body">
-										{%for partner in searchCategoryService.getSearchingPartner()%}
+										{%for partner in partners%}
 											<a href="#{{partner.systName}}" class="list-group-item">{{partner.name}}</a>
 										{%endfor%}
 									</div>
@@ -45,7 +45,7 @@
 								</div>
 								<div id="panel-element-3" class="panel-collapse collapse">
 									<div class="panel-body">
-										{%for organizer in searchCategoryService.getSearchingOrganizer()%}
+										{%for organizer in organizers%}
 											<a href="#{{organizer.systName}}" class="list-group-item">{{organizer.name}}</a>
 										{%endfor%}
 									</div>
@@ -64,6 +64,24 @@
 	                	<hr>
 	                	<h1>Informations pratiques</h1>
 	                	<hr>
+	                	<br>
+							<div class="alert alert-danger" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								</button>
+							    <strong>Attention</strong> 
+								Si un tournoi n'a pas suffisement d'inscrits le jour de l'événement, ce dernier sera annulé.
+							</div>
+				            <p>
+					            Le Label[i] Gaming Championship est une LAN prenant place dans les locaux du CREMI à l’Université de Bordeaux à Talence durant la nuit du 18 au 19 mars 2016 de 18h à 8h du matin.
+				            </p>
+				            <p>
+								Des tournois multijoueurs seront présents (League of Legends, Counter Strike) ainsi que des tournois solo (Hearthstone, Mario Kart, Smash Bros…). Les joueurs auront également tout au long de la nuit la possibilité de participer à des jeux libres (Rock Band, Guitar Hero) avec également une salle ayant à disposition des jeux de sociétés ainsi que des initiations au jeux de role.
+				            </p>
+				            <p>
+				            	Il sera d'ailleurs également possible de prêter du matériel pour les tournois (pc, écran, souris et clavier) !
+							</p>
+	                	<br>
 	                	<br>
                 		<section id="tarif">
 							<h3>Récompenses</h3>
@@ -170,7 +188,7 @@
 	                	<h1>Les Partenaires de l'événement</h1>
 	                	<hr>
 	                	<br>
-						{%for partner in searchCategoryService.getSearchingPartner()%}
+						{%for partner in partners%}
                 			<div class="row">
 								<section id="{{partner.systName}}">
 									<div class="thumbnail">
@@ -209,7 +227,7 @@
 	                	<h1>Les Associations</h1>
 	                	<hr>
 	                	<br>
-						{%for organizer in searchCategoryService.getSearchingOrganizer()%}
+						{%for organizer in organizers%}
                 			<div class="row">
 								<section id="{{organizer.systName}}">
 									<div class="thumbnail">
