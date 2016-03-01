@@ -84,23 +84,25 @@
 				                				{{soloPlayers.pseudo}}
 				                			</td>
         									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
-        										{%for player in searchCategoryService.getCreatePlayer(app.user.id,game.id)%}
-		        									{%if player.team
-													and player.team.validation is null
-													and player.team.capitain %} 
-							                			<td align="right">
-							                				{%if searchCategoryService.checkApplication(app.user.id,game.id,'team', soloPlayers.user.id) == null%}
-											                	<a id="recruitPlayer" class="btn btn-default" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
+					          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+			    									{% if player.team 
+													and player.team.validation is null 
+													and player.capitain %} 
+								        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', soloPlayers.id) == null%}
+								        					<td>
+											                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, soloPlayers.id,game.id,'team')) }}" >
 											                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 											                    </a>
-											                {%else%}
-											                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.user.id,game.id,'team')) }}" >
+											                </td>
+										                {%else%}
+											                <td>
+											                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,soloPlayers.id,game.id,'team')) }}" >
 											                    	 Attente réponse
 											                    </a>
-											                {%endif%}
-							                			</td>
-							                		{%endif%}
-							                	{%endfor%}
+										                    </td>
+										                {%endif%}
+								                	{%endif%}
+								                {%endfor%}
 					                		{%endif%}
 				                		</tr>
 				                	{%endfor%}
@@ -126,20 +128,22 @@
 				                				{{notValidTeam.name}}
 				                			</td>
         									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%} 
-        										{%for player in searchCategoryService.getCreatePlayer(app.user.id,game.id)%}
-		        									{%if player.team is null%}
-							                			<td align="right">
-							                				{%if searchCategoryService.checkApplicationTeam(app.user.id, notValidTeam.id, 'player') == null%}
-											                	<a id="recruitPlayer" class="btn btn-default" href="{{path('application_new', {'user':app.user.id,'team':notValidTeam.id,'origin':'player'}) }}" >
+				          						{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+					          						{%if player.team is null %} 
+								        				{%if searchCategoryService.checkApplicationTeam(app.user.id, notValidTeam.id, 'player') == null%}
+								        					<td>
+											                	<a class="btn btn-default" target="_blank" href="{{path('application_new', {'user':app.user.id,'team':notValidTeam.id,'origin':'player'}) }}" >
 											                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Postuler
 											                    </a>
-											                {%else%}
+											                </td>
+										                {%else%}
+										                	<td>
 											                	<a class="btn btn-default disabled" href="{{path('application_new', {'user':app.user.id,'team':notValidTeam.id,'origin':'player'}) }}" >
 											                    	 Attente réponse
 											                    </a>
-											                {%endif%}
-							                			</td>
-							                		{%endif%}
+											                </td>
+										                {%endif%}
+										            {%endif%}
 							                	{%endfor%}
 					                		{%endif%}
 				                		</tr>

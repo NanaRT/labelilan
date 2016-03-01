@@ -76,8 +76,9 @@ class GameController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 		
-    	$systName = $game->getSystName();
+    	$systName = $game->getCategory()->getSystName();
 		$places = $game->getPlaces();
+		
     	if($systName=='multi')
 		{
 	        $query = $em->createQuery(
