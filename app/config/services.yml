@@ -26,7 +26,7 @@ services:
         
     application_listener: #update order status if item status are same
         class: AppBundle\Listener\ApplicationListener
-        arguments: [ "@service_container" ] # We use container directly in order to avoid a CircularReferenceException
+        arguments: [ "@service_container","@router" ] # We use container directly in order to avoid a CircularReferenceException
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }

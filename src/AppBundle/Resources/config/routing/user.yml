@@ -27,3 +27,18 @@ user_validate:
     path:     /validate/{id}/{status}
     defaults: { _controller: "AppBundle:User:validate" }
     methods:  GET
+    
+user_payed:
+    path:     /payed/{id}/
+    defaults: { _controller: "AppBundle:User:payedUser" }
+    methods:  GET
+
+user_confirm:
+    path:     /confirm/{id}/
+    defaults: { _controller: "AppBundle:User:confirmationUser" }
+    methods:  GET
+
+user_mail_payed:
+    path:     /mailPayed/{id}/
+    defaults: { _controller: "AppBundle:User:mailPayedUser" }
+    methods:  GET

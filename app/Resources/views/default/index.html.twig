@@ -3,10 +3,10 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-xs-12 col-lg-12">
 
                 <div class="row carousel-holder">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-xs-12 col-lg-12">
                         <img width="100%" src="{{ asset('bundles/app/img/baniere.jpg') }}" />
                     </div>
                 </div>
@@ -18,9 +18,49 @@
 		                    <a href="#{{category.systName}}" class="list-group-item">{{category.name}}</a>
 		                {%endfor%}
 	                </div>
+	                <a class="twitter-timeline" href="https://twitter.com/LGC_Labeli" data-widget-id="704762929283993600">Tweets de @LGC_Labeli</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 	            </div>
             
 	            <div class="col-md-9">
+	            	<center><h1>Les étapes de l'inscription</h1></center>
+	            	<br><br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="service-item">
+								<a href='{{ path('fos_user_registration_register') }}'>
+									<div class="icon">
+										<i class="fa fa-plus"></i>
+									</div>
+								</a>
+								<h3>1 - S'inscrire sur la plateforme</h3>
+								<p>Inscrivez pour sur le site (mail, nom, prénom, date de naissance). Ces informations seront utilisées afin de valider votre paiement en ligne ainsi que valider votre entrée lors de l'événement. </p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="service-item">
+								<a href='{{ path('labelilan') }}'>
+									<div class="icon">
+										<i class="fa fa-laptop"></i>
+									</div>
+								</a>
+								<h3>2 - Participer à des tournois</h3>
+								<p>Cliquez sur le bouton "S'inscrire" pour les tournois et renseignez votre pseudo ou cliquez sur le bouton "Intéressé" pour les jeux libres.</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="service-item">
+								<a href='{{ path('labelilan') }}'>
+									<div class="icon">
+										<i class="fa fa-search"></i>
+									</div>
+								</a>
+								<h3>3 - Rechercher Joueurs/équipe</h3>
+								<p>Afin de recruter des joueurs si vous avez créé une équipe ou de postuler pour une équipe, rendez vous sur la page consacrée au tournoi et cliquez sur les boutons "Recruter"/"Postuler" en laissant un message pour le joueur/chef d'équipe.</p>
+							</div>
+						</div>
+					</div>
+					<br><br>
 					<div class="alert alert-danger" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						    <span aria-hidden="true">&times;</span>
@@ -36,6 +76,9 @@
 		            </p>
 		            <p>
 		            	Il sera d'ailleurs également possible de prêter du matériel pour les tournois (pc, écran, souris et clavier) !
+					</p>
+					<p>
+						LIMITE à 250 PERSONNES
 					</p>
 					<p>
 						Pour nous contacter : <a HREF="mailto:lgc@labeli.org">lgc@labeli.org</a> 

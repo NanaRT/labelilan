@@ -25,10 +25,27 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:User u
+		    order by u.id desc'
+		);
+		$users = $query->getResult();
+		
+		$payed=array();
+		$i=0;
+		foreach($users as $user)
+		{
+			if($user->getPayed())
+			{
+				$payed[$i]=$user;
+				$i++;
+			}
+		}
 
         return $this->render('AppBundle:user:index.html.twig', array(
-            'users' => $users,
+            'users'     => $users,
+            'userPayed' => $payed
         ));
     }
 
@@ -134,18 +151,25 @@ class UserController extends Controller
         $game = $em->getRepository('AppBundle:Game')->find($gameId);
 		
         $query = $em->createQuery(
-		    'SELECT u
-		    FROM AppBundle:User u
-		    inner join AppBundle:Player p
-		    with u.id=p.user
+		    'SELECT p
+		    FROM AppBundle:Player p
 		    where p.game='.$gameId.
 		    ' and p.team is null'
 		);
-		$users = $query->getResult();
+		$players = $query->getResult();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.game='.$gameId.
+		    ' and p.team is not null'
+		);
+		$teamPlayers = $query->getResult();		
 		
         return $this->render('AppBundle:user:search.html.twig', array(
-            'users' => $users,
-            'game'  =>$game
+        	'teamPlayers' => $teamPlayers,
+            'players'     => $players,
+            'game'        =>$game
         ));
     }
 	
@@ -166,5 +190,69 @@ class UserController extends Controller
 		
         return $this->forward('AppBundle:User:index');
     }
+
+	public function payedUserAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+	    $user->setPayed(1);
+		$em->persist($user);
+		$em->flush();
+		
+		return $this->redirectToRoute('user_index');
+	}
+
+	public function confirmationUserAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+		$mailUser = $user->getEmail();
+		
+		$message = \Swift_Message::newInstance()
+	        ->setSubject('Confirmation paiement LGC')
+	        ->setFrom('lgc@labeli.org')
+	        ->setTo($mailUser)
+	        ->setBody(
+	            $this->render(
+	                '::email/confirmation.html.twig'
+	            ),
+	            'text/html'
+	        )
+	    ;
+	    $this->get('mailer')->send($message);
+	    
+	    $user->setConfirmation(1);
+		$em->persist($user);
+		$em->flush();
+		
+		return $this->redirectToRoute('user_index');
+	}
+
+	public function mailPayedUserAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+		
+		$mailUser = $user->getEmail();
+		
+		$message = \Swift_Message::newInstance()
+	        ->setSubject('Confirmation paiement LGC')
+	        ->setFrom('lgc@labeli.org')
+	        ->setTo($mailUser)
+	        ->setBody(
+	            $this->render(
+	                '::email/mailPayed.html.twig'
+	            ),
+	            'text/html'
+	        )
+	    ;
+	    $this->get('mailer')->send($message);
+		
+	    $user->setMailPayed(1);
+		$em->persist($user);
+		$em->flush();
+		
+		return $this->redirectToRoute('user_index');
+	}
 	
 }

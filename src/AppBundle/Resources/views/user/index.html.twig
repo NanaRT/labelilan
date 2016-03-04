@@ -1,38 +1,69 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	{%if (is_granted("ROLE_USER"))%}
+	{%if (is_granted("ROLE_ADMIN"))%}
 	    <div class="container">
 	        <div class="row">
-			    <h1>User list</h1>
+			    <h1>
+			    	User list
+			    	<span class="badge">
+			    		{{users|length}}
+			    	</span>
+			    </h1>
+			    <h3>
+			    	Payed
+			    	<span class="badge">
+			    		{{userPayed|length}}
+			    	</span>
+			    </h3>
 			
 			    <table class="table table-hover">
 			        <thead>
 			            <tr>
-			                <th>Id</th>
-			                <th>Delete</th>
-			                <th>Validate</th>
+			                <th>Nom</th>
+			                <th>Prénom</th>
+			                <th>Mail</th>
+			                <th>Confirm</th>
+			                <th>Payed</th>
+			                <th>MailPayed</th>
+			                <th>Alert</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        {% for user in users %}
 			            <tr>
-			                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
 			                <td>
-			                	<a class="btn btn-default"  href="{{ path('user_edit', { 'id': user.id }) }}">
-			                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-			                	</a>
+			                	{{ user.nom }}
 			                </td>
 			                <td>
-			                	{%if user.payed==0%}
-				                	<a class="btn btn-default"  href="{{ path('user_validate', { 'id': user.id,'status':'true' }) }}">
-				                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			                	{{ user.prenom }}
+			                </td>
+			                <td>
+			                	{{ user.email }}
+			                </td>
+			                <td>
+			                	{%if user.confirmation!=1%}
+				                	<a class="btn btn-default"  href="{{ path('user_confirm', { 'id': user.id }) }}">
+				                		<i class="fa fa-envelope-o"></i>
 				                	</a>
-				                {%else%}
-				                	<a class="btn btn-default"  href="{{ path('user_validate', { 'id': user.id,'status':'false' }) }}">
-				                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                	{%endif%}
+			                </td>
+			                <td>
+			                	{%if user.payed!=1%}
+				                	<a class="btn btn-default"  href="{{ path('user_payed', { 'id': user.id }) }}">
+				                		€
 				                	</a>
-				                {%endif%}
+			                	{%endif%}
+			                </td>
+			                <td>
+			                	{%if user.mailPayed!=1%}
+				                	<a class="btn btn-default"  href="{{ path('user_mail_payed', { 'id': user.id }) }}">
+				                		€<i class="fa fa-envelope-o"></i>
+				                	</a>
+			                	{%endif%}
+			                </td>
+			                <td>
+			                	{{user.alert}}
 			                </td>
 			            </tr>
 			        {% endfor %}

@@ -2,6 +2,10 @@
 namespace AppBundle\Listener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -9,6 +13,7 @@ use AppBundle\Entity\Application;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\Validation;
 use AppBundle\Entity\Team;
+use AppBundle\Entity\Labeli;
 
 class ApplicationListener
 {
@@ -16,6 +21,7 @@ class ApplicationListener
      * @var EntityManager
      */
     protected $em;
+    private $router;
 
     /**
      * @var ContainerInterface
@@ -32,10 +38,11 @@ class ApplicationListener
      */
     protected $insertingFile;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, UrlGeneratorInterface $router)
     {
         // We use container directly in order to avoid a CircularReferenceException
         $this->container = $container;
+        $this->router = $router;
     }
 
     public function init()
@@ -56,6 +63,10 @@ class ApplicationListener
 			$this->setWaitingList($entity);
 		
 		}
+		elseif ($entity instanceof Labeli)
+		{
+			$this->checkOtherLabeli($entity);
+		}
     }
 
     public function postUpdate(LifecycleEventArgs $args)
@@ -66,6 +77,45 @@ class ApplicationListener
             $this->checkMultipleApplication($entity);
         }
     }
+	
+	public function checkOtherLabeli(Labeli $labeli)
+	{
+		$labelis = $this->em->getRepository('AppBundle:Labeli')->findAll();
+		
+		foreach($labelis as $listedLabeli)
+		{
+			if($listedLabeli==$labeli)
+			{
+				return;
+			}
+			elseif(($listedLabeli->getNom())==($labeli->getNom()) && ($listedLabeli->getPrenom())==($labeli->getPrenom()))
+			{
+				if(($listedLabeli->getHonored()==true)or($labeli->getHonored()==true))
+				{
+					$labeli->setHonored(true);
+				}
+				if(($labeli->getMail()==null) && $listedLabeli->getMail()!=null)
+				{
+					$labeli->setMail($listedLabeli->getMail());
+				}
+				$this->em->persist($labeli);
+				$this->em->remove($listedLabeli);
+				$this->em->flush();
+				return;
+			}
+			elseif (($listedLabeli->getMail())==($labeli->getMail()) && ($listedLabeli->getMail()!=null) && ($labeli->getMail()!=null))
+			{
+				if(($listedLabeli->getHonored()==true)or($labeli->getHonored()==true))
+				{
+					$labeli->setHonored(true);
+					$this->em->persist($labeli);
+				}
+				$this->em->remove($listedLabeli);
+				$this->em->flush();
+				return;
+			}
+		}
+	}
 	
 	public function checkMultipleApplication(Application $application)
 	{

@@ -1,0 +1,40 @@
+labeli:
+    path:     /
+    defaults: { _controller: "AppBundle:Labeli:index" }
+
+labeli_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Labeli:show" }
+
+labeli_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Labeli:new" }
+
+labeli_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Labeli:create" }
+    methods:  POST
+
+labeli_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Labeli:edit" }
+
+labeli_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Labeli:update" }
+    methods:  [POST, PUT]
+
+labeli_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Labeli:delete" }
+    methods:  [POST, DELETE]
+
+labeli_by_no_cotisation:
+    path:     /nocotisation
+    defaults: { _controller: "AppBundle:Labeli:byNoCotisation" }
+    methods:  GET
+
+labeli_by_honored:
+    path:     /honored
+    defaults: { _controller: "AppBundle:Labeli:byHonored" }
+    methods:  GET

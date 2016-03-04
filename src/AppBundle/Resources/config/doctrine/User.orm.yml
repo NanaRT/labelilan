@@ -18,6 +18,16 @@ AppBundle\Entity\User:
         payed:
             type: boolean
             nullable: true
+        confirmation:
+            type: boolean
+            nullable: true
+        mailPayed:
+            type: boolean
+            nullable: true
+        alert:
+            type: string
+            length: 255
+            nullable: true
     
     oneToMany:
         player:

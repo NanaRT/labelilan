@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Entity\Game;
+use AppBundle\Entity\User;
 use AppBundle\Form\GameType;
 use AppBundle\Repository\GameRepository;
 
@@ -145,7 +146,6 @@ class GameController extends Controller
 				$randArray[$i]=$soloPlayers[$key];
 			}
 		}
-		
 		
         return $this->render('AppBundle:game:show.html.twig', array(
             'game'       => $game,

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{%if (is_granted("ROLE_ADMIN"))%}
+	    <div class="container">
+	        <div class="row">
+			    <h1>Labeli edit</h1>
+			
+				{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+			    {{ form(edit_form) }}
+			
+		        <a class="btn btn-primary btn-lg btn-block"  href="{{ path('labeli') }}">
+		            Back to the list
+		        </a>
+			</div>
+		</div>
+	{%endif%}
+{% endblock %}

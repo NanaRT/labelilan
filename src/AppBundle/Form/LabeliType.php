@@ -4,11 +4,10 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PlayerType extends AbstractType
+class LabeliType extends AbstractType
 {
-	
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,25 +15,29 @@ class PlayerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pseudo','text',[
-            'required' => true])
+            ->add('nom')
+            ->add('prenom')
+            ->add('mail','text', ['required'=>false])
+            ->add('honored')
+            ->add('noCotisation')
         ;
     }
     
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolverInterface $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Player'
+            'data_class' => 'AppBundle\Entity\Labeli'
         ));
     }
+
     /**
      * @return string
      */
     public function getName()
     {
-        return 'player';
+        return 'appbundle_labeli';
     }
 }

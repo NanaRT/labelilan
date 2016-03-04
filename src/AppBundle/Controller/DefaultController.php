@@ -41,4 +41,20 @@ class DefaultController extends Controller
 	         
 	    return $response;
 	}
+	
+	public function getValidationTeamsAction()
+	{
+        $em = $this->getDoctrine()->getManager();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    order by p.game'
+		);
+		$teams = $query->getResult();
+		
+        return $this->render('::default/getValidationTeams.html.twig', array(
+            'teams' => $teams
+        ));
+	}
 }

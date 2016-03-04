@@ -4,38 +4,82 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-				<h1>Rechercher joueurs disponibles pour tournoi</h1>
+                {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
+                	{% if  (game.category.systName == 'multi' or game.category.systName == 'solo')%}
+						{%if searchCategoryService.checkPlaces(game.id) == 1
+						and searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
+		                    <a class="btn btn-primary" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+		                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire au tournoi
+		                    </a>
+		                {%else%}
+		                    <a class="btn btn-default disabled" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+		                    	 Inscrit
+		                    </a>
+		                {%endif%}
+					{% elseif game.category.systName == 'autre'
+					or game.category.systName == 'libre'%}
+						{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
+		                    <a class="btn btn-primary" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
+		                    	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
+		                    </a>
+		                {%else%}
+		                    <a class="btn btn-default disabled" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
+		                    	 Intéréssé
+		                    </a>
+		                {%endif%}
+		            {%endif%}
+		        {%else%}
+		        	<br>
+		        	<a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}" >
+                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire sur le site
+                    </a>
+	            {%endif%}
+				<h1>Rechercher joueurs disponibles pour tournoi {{game.name}}</h1>
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>Nom joueur</th>
-							<td align="right">Action</td>
+							<td>Action</td>
 						</tr>
 					</thead>
 					<tbody>
-			        	{%for user in users%}
+			        	{%for player in players%}
 			        		<tr>
 			        			<td>
-			        				{{user.username}}
+			        				{{player.pseudo}}
 			        			</td>
-			        			<td align="right">
+			        			<td>
+			        			</td>
+			        			<td>
 			        				{%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
 			          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
 	    									{% if player.team 
 											and player.team.validation is null 
 											and player.capitain %} 
-						        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', user.id) == null%}
-								                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, user.id,game.id,'team')) }}" >
+						        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', player.user.id) == null%}
+								                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, player.user.id,game.id,'team')) }}" >
 								                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 								                    </a>
 								                {%else%}
-								                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,user.id,game.id,'team')) }}" >
+								                	<a class="btn btn-default disabled" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id,player.user.id,game.id,'team')) }}" >
 								                    	 Attente réponse
 								                    </a>
 								                {%endif%}
 						                	{%endif%}
 						                {%endfor%}
 						            {%endif%}
+			        			</td>
+			        		</tr>
+			        	{%endfor%}
+			        	{%for tPlayer in teamPlayers%}
+			        		<tr>
+			        			<td>
+			        				{{tPlayer.pseudo}}
+			        			</td>
+			        			<td>
+			        				 {{tPlayer.team.name}}
+			        			</td>
+			        			<td>
 			        			</td>
 			        		</tr>
 			        	{%endfor%}

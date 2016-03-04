@@ -1,0 +1,27 @@
+AppBundle\Entity\Labeli:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        mail:
+            type: string
+            length: 255
+            nullable: true
+        honored:
+            type: boolean
+            nullable: true
+        noCotisation:
+            type: boolean
+            nullable: true
+    lifecycleCallbacks: {  }

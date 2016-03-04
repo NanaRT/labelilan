@@ -27,11 +27,11 @@
 	                	{{leftPlaces}}
 	                    <br>
 	                    {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %} 
-	                    	{% if  (game.category.systName == 'multi' or game.category.systName == 'solo')%}
+	                    	{% if (game.category.systName == 'multi' or game.category.systName == 'solo')%}
 								{%if searchCategoryService.checkPlaces(game.id) == 1
 								and searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
-				                    <a class="btn btn-default" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
-				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire
+				                    <a class="btn btn-primary" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
+				                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire au tournoi
 				                    </a>
 				                {%else%}
 				                    <a class="btn btn-default disabled" href="{{path('player_new', {'userId':app.user.id, 'gameId':game.id}) }}" >
@@ -41,7 +41,7 @@
 							{% elseif game.category.systName == 'autre'
 							or game.category.systName == 'libre'%}
 								{%if searchCategoryService.getCreatedPlayer(app.user.id, game.id) == 0%}
-				                    <a class="btn btn-default" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
+				                    <a class="btn btn-primary" href="{{path('new_free_player', {'userId':app.user.id, 'gameId':game.id,'origin':'show'}) }}" >
 				                    	 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Intéréssé
 				                    </a>
 				                {%else%}
@@ -50,6 +50,11 @@
 				                    </a>
 				                {%endif%}
 				            {%endif%}
+				        {%else%}
+				        	<br>
+				        	<a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}" >
+		                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire sur le site
+		                    </a>
 			            {%endif%}
                     </div>
                 </div>

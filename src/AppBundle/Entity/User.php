@@ -16,6 +16,9 @@ class User extends BaseUser
     private $player;
     private $application;
     private $payed;
+    private $confirmation;
+    private $mailPayed;
+    private $alert;
 	
     public function __construct()
     {
@@ -133,4 +136,40 @@ class User extends BaseUser
         return $this->payed;
     }
 	
+    public function setConfirmation($confirmation)
+    {
+        $this->confirmation = $confirmation;
+
+        return $this;
+    }
+
+    public function getConfirmation()
+    {
+        return $this->confirmation;
+    }
+	
+    public function setMailPayed($mailPayed)
+    {
+        $this->mailPayed = $mailPayed;
+
+        return $this;
+    }
+
+    public function getMailPayed()
+    {
+        return $this->mailPayed;
+    }
+	
+	
+    public function setAlert($alert)
+    {
+        $this->alert = $alert;
+
+        return $this;
+    }
+
+    public function getAlert()
+    {
+        return $this->alert;
+    }
 }

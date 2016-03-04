@@ -190,19 +190,46 @@ class SearchCategory
 	{
         $query = $this->em->createQuery(
 		    'SELECT p
-		    FROM AppBundle:Player p
-		    where p.game = '.$gameId
+		    FROM AppBundle:Game p
+		    where p.id = '.$gameId
 		);
-		$placesTaken = $query->getResult();
-		
-		$game = $this->em->getRepository('AppBundle\Entity\Game')->find($gameId);
-		if(count($placesTaken)<$game->getPlaces() or $game->getPlaces()==null)
+		$games = $query->getResult();
+		$game = $games[0];
+		if($game->getCategory()->getSystName()=='multi')
 		{
-			return 1;
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Team p
+			    where p.game = '.$gameId.
+			    ' and p.validation is not null'
+			);
+			$placesTaken = $query->getResult();
+			
+			if(count($placesTaken)<($game->getPlaces()) or $game->getPlaces()==null)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
-		else
-		{
-			return 0;
+		else{
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    where p.game = '.$gameId
+			);
+			$placesTaken = $query->getResult();
+			
+			if(count($placesTaken)<$game->getPlaces() or $game->getPlaces()==null)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 	}
 	public function getSoloPlaces($gameId)
@@ -414,6 +441,6 @@ class SearchCategory
 		    where p.team = '.$teamId
 		);
 		$players = $query->getResult();
-		return count($players);
+		return $players;
 	}
 }
