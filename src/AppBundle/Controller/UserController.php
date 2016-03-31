@@ -42,7 +42,7 @@ class UserController extends Controller
 				$i++;
 			}
 		}
-
+		
         return $this->render('AppBundle:user:index.html.twig', array(
             'users'     => $users,
             'userPayed' => $payed
@@ -196,42 +196,6 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);
 	    $user->setPayed(1);
-		$em->persist($user);
-		$em->flush();
-		
-		return $this->redirectToRoute('user_index');
-	}
-
-	public function confirmationUserAction($id)
-	{
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($id);
-		$mailUser = $user->getEmail();
-		
-		$message = \Swift_Message::newInstance()
-	        ->setSubject('Confirmation paiement LGC')
-	        ->setFrom('lgc@labeli.org')
-	        ->setTo($mailUser)
-	        ->setBody(
-	            $this->render(
-	                '::email/confirmation.html.twig'
-	            ),
-	            'text/html'
-	        )
-	    ;
-	    $this->get('mailer')->send($message);
-	    
-	    $user->setConfirmation(1);
-		$em->persist($user);
-		$em->flush();
-		
-		return $this->redirectToRoute('user_index');
-	}
-
-	public function mailPayedUserAction($id)
-	{
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($id);
 		
 		$mailUser = $user->getEmail();
 		
@@ -254,5 +218,159 @@ class UserController extends Controller
 		
 		return $this->redirectToRoute('user_index');
 	}
+
+	public function confirmationUserAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+		$mailUser = $user->getEmail();
+		
+		$message = \Swift_Message::newInstance()
+	        ->setSubject('Confirmation inscription LGC')
+	        ->setFrom('lgc@labeli.org')
+	        ->setTo($mailUser)
+	        ->setBody(
+	            $this->render(
+	                '::email/confirmation.html.twig'
+	            ),
+	            'text/html'
+	        )
+	    ;
+	    $this->get('mailer')->send($message);
+	    
+	    $user->setConfirmation(1);
+		$em->persist($user);
+		$em->flush();
+		
+		return $this->redirectToRoute('user_index');
+	}
+	
+    public function byPayedAction($state)
+    {
+    	if($state=='payed')
+		{
+			$status='=1';
+		}
+		else {
+			$status=' is null';
+		}
+		
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    where p.payed'.$status.
+		    ' order by p.id desc'
+		);
+		$userPayed = $query->getResult();
+
+        return $this->render('AppBundle:user:index.html.twig', array(
+            'users' => $userPayed,
+            'userPayed' => $userPayed
+        ));
+    }
+	
+	public function checkIfLabeliAction()
+	{
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    where p.payed is null'
+		);
+		$users = $query->getResult();
+		
+		foreach ($users as $user)
+		{
+			$userNom = strtolower ($user->getNom());
+			$userPrenom = strtolower ($user->getPrenom());
+			$userMail = strtolower ($user->getEmail());
+			
+			$labelis = $em->getRepository('AppBundle:Labeli')->findAll();
+			
+			foreach($labelis as $labeli)
+			{
+				$labeliNom = strtolower ($labeli->getNom());
+				$labeliPrenom = strtolower ($labeli->getPrenom());
+				$labeliMail = strtolower ($labeli->getMail());
+				
+				if((($userNom==$labeliNom)&&($userPrenom==$labeliPrenom)) || $userMail==$labeliMail)
+				{
+					if($labeli->getHonored()==1)
+					{
+						$subject=='Confirmation Invités d\'Honneur LGC';
+						$template=='::email/honored.html.twig';
+					}
+					else {
+						$subject=='Confirmation participant Label[i]';
+						$template=='::email/labeli.html.twig';
+					}
+				    $user->setPayed(1);
+					
+					$mailUser = $user->getEmail();
+					
+					$message = \Swift_Message::newInstance()
+				        ->setSubject($subject)
+				        ->setFrom('lgc@labeli.org')
+				        ->setTo($userMail)
+				        ->setBody(
+				            $this->render(
+				                $template
+				            ),
+				            'text/html'
+				        )
+				    ;
+				    $this->get('mailer')->send($message);
+					
+				    $user->setMailPayed(1);
+					$em->persist($user);
+					$em->flush();
+				}
+			}
+		}
+
+		return $this->redirectToRoute('user_index');
+	}
+	
+    public function byLabeliAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:User p
+		    order by p.id desc'
+		);
+		$users = $query->getResult();
+		$labelis = $em->getRepository('AppBundle:Labeli')->findAll();
+		$arrayUsers=array();
+		$i=0;
+		
+		foreach($users as $user)
+		{
+			$userNom = strtolower ($user->getNom());
+			$userPrenom = strtolower ($user->getPrenom());
+			$userMail = strtolower ($user->getEmail());
+			
+			foreach($labelis as $labeli)
+			{
+				$labeliNom = strtolower ($labeli->getNom());
+				$labeliPrenom = strtolower ($labeli->getPrenom());
+				$labeliMail = strtolower ($labeli->getMail());
+				
+				if((($userNom==$labeliNom)&&($userPrenom==$labeliPrenom))
+				 || (($userPrenom==$labeliNom)&&($userNom==$labeliPrenom))
+				 || ($userMail==$labeliMail))
+				{
+					$arrayUsers[$i]=$user;
+					$i++;
+				}
+			}
+		}
+
+        return $this->render('AppBundle:user:index.html.twig', array(
+            'users' => $arrayUsers,
+            'userPayed' => $arrayUsers
+        ));
+    }
 	
 }

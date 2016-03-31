@@ -4,29 +4,30 @@
 	{%if (is_granted("ROLE_ADMIN"))%}
 	    <div class="container">
 	        <div class="row">
-			    <h1>Player list</h1>
+			    <h1>Player list - {{players|length}}</h1>
+			    
+			    {%for game in games%}
+				    <a class="btn btn-default"  href="{{ path('player_by_game_payed', {'game':game.id}) }}">
+		                {{game.name}}
+		            </a>
+			    {%endfor%}
 			
 			    <table class="table table-hover">
 			        <thead>
 			            <tr>
-			                <th>Id</th>
 			                <th>Pseudo</th>
-			                <th>Actions</th>
+			                <th>Tournoi</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        {% for player in players %}
 			            <tr>
-			                <td><a href="{{ path('player_show', { 'id': player.id }) }}">{{ player.id }}</a></td>
 			                <td>{{ player.pseudo }}</td>
-			                <td>
-			                	<a class="btn btn-default" href="{{ path('player_edit', { 'id': player.id }) }}">edit</a>
-			                </td>
+			                <td>{{player.game.systName}}</td>
 			            </tr>
 			        {% endfor %}
 			        </tbody>
 			    </table>
-				<a class="btn btn-default"  href="{{ path('player_new') }}">Create a new entry</a>
 			</div>
 		</div>
 	{%endif%}

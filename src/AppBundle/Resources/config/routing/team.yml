@@ -27,3 +27,13 @@ team_recruit:
     path:     /recruit/{gameId}
     defaults: { _controller: "AppBundle:Team:recruit" }
     methods:  GET
+    
+team_validate:
+    path:     /validation/{id}
+    defaults: { _controller: "AppBundle:Team:validation" }
+    methods:  GET
+    
+team_relance:
+    path:     /relance/{id}
+    defaults: { _controller: "AppBundle:Team:relance" }
+    methods:  GET

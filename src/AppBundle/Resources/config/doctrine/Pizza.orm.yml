@@ -1,0 +1,25 @@
+AppBundle\Entity\Pizza:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\PizzaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        description:
+            type: string
+            length: 1000
+        stock:
+            type: integer
+    lifecycleCallbacks: {  }
+
+    oneToMany:
+        ordering:
+            targetEntity: Ordering
+            mappedBy: pizza

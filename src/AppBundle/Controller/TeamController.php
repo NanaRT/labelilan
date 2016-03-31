@@ -206,4 +206,86 @@ class TeamController extends Controller
             'game'  =>$game
         ));
     }
+	
+	public function validationAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')->find($id);
+		
+        $query = $em->createQuery(
+		    'SELECT u
+		    FROM AppBundle:Player u
+		    where u.team='.$id
+		);
+		$players = $query->getResult();
+
+		foreach($players as $player)
+		{
+			$mailPlayer = $player->getUser()->getEmail();
+		
+			$message = \Swift_Message::newInstance()
+		        ->setSubject('Confirmation validation équipe '.$team->getName())
+		        ->setFrom('lgc@labeli.org')
+		        ->setTo($mailPlayer)
+		        ->setBody(
+		            $this->render(
+		                '::email/validationTeam.html.twig'
+		            ),
+		            'text/html'
+		        )
+		    ;
+		    $this->get('mailer')->send($message);
+		}
+		
+	    $team->setValidation(1);
+		$em->persist($team);
+		$em->flush();
+		
+		return $this->redirectToRoute('team_index');
+	}
+	
+	public function relanceAction($id)
+	{
+        $em = $this->getDoctrine()->getManager();
+        $team = $em->getRepository('AppBundle:Team')->find($id);
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    where p.team='.$id
+		);
+		$sendPlayers = $query->getResult();
+		
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    inner join AppBundle:User u
+		    with p.user=u.id
+		    where p.team='.$id.'
+		     and u.payed is null'
+		);
+		$players = $query->getResult();
+		
+		foreach($sendPlayers as $sendPlayer)
+		{
+			$mailPlayer = $sendPlayer->getUser()->getEmail();
+			
+			$message = \Swift_Message::newInstance()
+		        ->setSubject('Validation équipe '.$team->getName())
+		        ->setFrom('lgc@labeli.org')
+		        ->setTo('alanataylor@hotmail.fr')
+		        ->setBody(
+		            $this->render(
+		                '::email/relanceTeam.html.twig',
+                		array('players' => $players)
+		            ),
+		            'text/html'
+		        )
+		    ;
+		    $this->get('mailer')->send($message);
+			$em->flush();
+		}
+		
+		return $this->redirectToRoute('team_index');
+	}
 }

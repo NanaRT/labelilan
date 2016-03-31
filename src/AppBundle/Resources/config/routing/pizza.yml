@@ -1,0 +1,30 @@
+pizza:
+    path:     /
+    defaults: { _controller: "AppBundle:Pizza:index" }
+
+pizza_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Pizza:show" }
+
+pizza_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Pizza:new" }
+
+pizza_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Pizza:create" }
+    methods:  POST
+
+pizza_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Pizza:edit" }
+
+pizza_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Pizza:update" }
+    methods:  [POST, PUT]
+
+pizza_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Pizza:delete" }
+    methods:  [POST, DELETE]

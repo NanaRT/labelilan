@@ -1,3 +1,11 @@
+app_ordering:
+    resource: "@AppBundle/Resources/config/routing/ordering.yml"
+    prefix:   /ordering
+
+app_pizza:
+    resource: "@AppBundle/Resources/config/routing/pizza.yml"
+    prefix:   /pizza
+
 app_labeli:
     resource: "@AppBundle/Resources/config/routing/labeli.yml"
     prefix:   /labeli
@@ -48,11 +56,32 @@ informations:
     path:     /informations
     defaults: { _controller: AppBundle:Default:informations }
     
-team_validation_admin:
-    path:     /allow/validation/teams
-    defaults: { _controller: AppBundle:Default:getValidationTeams }
-    
 dlreglement:
     path:     /downloadReglementPdf
     defaults: { _controller: AppBundle:Default:downloadReglementPdf }
+    
+dlDroitImage:
+    path:     /downloadDroitImage
+    defaults: { _controller: AppBundle:Default:downloadDroitImage }
+    
+dlDroitImageMineur:
+    path:     /downloadDroitImageMineur
+    defaults: { _controller: AppBundle:Default:downloadDroitImageMineur }
+    
+dlAccordParental:
+    path:     /downloadAccordParental
+    defaults: { _controller: AppBundle:Default:downloadAccordParental }
+    
+dlpokemon_inscription:
+    path:     /download_pokemon_inscription
+    defaults: { _controller: AppBundle:Default:downloadPokemon }
+    
+mentions_legales:
+    path:     /mentions_legales
+    defaults: { _controller: AppBundle:Default:downloadReglementPdf }
+
+lost_password:
+    path:     /lost_password/
+    defaults: { _controller: AppBundle:Default:lostPassword}
+    
     

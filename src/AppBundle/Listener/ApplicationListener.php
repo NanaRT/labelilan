@@ -14,28 +14,14 @@ use AppBundle\Entity\Player;
 use AppBundle\Entity\Validation;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\Labeli;
+use AppBundle\Entity\User;
 
 class ApplicationListener
 {
-    /**
-     * @var EntityManager
-     */
     protected $em;
     private $router;
-
-    /**
-     * @var ContainerInterface
-     */
     protected $container;
-
-    /**
-     * @var StatusHistoryHandler
-     */
     protected $statusHistoryHandler;
-
-    /**
-     * @var InsertingFile
-     */
     protected $insertingFile;
 
     public function __construct(ContainerInterface $container, UrlGeneratorInterface $router)
@@ -67,6 +53,11 @@ class ApplicationListener
 		{
 			$this->checkOtherLabeli($entity);
 		}
+		elseif ($entity instanceof User)
+		{
+			$this->confirmUser($entity);
+			$this->checkUserLabeli($entity);
+		}
     }
 
     public function postUpdate(LifecycleEventArgs $args)
@@ -77,6 +68,79 @@ class ApplicationListener
             $this->checkMultipleApplication($entity);
         }
     }
+	
+	public function confirmUser(User $user)
+	{
+		$mailUser = $user->getEmail();
+		
+		$message = \Swift_Message::newInstance()
+	        ->setSubject('Confirmation inscription LGC')
+	        ->setFrom('lgc@labeli.org')
+	        ->setTo($mailUser)
+	        ->setBody(
+			    $this->container->get('templating')->render(
+	                '::email/confirmation.html.twig'
+	            ),
+	            'text/html'
+	        )
+	    ;
+		$this->container->get('mailer')->send($message);
+	    
+	    $user->setConfirmation(1);
+		$this->em->persist($user);
+		$this->em->flush();
+	}
+	
+	public function checkUserLabeli(User $user)
+	{
+		$userNom = strtolower ($user->getNom());
+		$userPrenom = strtolower ($user->getPrenom());
+		$userMail = strtolower ($user->getEmail());
+		
+		$labelis = $this->em->getRepository('AppBundle:Labeli')->findAll();
+		
+		foreach($labelis as $labeli)
+		{
+			$labeliNom = strtolower ($labeli->getNom());
+			$labeliPrenom = strtolower ($labeli->getPrenom());
+			$labeliMail = strtolower ($labeli->getMail());
+			
+			if((($userNom==$labeliNom)&&($userPrenom==$labeliPrenom))
+				 || (($userPrenom==$labeliNom)&&($userNom==$labeliPrenom)) || $userMail==$labeliMail)
+			{
+				if($labeli->getHonored()==1)
+				{
+					$subject='Confirmation Invités d\'Honneur LGC';
+					$template='::email/honored.html.twig';
+				}
+				else {
+					$subject='Confirmation participant Label[i]';
+					$template='::email/labeli.html.twig';
+				}
+			    $user->setPayed(1);
+				$this->em->flush();
+				
+				$mailUser = $user->getEmail();
+				
+				$message = \Swift_Message::newInstance()
+			        ->setSubject($subject)
+			        ->setFrom('lgc@labeli.org')
+			        ->setTo($userMail)
+			        ->setBody(
+			            $this->container->get('templating')->render(
+			                $template
+			            ),
+			            'text/html'
+			        )
+			    ;
+			    $this->container->get('mailer')->send($message);
+				
+			    $user->setMailPayed(1);
+				$this->em->persist($user);
+				$this->em->flush();
+			}
+		}
+	}
 	
 	public function checkOtherLabeli(Labeli $labeli)
 	{

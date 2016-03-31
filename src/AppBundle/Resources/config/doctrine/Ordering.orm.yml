@@ -1,0 +1,30 @@
+AppBundle\Entity\Ordering:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\OrderingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        number:
+            type: integer
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        user:
+            targetEntity:             User
+            cascade:                  [ persist ]
+            inversedBy:               ordering
+            joinColumn:
+                name:                 user_id
+                referencedColumnName: id
+        pizza:
+            targetEntity:             Pizza
+            cascade:                  [ persist ]
+            inversedBy:               ordering
+            joinColumn:
+                name:                 pizza_id
+                referencedColumnName: id

@@ -10,12 +10,21 @@
 			    		{{users|length}}
 			    	</span>
 			    </h1>
-			    <h3>
-			    	Payed
-			    	<span class="badge">
-			    		{{userPayed|length}}
-			    	</span>
-			    </h3>
+			    <a class="btn btn-default"  href="{{ path('user_index') }}">
+	                Liste user
+	            </a>
+			    <a class="btn btn-default"  href="{{ path('labeli_by_payed', {'state':'payed'}) }}">
+	                Utilisateurs payés
+	            </a>
+			    <a class="btn btn-default"  href="{{ path('labeli_by_payed',{'state':'notPayed'}) }}">
+	                Utilisateurs non payés
+	            </a>
+			    <a class="btn btn-default"  href="{{ path('user_by_labeli') }}">
+	                Utilisateurs Label[i]
+	            </a>
+			    <a class="btn btn-default"  href="{{ path('user_check_labeli') }}">
+	                Utilisateurs check Label[i]
+	            </a>
 			
 			    <table class="table table-hover">
 			        <thead>
@@ -25,7 +34,6 @@
 			                <th>Mail</th>
 			                <th>Confirm</th>
 			                <th>Payed</th>
-			                <th>MailPayed</th>
 			                <th>Alert</th>
 			            </tr>
 			        </thead>
@@ -52,13 +60,6 @@
 			                	{%if user.payed!=1%}
 				                	<a class="btn btn-default"  href="{{ path('user_payed', { 'id': user.id }) }}">
 				                		€
-				                	</a>
-			                	{%endif%}
-			                </td>
-			                <td>
-			                	{%if user.mailPayed!=1%}
-				                	<a class="btn btn-default"  href="{{ path('user_mail_payed', { 'id': user.id }) }}">
-				                		€<i class="fa fa-envelope-o"></i>
 				                	</a>
 			                	{%endif%}
 			                </td>

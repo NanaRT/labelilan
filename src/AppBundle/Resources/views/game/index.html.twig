@@ -24,6 +24,8 @@
 			                <th>Description</th>
 			                <th>Places</th>
 			                <th>Nbplayers</th>
+			                <th>Reglement</th>
+			                <th>Poids reglement</th>
 			                <th>Actions</th>
 			            </tr>
 			        </thead>
@@ -39,6 +41,16 @@
 			                <td>{{ game.description }}</td>
 			                <td>{{ game.places }}</td>
 			                <td>{{ game.nbplayers }}</td>
+			                <td>
+			                	{%if game.rules %}
+			                		<i class="fa fa-archive fa-2x"></i>
+			                	{%endif%}
+			                </td>
+			                <td>
+			                	{%if game.rulesWeight %}
+			                		{{game.rulesWeight}}
+			                	{%endif%}
+			                </td>
 			                <td>
 			                	<a class="btn btn-default"  href="{{ path('game_edit', { 'id': game.id }) }}">edit</a>
 			                </td>

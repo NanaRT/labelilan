@@ -178,3 +178,15 @@ footer {
     left:0;
     bottom:0;
 }
+
+#occupied
+{
+	background: grey;
+}
+
+#alert
+{
+	background-color: red;
+	color:white;
+}
+

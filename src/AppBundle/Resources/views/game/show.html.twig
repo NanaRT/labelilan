@@ -12,9 +12,36 @@
                 <hr>
                 <img src="{{ asset('bundles/app/img/game/'~game.systName~'.jpg') }}" alt="{{game.name}}" class="img-responsive" >
                 <hr>
+                <br>
+                	{%if game.rules%}
+                		<center>
+	                		<a class="btn btn-danger" href="{{ path('game_download',{'game':game.systName}) }}" >
+		                    	 <i class="fa fa-download fa-2x"></i>
+		                    	 Télécharger format tournoi {{game.name}} 
+		                    	 {%if game.rulesWeight%}
+		                    	     ({{game.rulesWeight}}ko)
+		                    	 {%endif%}
+		                    </a>
+                		</center>
+                		<br><br>
+                	{%endif%}
+	                {%if game.systName=="rosa"%}
+	                	<br>
+	                	<center>
+	                		<a class="btn btn-primary" href="{{ path('dlpokemon_inscription') }}" >
+		                    	 <i class="fa fa-download fa-2x"></i>
+		                    	 Télécharger formulaire inscription POKEMON (372 ko)
+		                    </a>
+                		</center>
+                		<br>
+	                {%endif%}
+                <br>
                 <p>
                 	{{game.description}}
                 </p>
+                {%if game.systName=="jds"%}
+                	{{include('AppBundle:game:include/jds.html.twig')}}
+                {%endif%}
 
             </div>
 
@@ -89,13 +116,13 @@
 				                				{{soloPlayers.pseudo}}
 				                			</td>
         									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
-					          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-			    									{% if player.team 
-													and player.team.validation is null 
-													and player.capitain %} 
-								        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', soloPlayers.id) == null%}
+					          					{%for me in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+			    									{% if me.team 
+													and me.team.validation is null 
+													and me.capitain %} 
+								        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', soloPlayers.user.id) == null%}
 								        					<td>
-											                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, soloPlayers.id,game.id,'team')) }}" >
+											                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, soloPlayers.user.id,game.id,'team')) }}" >
 											                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter
 											                    </a>
 											                </td>

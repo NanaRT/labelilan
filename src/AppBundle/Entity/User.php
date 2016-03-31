@@ -19,6 +19,7 @@ class User extends BaseUser
     private $confirmation;
     private $mailPayed;
     private $alert;
+    private $ordering;
 	
     public function __construct()
     {
@@ -171,5 +172,27 @@ class User extends BaseUser
     public function getAlert()
     {
         return $this->alert;
+    }
+ 
+    /**
+     * @param  Ordering $ordering
+     */
+    public function addOrdering(\AppBundle\Entity\Ordering $ordering)
+    {
+        $ordering->setUser($this);
+        $this->ordering[] = $ordering;
+    }
+	
+    /**
+     * @return ArrayCollection $ordering
+     */
+    public function getOrdering()
+    {
+        return $this->ordering;
+    }
+	
+    public function removeOrdering(\AppBundle\Entity\Ordering $ordering)
+    {
+        $this->ordering->removeElement($ordering);
     }
 }

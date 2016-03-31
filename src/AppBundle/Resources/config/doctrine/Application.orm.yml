@@ -27,7 +27,6 @@ AppBundle\Entity\Application:
             joinColumn:
                 name:                 team_id
                 referencedColumnName: id
-                onDelete:             CASCADE
         user:
             targetEntity:             User
             cascade:                  [ persist ]
@@ -35,4 +34,3 @@ AppBundle\Entity\Application:
             joinColumn:
                 name:                 user_id
                 referencedColumnName: id
-                onDelete:             CASCADE

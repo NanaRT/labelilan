@@ -39,6 +39,9 @@
 					<thead>
 						<tr>
 							<th>Nom joueur</th>
+							{%if teamPlayers%}
+								<th> Team </th>
+							{%endif%}
 							<td>Action</td>
 						</tr>
 					</thead>
@@ -51,11 +54,11 @@
 			        			<td>
 			        			</td>
 			        			<td>
-			        				{%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
-			          					{%for player in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
-	    									{% if player.team 
-											and player.team.validation is null 
-											and player.capitain %} 
+									{% if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+			          					{%for me in searchCategoryService.getPlayerGame(app.user.id, game.id)%}
+	    									{% if me.team 
+											and me.team.validation is null 
+											and me.capitain %} 
 						        				{%if searchCategoryService.checkApplication(app.user.id, game.id, 'team', player.user.id) == null%}
 								                	<a class="btn btn-default" target="_blank" href="{{path('application_new', searchCategoryService.newApplicationTeamArray(app.user.id, player.user.id,game.id,'team')) }}" >
 								                    	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Recruter

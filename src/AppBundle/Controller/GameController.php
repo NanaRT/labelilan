@@ -13,6 +13,7 @@ use AppBundle\Repository\GameRepository;
 use AppBundle\Entity\Image;
 use AppBundle\Services\InsertingFile;
 use AppBundle\Services\CreateFolderFilespath;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Game controller.
@@ -239,4 +240,16 @@ class GameController extends Controller
             'games' => $games,
         ));
     }
+	public function downloadRulesAction($game)
+	{
+		$fichier = "lgc_".$game.".pdf";
+	    $chemin = "bundles/app/doc/"; // emplacement de votre fichier .pdf
+	         
+	    $response = new Response();
+	    $response->setContent(file_get_contents($chemin.$fichier));
+	    $response->headers->set('Content-Type', 'application/force-download'); // modification du content-type pour forcer le téléchargement (sinon le navigateur internet essaie d'afficher le document)
+	    $response->headers->set('Content-disposition', 'filename='. $fichier);
+	         
+	    return $response;
+	}
 }

@@ -27,3 +27,8 @@ new_free_player:
     path:     /{userId}/{gameId}/player/{origin}
     defaults: { _controller: "AppBundle:Player:freePlayer" }
     methods:  [GET, POST]
+
+player_by_game_payed:
+    path:     /payed/{game}
+    defaults: { _controller: "AppBundle:Player:byGamePayed" }
+    

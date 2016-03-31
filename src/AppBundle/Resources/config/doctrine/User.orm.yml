@@ -36,3 +36,6 @@ AppBundle\Entity\User:
         application:
             targetEntity: Application
             mappedBy: user
+        ordering:
+            targetEntity: Ordering
+            mappedBy: user

@@ -33,6 +33,10 @@
     
 	<!-- Include all JavaScripts, compiled by Assetic -->
 	<script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/jquery.countdown.css"> 
+	<script type="text/javascript" src="js/jquery.plugin.js"></script> 
+	<script type="text/javascript" src="js/jquery.countdown.js"></script>
 
     {% javascripts 'bundles/app/js/*'%}
 	    <script src="{{ asset_url }}"></script>
@@ -216,7 +220,7 @@
 		    	</a>
 			</div>
 			<div class="col-lg-1 col-xs-4">
-			  	<a href="#" >
+			  	<a href="https://www.youtube.com/channel/UCx9XNNhLbkYRjQ2WFsr_bbg" >
 		    		<i class="fa fa-youtube fa-2x"></i>
 		    	</a>
 			</div>
@@ -230,7 +234,12 @@
 				<p>2016 Label[i] | All Right Reserved </p>
 			</div>
 			<div class="col-lg-1 col-xs-12"">
+			  	<a href="{{path('mentions_legales')}}" >
+					Mentions Légales
+		    	</a>
 			</div>
+		</div>
+		<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
 		</div>
     </div>
     

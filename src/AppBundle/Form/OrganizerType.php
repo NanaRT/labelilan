@@ -5,7 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\SocialMedia;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -21,7 +20,7 @@ class OrganizerType extends AbstractType
             ->add('name')
             ->add('systName')
             ->add('description')
-			->add('game',EntityType::class, [
+			->add('game','entity', [
 		    'class' => 'AppBundle:Game',
 		    'choice_label' => function ($game) {
 		        return $game->getName();

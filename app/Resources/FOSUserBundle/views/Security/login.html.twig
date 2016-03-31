@@ -32,7 +32,7 @@
 					    <label for="remember_me">Se souvenir de moi</label>
 				    </div>
 				    
-					{#<a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié?</a>#}
+				    <a href="{{path('lost_password')}}">Mot de passe oublié?</a>
 					
 				    <input class="form-control" type="submit" id="_submit" name="_submit" value="Connexion"/>
 				    <a class="btn btn-default form-control" href="{{ path("fos_user_registration_register") }}">

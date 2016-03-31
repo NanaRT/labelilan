@@ -25,6 +25,12 @@ AppBundle\Entity\Game:
         nbplayers:
             type: integer
             nullable: true
+        rules:
+            type: boolean
+            nullable: true
+        rulesWeight:
+            type: integer
+            nullable: true
     lifecycleCallbacks: {  }
     
  #   oneToOne:

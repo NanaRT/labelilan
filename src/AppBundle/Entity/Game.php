@@ -19,6 +19,8 @@ class Game
     private $description;
     private $player;
     private $team;
+    private $rules;
+    private $rulesWeight;
 
     public function __construct()
     {
@@ -245,6 +247,28 @@ class Game
     public function removeTeam(\AppBundle\Entity\Team $team)
     {
         $this->team->removeElement($team);
+    }
+
+    public function setRules($rules)
+	{
+        $this->rules = $rules;
+
+        return $this;
+    }
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    public function setRulesWeight($rulesWeight)
+	{
+        $this->rulesWeight = $rulesWeight;
+
+        return $this;
+    }
+    public function getRulesWeight()
+    {
+        return $this->rulesWeight;
     }
 }
 

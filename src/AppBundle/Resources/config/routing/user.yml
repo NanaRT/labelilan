@@ -38,7 +38,17 @@ user_confirm:
     defaults: { _controller: "AppBundle:User:confirmationUser" }
     methods:  GET
 
-user_mail_payed:
-    path:     /mailPayed/{id}/
-    defaults: { _controller: "AppBundle:User:mailPayedUser" }
+labeli_by_payed:
+    path:     /by_payed/{state}
+    defaults: { _controller: "AppBundle:User:byPayed" }
+    methods:  GET
+
+user_check_labeli:
+    path:     /check_labeli
+    defaults: { _controller: "AppBundle:User:checkIfLabeli" }
+    methods:  GET
+
+user_by_labeli:
+    path:     /by_labeli
+    defaults: { _controller: "AppBundle:User:byLabeli" }
     methods:  GET

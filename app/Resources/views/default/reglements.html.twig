@@ -1,0 +1,45 @@
+<div class="col-md-12">
+	<div class="col-md-7">
+		<br><br>
+		<h3>Reglement</h3>
+		<br><br><br>
+		<a href="{{ path('dlreglement') }}" class="btn btn-danger"><i class="fa fa-download fa-2x"></i> Reglement LGC (249 ko)</a>
+		{%for game in games%}
+			{%if game.rules%}
+				<br><br>
+				<a class="btn btn-danger" href="{{ path('game_download',{'game':game.systName}) }}" >
+			    	 <i class="fa fa-download fa-2x"></i>
+			    	 Format {{game.name}} 
+			    	 {%if game.rulesWeight%}
+			    	     ({{game.rulesWeight}}ko)
+			    	 {%endif%}
+			    </a>
+			{%endif%}
+		{%endfor%}
+	</div>
+	<div class="col-md-5">
+		<br><br>
+		<h3>Droit à l'image</h3>
+		<br><br><br>
+		<h4>Pour participant majeur *</h4>
+		<br><br>
+		<a class="btn btn-primary" href="{{ path('dlDroitImage') }}" >
+	    	 <i class="fa fa-download fa-2x"></i>
+	    	 Droit à l'Image (ko)
+	    </a>
+	    <br><br>
+	    <hr>
+	    <br>
+		<h4>Pour participant mineur</h4>
+		<br><br>
+		<a class="btn btn-primary" href="{{ path('dlDroitImageMineur') }}" >
+	    	 <i class="fa fa-download fa-2x"></i>
+	    	 Droit à l'Image pour Mineur (ko)
+	    </a>
+		<br><br>
+		<a class="btn btn-primary" href="{{ path('dlAccordParental') }}" >
+	    	 <i class="fa fa-download fa-2x"></i>
+	    	 Authorisation Parentale (ko)
+	    </a>
+	</div>
+</div>

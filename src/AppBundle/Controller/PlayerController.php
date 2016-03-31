@@ -23,11 +23,34 @@ class PlayerController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $players = $em->getRepository('AppBundle:Player')->findAll();
-
+        $games = $em->getRepository('AppBundle:Game')->findAll();
+		
         return $this->render('AppBundle:player:index.html.twig', array(
             'players' => $players,
+            'games' => $games,
         ));
     }
+	
+	public function byGamePayedAction($game)
+	{
+        $em = $this->getDoctrine()->getManager();
+
+        $games = $em->getRepository('AppBundle:Game')->findAll();
+        $query = $em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    inner join AppBundle:User u
+		    with u.id=p.user
+		    where p.game='.$game.'
+		     and u.payed=1'
+		);
+		$players = $query->getResult();
+		
+        return $this->render('AppBundle:player:index.html.twig', array(
+            'players' => $players,
+            'games' => $games,
+        ));
+	}
 
     /**
      * Creates a new Player entity.

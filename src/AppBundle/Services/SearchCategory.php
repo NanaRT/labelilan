@@ -218,7 +218,10 @@ class SearchCategory
 	        $query = $this->em->createQuery(
 			    'SELECT p
 			    FROM AppBundle:Player p
-			    where p.game = '.$gameId
+			    inner join AppBundle:User u
+			    with u.id=p.user
+			    where p.game = '.$gameId.'
+			     and u.payed is not null'
 			);
 			$placesTaken = $query->getResult();
 			
@@ -237,7 +240,10 @@ class SearchCategory
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Player p
-		    where p.game = '.$gameId
+			    inner join AppBundle:User u
+			    with u.id=p.user
+		    where p.game = '.$gameId.'
+			 and u.payed is not null'
 		);
 		$placesTaken = $query->getResult();
 		
@@ -402,7 +408,8 @@ class SearchCategory
 		    with a.team = t.id
 		    inner join AppBundle:Player p
 		    with t.id=p.team
-		    where p.user = '.$userId
+		    where p.user = '.$userId.'
+		     and a.origin!=\'team\''
 		);
 		$applications = $query->getResult();
 		
@@ -442,5 +449,83 @@ class SearchCategory
 		);
 		$players = $query->getResult();
 		return $players;
+	}
+	
+	public function getTeamsToBeValidate($teams)
+	{
+		$teamToBeValidate=0;
+		foreach($teams as $team)
+		{
+			if($this->getPlayersValidInTeam($team->getId())==1)
+			{
+				$teamToBeValidate++;
+			}
+		}
+		return $teamToBeValidate;
+	}
+	
+	public function getPlayersValidInTeam($teamId)
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Team p
+		    where p.id = '.$teamId
+		);
+		$teams = $query->getResult();
+		
+		if($teams[0]->getValidation()!=1)
+		{
+	        $query = $this->em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Player p
+			    inner join AppBundle:User u
+			    with u.id=p.user
+			    inner join AppBundle:Team t
+				with t.id = p.team
+			    where p.team = '.$teamId.'
+			     and u.payed =1
+			     and t.validation!=1'
+			);
+			$players = $query->getResult();
+			
+	        $query = $this->em->createQuery(
+			    'SELECT g
+			    FROM AppBundle:Game g
+			    where g.id = '.$teams[0]->getGame()->getId()
+			);
+			$games = $query->getResult();
+			$game = $games[0];
+			
+			$nbplayers = $game->getNbplayers();
+			
+			if((count($players)==$nbplayers) || (count($players)==($nbplayers+1)))
+			{
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	public function getSearchingOrderingPizza()
+	{
+        $query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Pizza p'
+		);
+		$pizzas = $query->getResult();
+		$names=array();
+		$i=0;
+		
+		foreach ($pizzas as $pizza)
+		{
+			$names[$i]='form'.$pizza->getId();
+			$i++;
+		}
+		return $names;
 	}
 }

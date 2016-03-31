@@ -27,3 +27,8 @@ game_by_category:
     path:     /{category}
     defaults: { _controller: "AppBundle:Game:byCategory" }
     methods:  GET
+    
+game_download:
+    path:     /download/{game}
+    defaults: { _controller: "AppBundle:Game:downloadRules" }
+    methods:  GET

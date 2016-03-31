@@ -4,259 +4,281 @@
 {%endblock%}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-    		<h1>User</h1>
-    		{%if user.alert%}
-    			<br>
-    			<div class="alert alert-danger">
-						<strong>ALERTE</strong> 
-						{{user.alert}}
-					</div>
-    		{%endif%}
-    		{%if app.user==user%}
-	        	<a class="btn btn-default" href="{{path('user_edit', {'id':user.id}) }}">
-	        		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-				</a>
-		    	<a class="btn btn-danger" href="#myModal" role="button" data-toggle="modal" >
-		    		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</a>
-				<div id="myModal" class="modal fade">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				            <div class="modal-header">
-				                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				                <h4 class="modal-title">Confirmation</h4>
-				            </div>
-				            <div class="modal-body">
-				                <p>Voulez-vous supprimer votre compte?</p>
-				                <p class="text-warning"><small>Suppression de votre équipe si vous êtes chef d'équipe, candidatures etc...</small></p>
-				            </div>
-				            <div class="modal-footer">
-				                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-				                <a type="button" href="{{path('user_delete', {'id':user.id}) }}" class="btn btn-danger">Supprimer</a>
-				            </div>
-				        </div>
-				    </div>
-				</div>
-			{%endif%}
-			
-			<br>
-			<br>
-
-			<div class="tabbable" id="tabs-268668">
-				<ul class="nav nav-tabs">
-					<li class="active">
-						<a href="#panel-1" data-toggle="tab">Informations Utilisateur</a>
-					</li>
-					{%if searchCategoryService.checkApplicationPlayer(app.user.id,'team')%}
-						<li>
-							<a href="#panel-2" data-toggle="tab">
-								Candidatures reçues
-								<span class="badge">
-									{{searchCategoryService.checkApplicationPlayer(app.user.id,'team')|length}}
-								</span>
-							</a>
-						</li>
-					{%endif%}
-					{%if searchCategoryService.checkApplicationPlayer(app.user.id,'player')%}
-						<li>
-							<a href="#panel-3" data-toggle="tab">
-								Candidatures déposées
-								<span class="badge">
-									{{searchCategoryService.checkApplicationPlayer(app.user.id,'player')|length}}
-								</span>
-							</a>
-						</li>
-					{%endif%}
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="panel-1">
-						<table class="table table-hover">
-							<tbody>
-					            <tr>
-					                <th>Id</th>
-					                <th>Username</th>
-					                <th>Email</th>
-					            </tr>
-					            <tr>
-					                <td>{{ user.id }}</td>
-					                <td>{{ user.username }}</td>
-					                <td>{{ user.email }}</td>
-					            </tr>
-					        </tbody>
-					    </table>
-					</div>
-					<div class="tab-pane" id="panel-2">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th>
-										Username
-									</th>
-									<th>
-										Description
-									</th>
-									<th>
-										Action
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{%for application in searchCategoryService.checkApplicationPlayer(app.user.id,'team')%}
-									<tr>
-										<td>
-											{{application.user.username}}
-										</td>
-										<td>
-											{{application.description}}
-										</td>
-										<td>
-												Accepter
-		                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':user.id, 'origin':'team'}) }}" >
-		                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-		                                	</a>
-										</td>
-									</tr>
-								{%endfor%}
-							</tbody>
-						</table>
-					</div>
-					<div class="tab-pane" id="panel-3">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th>
-										Username
-									</th>
-									<th>
-										Description
-									</th>
-									<th>
-										Action
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{%for application in searchCategoryService.checkApplicationPlayer(app.user.id,'player')%}
-									<tr>
-										<td>
-											{{application.team.name}}
-										</td>
-										<td>
-											{{application.description}}
-		                                	<a class="btn btn-success" href="{{path('application_edit', {'id':application.id}) }}" >
-		                                		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-		                                	</a>
-										</td>
-										<td>
-		                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':user.id, 'origin':'player'}) }}" >
-		                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-		                                	</a>
-										</td>
-									</tr>
-								{%endfor%}
-							</tbody>
-						</table>
-					</div>
-	        	</div>
-	    	</div>
-	    	
-	    	{%if user.payed==0%}
-		    	<h1>Paiement</h1>
-				<br>
-				<br>
-				<a title="Logiciel billetterie en ligne" href="https://www.weezevent.com//?c=sys_widget" class="weezevent-widget-integration" target="_blank" data-src="https://www.weezevent.com/widget_billeterie.php?id_evenement=159660&amp;lg_billetterie=1&amp;code=23679&amp;resize=1&amp;width_auto=1&amp;color_primary=00AEEF" data-width="650" data-height="600" data-id="159660" data-resize="1" data-width_auto="1" data-noscroll="0" data-nopb="0">
-					Billetterie Weezevent
-				</a>
-				<script type="text/javascript" src="https://www.weezevent.com/js/widget/min/widget.min.js">
-				</script>
-				<br>
-				<br>
-			{%else%}
-				<h4>Le paiement a bien été pris en compte</h4>
-			{%endif%}
-		    
-	    	{%if user.player%}
-				<div class="col-sm-12 col-lg-12 col-md-12">
-					<h2>Jeux</h2>
-					<br>
-				    {%for player in user.player%}
-						<div class="col-sm-3 col-lg-3 col-md-3">
-						
-							<div class="thumbnail">
-		                    	<div id="gameImg">
-		                        	<img src="{{ asset('bundles/app/img/game/'~player.game.systName~'.jpg') }}" alt="{{player.game.name}}">
-		                        </div>
-		                        <div class="caption">
-		                            <h4>
-		                            	<a href="{{path('game_show', {'id':player.game.id}) }}" >
-		                            		{{player.game.name}}
-		                            	</a>
-		                            </h4>
-		                            <p>
-		                            	Organisé par 
-		                            	<a href="{{ path('informations') }}#{{player.game.organizer.systName}}">
-		                            		{{player.game.organizer.name}}
-		                            	</a>
-		                            </p>
-	                            	{%if player.game.category.systName=='multi' 
-	                            	or player.game.category.systName=='solo'  %}
-			                            <p>
-		                            		<h4>Pseudo : {{player.pseudo}}</h4> 
-								        	<a class="btn btn-default" href="{{path('player_edit', {'id':player.id}) }}">
-								        		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-											</a>
-			                            </p>
-	                            	{%endif%}
-		                            <p>
-		                            	{{player.game.description}}
-		                            </p>
-		                            <p>
-		                            {%if player.game.category.systName=='multi'%}
-		                        	    {%if player.team%}
-								            <a class="btn btn-default" href="{{ path('team_show', { 'id': player.team.id }) }}">
-									            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-									            {{player.team.name}}
-								            </a>
-								            {%if searchCategoryService.getCapitain(app.user.id,player.game.id,player.team.id)%}
-							                	<a class="btn btn-default" href="{{path('user_recruit', {'gameId':player.game.id}) }}" >
-							                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-							                	</a>
-								            {%endif%}
-								        {%else%}
-								        	<a class="btn btn-default" href="{{path('team_recruit', {'gameId':player.game.id}) }}" >
-						                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						                		Chercher Equipe
-						                	</a>
-								        {%endif%}
-		                        	{%endif%}
-		                            </p>
-		                        </div>
-		                        <div class="ratings">
-						            <p class="pull-right">
-							        	<a id="delete" href="{{path('player_delete', {'id':player.id}) }}">
-							        		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-										</a>
-									</p>
-		                            <p>
-		                            	{%if player.game.category.systName == 'multi' %}
-		                            		Nb équipes restantes : {{ searchCategoryService.getMultiPlaces(player.game.id) }}
-		                            	{% elseif player.game.category.systName == 'solo'
-		                            	and player.game.places%}
-		                            		Nb places : {{ searchCategoryService.getSoloPlaces(player.game.id) }}
-		                            	{% else%}
-			      							<p id="interesse">
-			      								Nb intéressés : {{ searchCategoryService.getNumberPlayer(player.game.id) }}
-			                            	</p>
-			                            {%endif%}        
-		                            </p>
-		                        </div>
-		                    </div>
+	{%if app.user.id == user.id%}
+	    <div class="container">
+	        <div class="row">
+	    		<h1>
+	    			User
+	    			{#<a class="btn btn-primary" href="{{path('ordering_new', {'userId':user.id}) }}">
+		        		<i class="fa fa-cutlery"></i> 
+		        		Réserver Pizza (reservation annulée le 18/03 à 22h)
+					</a>#}
+	    		</h1>
+	    		{%if user.alert%}
+	    			<br>
+	    			<div class="alert alert-danger">
+							<strong>ALERTE</strong> 
+							{{user.alert}}
 						</div>
-					{%endfor%}
-				</div>
-			{%endif%}
+	    		{%endif%}
+	    		{%if app.user==user%}
+		        	<a class="btn btn-default" href="{{path('user_edit', {'id':user.id}) }}">
+		        		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+					</a>
+			    	<a class="btn btn-danger" href="#myModal" role="button" data-toggle="modal" >
+			    		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</a>
+					<div id="myModal" class="modal fade">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					                <h4 class="modal-title">Confirmation</h4>
+					            </div>
+					            <div class="modal-body">
+					                <p>Voulez-vous supprimer votre compte?</p>
+					                <p class="text-warning"><small>Suppression de votre équipe si vous êtes chef d'équipe, candidatures etc...</small></p>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+					                <a type="button" href="{{path('user_delete', {'id':user.id}) }}" class="btn btn-danger">Supprimer</a>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+				{%endif%}
+				
+				<br>
+				<br>
+	
+				<div class="tabbable" id="tabs-268668">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#panel-1" data-toggle="tab">Informations Utilisateur</a>
+						</li>
+						{%if searchCategoryService.checkApplicationPlayer(app.user.id,'team')%}
+							<li>
+								<a href="#panel-2" data-toggle="tab">
+									Candidatures reçues
+									<span class="badge">
+										{{searchCategoryService.checkApplicationPlayer(app.user.id,'team')|length}}
+									</span>
+								</a>
+							</li>
+						{%endif%}
+						{%if searchCategoryService.checkApplicationPlayer(app.user.id,'player')%}
+							<li>
+								<a href="#panel-3" data-toggle="tab">
+									Candidatures déposées
+									<span class="badge">
+										{{searchCategoryService.checkApplicationPlayer(app.user.id,'player')|length}}
+									</span>
+								</a>
+							</li>
+						{%endif%}
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="panel-1">
+							<table class="table table-hover">
+								<tbody>
+						            <tr>
+						                <th>Username</th>
+						                <th>Email</th>
+						            </tr>
+						            <tr>
+						                <td>{{ user.username }}</td>
+						                <td>{{ user.email }}</td>
+						            </tr>
+						        </tbody>
+						    </table>
+						</div>
+						<div class="tab-pane" id="panel-2">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>
+											Username
+										</th>
+										<th>
+											Description
+										</th>
+										<th>
+											Action
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{%for application in searchCategoryService.checkApplicationPlayer(app.user.id,'team')%}
+										<tr>
+											<td>
+												{{application.user.username}}
+											</td>
+											<td>
+												{{application.description}}
+											</td>
+											<td>
+			                                	<a class="btn btn-success" href="{{path('application_accept', {'id':application.id, 'origin':'team'}) }}" >
+			                                		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			                                	</a>
+			                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':user.id, 'origin':'team'}) }}" >
+			                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                                	</a>
+											</td>
+										</tr>
+									{%endfor%}
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane" id="panel-3">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>
+											Username
+										</th>
+										<th>
+											Description
+										</th>
+										<th>
+											Action
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{%for application in searchCategoryService.checkApplicationPlayer(app.user.id,'player')%}
+										<tr>
+											<td>
+												{{application.team.name}}
+											</td>
+											<td>
+												{{application.description}}
+			                                	<a class="btn btn-success" href="{{path('application_edit', {'id':application.id}) }}" >
+			                                		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			                                	</a>
+											</td>
+											<td>
+			                                	<a class="btn btn-danger" href="{{path('application_delete', {'id':application.id,'originId':user.id, 'origin':'player'}) }}" >
+			                                		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			                                	</a>
+											</td>
+										</tr>
+									{%endfor%}
+								</tbody>
+							</table>
+						</div>
+		        	</div>
+		    	</div>
+		    	
+		    	{%if user.payed==0%}
+			    	<h1>Paiement</h1>
+					<br>
+					<br>
+					<a title="Logiciel billetterie en ligne" href="https://www.weezevent.com//?c=sys_widget" class="weezevent-widget-integration" target="_blank" data-src="https://www.weezevent.com/widget_billeterie.php?id_evenement=159660&amp;lg_billetterie=1&amp;code=23679&amp;resize=1&amp;width_auto=1&amp;color_primary=00AEEF" data-width="650" data-height="600" data-id="159660" data-resize="1" data-width_auto="1" data-noscroll="0" data-nopb="0">
+						Billetterie Weezevent
+					</a>
+					<script type="text/javascript" src="https://www.weezevent.com/js/widget/min/widget.min.js">
+					</script>
+					<br>
+					<br>
+				{%else%}
+					<h4>Le paiement a bien été pris en compte</h4>
+				{%endif%}
+			    
+		    	{%if user.player%}
+					<div class="col-sm-12 col-lg-12 col-md-12">
+						<h2>Jeux</h2>
+						<br>
+					    {%for player in user.player%}
+							<div class="col-sm-3 col-lg-3 col-md-3">
+							
+								<div class="thumbnail">
+			                    	<div id="gameImg">
+			                        	<img src="{{ asset('bundles/app/img/game/'~player.game.systName~'.jpg') }}" alt="{{player.game.name}}">
+			                        </div>
+			                        <div class="caption">
+			                            <h4>
+			                            	<a href="{{path('game_show', {'id':player.game.id}) }}" >
+			                            		{{player.game.name}}
+			                            	</a>
+			                            </h4>
+			                            <p>
+			                            	Organisé par 
+			                            	<a href="{{ path('informations') }}#{{player.game.organizer.systName}}">
+			                            		{{player.game.organizer.name}}
+			                            	</a>
+			                            </p>
+		                            	{%if player.game.category.systName=='multi' 
+		                            	or player.game.category.systName=='solo'  %}
+				                            <p>
+			                            		<h4>Pseudo : {{player.pseudo}}</h4> 
+									        	<a class="btn btn-default" href="{{path('player_edit', {'id':player.id}) }}">
+									        		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+												</a>
+				                            </p>
+		                            	{%endif%}
+			                            <p>
+			                            	{{player.game.description}}
+			                            </p>
+			                            <p>
+			                            {%if player.game.category.systName=='multi'%}
+			                        	    {%if player.team%}
+									            <a class="btn btn-default" href="{{ path('team_show', { 'id': player.team.id }) }}">
+										            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+										            {{player.team.name}}
+									            </a>
+									            {%if searchCategoryService.getCapitain(app.user.id,player.game.id,player.team.id)%}
+								                	<a class="btn btn-default" href="{{path('user_recruit', {'gameId':player.game.id}) }}" >
+								                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								                	</a>
+									            {%endif%}
+									        {%else%}
+									        	<a class="btn btn-default" href="{{path('team_recruit', {'gameId':player.game.id}) }}" >
+							                		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							                		Chercher Equipe
+							                	</a>
+									        {%endif%}
+			                        	{%endif%}
+			                            </p>
+			                        </div>
+			                        <div class="ratings">
+							            <p class="pull-right">
+								        	<a id="delete" href="{{path('player_delete', {'id':player.id}) }}">
+								        		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											</a>
+										</p>
+			                            <p>
+			                            	{%if player.game.category.systName == 'multi' %}
+			                            		Nb équipes restantes : {{ searchCategoryService.getMultiPlaces(player.game.id) }}
+			                            	{% elseif player.game.category.systName == 'solo'
+			                            	and player.game.places%}
+			                            		Nb places : {{ searchCategoryService.getSoloPlaces(player.game.id) }}
+			                            	{% else%}
+				      							<p id="interesse">
+				      								Nb intéressés : {{ searchCategoryService.getNumberPlayer(player.game.id) }}
+				                            	</p>
+				                            {%endif%}        
+			                            </p>
+			                        </div>
+			                    </div>
+							</div>
+						{%endfor%}
+					</div>
+				{%endif%}
+			</div>
 		</div>
-	</div>
+	{%elseif is_granted("IS_AUTHENTICATED_REMEMBERED")%}
+	    <div class="container">
+	        <div class="row">
+	        	  <a class="btn btn-primary btn-lg btn-block"  href="{{ path('user_show', { 'id': app.user.id }) }}">
+			          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			          Mon profil [{{app.user.username}}]
+			          {%if searchCategoryService.checkApplicationPlayer(app.user.id,'team')%}
+						<span class="badge">
+							{{searchCategoryService.checkApplicationPlayer(app.user.id,'team')|length}}
+						</span>
+					  {%endif%}
+		          </a>
+		    </div>
+		</div>
+	{%endif%}
 {% endblock %}

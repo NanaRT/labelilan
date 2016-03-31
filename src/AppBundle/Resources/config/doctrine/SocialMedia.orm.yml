@@ -28,7 +28,6 @@ AppBundle\Entity\SocialMedia:
             joinColumn:
                 name:                 organizer_id
                 referencedColumnName: id
-                onDelete:             CASCADE
         partner:
             targetEntity:             Partner
             cascade:                  [ persist ]
@@ -36,4 +35,3 @@ AppBundle\Entity\SocialMedia:
             joinColumn:
                 name:                 partner_id
                 referencedColumnName: id
-                onDelete:             CASCADE

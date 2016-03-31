@@ -5,8 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use AppBundle\Form\ImageType;
 use AppBundle\Entity\Image;
 
@@ -21,17 +19,19 @@ class GameType extends AbstractType
         $builder
             ->add('name')
             ->add('systName')
-            ->add('category',EntityType::class, [
+            ->add('category','entity', [
 		    'class' => 'AppBundle:Category',
 		    'choice_label' => 'name'])
-            ->add('organizer',EntityType::class, [
+            ->add('organizer','entity', [
 		    'class' => 'AppBundle:Organizer',
 		    'choice_label' => 'name'])
             ->add('description')
-			->add('places', IntegerType::class, [
+			->add('places', 'integer', [
 				'required'=>false])
-			->add('nbplayers', IntegerType::class, [
+			->add('nbplayers', 'integer', [
 				'required'=>false])
+			->add('rules')
+			->add('rulesWeight')
         ;
     }
     

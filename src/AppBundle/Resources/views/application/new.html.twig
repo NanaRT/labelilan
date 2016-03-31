@@ -3,15 +3,19 @@
 {% block body %}
     <div class="container">
         <div class="row">
-    		<h1>Application creation</h1>
+    		<h1>Recruter/Postuler</h1>
 			{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 		    {{ form_start(form) }}
 		        {{ form_widget(form) }}
-		        <input class="btn btn-default" type="submit" value="Create" />
+		        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Créer">
+				        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				        Créer
+			        </button>
 		    {{ form_end(form) }}
-
-            <a class="btn btn-default" href="{{ path('application_index') }}">Back to the list</a>
+		    <br>
+			<center><img src="{{ asset('bundles/app/img/game/'~application.team.game.systName~'.jpg') }}" alt="{{application.team.game.name}}"></center>
+			<br>
 		</div>
 	</div>
 {% endblock %}

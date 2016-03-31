@@ -2,40 +2,84 @@
 
 {% block body %}
 	{%if (is_granted("ROLE_ADMIN"))%}
-	    <h1>Team list</h1>
-	
-	    <table>
-	        <thead>
-	            <tr>
-	                <th>Id</th>
-	                <th>Name</th>
-	                <th>Actions</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	        {% for team in teams %}
-	            <tr>
-	                <td><a href="{{ path('team_show', { 'id': team.id }) }}">{{ team.id }}</a></td>
-	                <td>{{ team.name }}</td>
-	                <td>
-	                    <ul>
-	                        <li>
-	                            <a href="{{ path('team_show', { 'id': team.id }) }}">show</a>
-	                        </li>
-	                        <li>
-	                            <a href="{{ path('team_edit', { 'id': team.id }) }}">edit</a>
-	                        </li>
-	                    </ul>
-	                </td>
-	            </tr>
-	        {% endfor %}
-	        </tbody>
-	    </table>
-	
-	    <ul>
-	        <li>
-	            <a href="{{ path('team_new') }}">Create a new entry</a>
-	        </li>
-	    </ul>
-	{%endif%}
-{% endblock %}
+	    <div class="container">
+	        <div class="row">
+			    <h1>
+			    	Team list
+			    	<span class="badge">
+			    		{{searchCategoryService.getTeamsToBeValidate(teams)}}
+			    	</span>
+			    </h1>
+			
+			    <table class="table table-hover">
+			        <thead>
+			            <tr>
+			            	<th>Nb Players</th>
+			            	<th>Game</th>
+			                <th>Name</th>
+			                <th>Player</th>
+			                <th>Player</th>
+			                <th>Player</th>
+			                <th>Player</th>
+			                <th>Player</th>
+			                <th>Player</th>
+			                <th>Validate Team</th>
+			                <th>Relance Team</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+	        			{% for team in teams %}
+				            <tr 
+				            	{%if searchCategoryService.getPlayersValidInTeam(team.id)==1%}
+				            		BGCOLOR="#CCCC99"
+				            	{%endif%}
+				            >
+				            	<td>
+				            		{{team.game.nbplayers}}
+				            	</td>
+				            	<td>
+				            		{{team.game.systName}}
+				            	</td>
+				            	<td>
+				            		{{team.name}}
+				            	</td>
+				            	{%for player in team.player%}
+				            		<td>
+				            			{%if player.capitain==1%}
+				            				<strong>
+				            					{{player.pseudo}}
+				            				</strong>
+				            			{%else%}
+				            				{{player.pseudo}}
+				            			{%endif%}
+				            			{%if player.user.payed==1%}
+				            				<br>=> PAYED
+				            			{%endif%}
+				            		</td>
+				            	{%endfor%}
+				            	{%for i in (team.player|length)..5%}
+				            		<td>
+				            		</td>
+				            	{%endfor%}
+				            	<td>
+				            		{%if team.validation !=1 and searchCategoryService.checkPlaces(team.game.id) == 1%}
+							        	<a class="btn btn-success" href="{{ path('team_validate',{'id':team.id}) }}" >
+					                    	 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+					                    </a>
+					                {%endif%}
+				            	</td>
+				            	<td>
+				            		{%if team.validation !=1 and searchCategoryService.checkPlaces(team.game.id) == 1%}
+							        	<a class="btn btn-primary" href="{{ path('team_relance',{'id':team.id}) }}" >
+					                    	 <i class="fa fa-reply-all"></i>
+					                    </a>
+					                {%endif%}
+				            	</td>
+				            </tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>
+	        </div>
+	    </div>
+    {%endif%}
+{%endblock%}
